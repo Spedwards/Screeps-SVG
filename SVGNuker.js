@@ -1,3 +1,5 @@
+let SVG = require('SVG');
+
 /**
  * Returns a html/svg string representation of the given nuker object.
  * @author Enrico
@@ -51,3 +53,5 @@ class SVGNuker extends SVG {
 	}
 	
 }
+
+module.exports = SVGNuker;

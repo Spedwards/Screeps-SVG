@@ -1,3 +1,5 @@
+let SVG = require('SVG');
+
 /**
  * Takes a resource type constant as input and
  * returns the html/svg string for the icon of
@@ -99,3 +101,5 @@ class SVGMineral extends SVG {
 	}
 	
 }
+
+module.exports = SVGMineral;

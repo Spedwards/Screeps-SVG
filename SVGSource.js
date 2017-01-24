@@ -1,3 +1,5 @@
+let SVG = require('SVG');
+
 /**
  * Returns a html/svg string representation of the given source object.
  * @author Spedwards
@@ -44,3 +46,5 @@ class SVGSource extends SVG {
 	}
 	
 }
+
+module.exports = SVGSource;

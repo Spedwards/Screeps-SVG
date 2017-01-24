@@ -1,3 +1,5 @@
+let SVG = require('SVG');
+
 /**
  * Returns a html/svg string representation of the given lab object.
  * @author Enrico
@@ -73,3 +75,5 @@ class SVGLab extends SVG {
 	}
 	
 }
+
+module.exports = SVGLab;

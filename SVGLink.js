@@ -1,3 +1,5 @@
+let SVG = require('SVG');
+
 /**
  * Returns a html/svg string representation of the given link object.
  * @author Spedwards
@@ -45,3 +47,5 @@ class SVGLink extends SVG {
 	}
 	
 }
+
+module.exports = SVGLink;

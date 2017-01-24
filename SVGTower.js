@@ -1,3 +1,5 @@
+let SVG = require('SVG');
+
 /**
  * Returns a html/svg string representation of the given tower object.
  * @author Spedwards
@@ -7,6 +9,7 @@ class SVGTower extends SVG {
 	/**
 	 * @author Spedwards
 	 * @param {StructureTower | string} tower - StructureTower object or ID string corrosponding to a StructureTower object.
+	 * @param {Number} [angle = 315] - The angle at which the tower will point.
 	 */
 	constructor(tower, angle = 315) {
 		super();
@@ -57,3 +60,5 @@ class SVGTower extends SVG {
 	}
 	
 }
+
+module.exports = SVGTower;

@@ -1,3 +1,5 @@
+let SVGStorageObject = require('SVGStorageObject');
+
 /**
  * Returns a html/svg string representation of the given terminal object.
  * @author Spedwards
@@ -13,3 +15,5 @@ class SVGTerminal extends SVGStorageObject {
 	}
 	
 }
+
+module.exports = SVGTerminal;

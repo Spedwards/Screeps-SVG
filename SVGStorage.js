@@ -1,3 +1,5 @@
+let SVGStorageObject = require('SVGStorageObject');
+
 /**
  * Returns a html/svg string representation of the given storage object.
  * @author Spedwards
@@ -13,3 +15,5 @@ class SVGStorage extends SVGStorageObject {
 	}
 	
 }
+
+module.exports = SVGStorage;

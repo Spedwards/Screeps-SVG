@@ -1,3 +1,5 @@
+let SVG = require('SVG');
+
 /**
  * Returns a html/svg string representation of the given creep object.
  * @author Helam
@@ -125,3 +127,5 @@ class SVGCreep extends SVG {
 	}
 	
 }
+
+module.exports = SVGCreep;

@@ -1,3 +1,5 @@
+let SVG = require('SVG');
+
 /**
  * Takes a room and outputs the html/svg string for the storage and terminal of that room.
  * @author Helam
@@ -207,3 +209,5 @@ class SVGRoom extends SVG {
 	}
 	
 }
+
+module.exports = SVGRoom;

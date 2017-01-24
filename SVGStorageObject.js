@@ -1,3 +1,5 @@
+let SVG = require('SVG');
+
 /**
  * Acts as the parent to SVGStorage and SVGTerminal.
  * @author Helam
@@ -40,3 +42,5 @@ class SVGStorageObject extends SVG {
 	}
 	
 }
+
+module.exports = SVGStorageObject;
