@@ -9,5 +9,14 @@ The use is identical for each of the classes. For game objects (all but room), t
 	let linkSVG = new global.svg.link(link);
 	// or
 	let linkSVG = new global.svg.link(LINK_ID);
-	
+
 	console.log(linkSVG.string);
+
+## Todo
+
+ - Add Controller
+ - Add Spawn
+ - Add Extension
+ - Add Container
+ - Add Full Mineral
+ - Move Storage/Terminal specific code from Room to respective class
