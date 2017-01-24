@@ -37,6 +37,12 @@ let linkSVG = new global.svg.Link(LINK_ID);
 console.log(linkSVG.string);
 ```
 
+## Contribute
+
+Clone the project and execute `npm install`.
+
+For testing purposes you can bundle the project by executing `npm run bundle`.
+
 ## Todo
 
  - Add Controller
