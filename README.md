@@ -1,16 +1,41 @@
 # Screeps SVG
 Creates SVG Elements for game objects that can be logged to console.
 
-## Use
+## Install
+Copy and paste [`dist/screeps-svg.js`](dist/screeps-svg.js) to your project.
+
+## Usage
 
 The use is identical for each of the classes. For game objects (all but room), the constructor will accept either the object, or the ID corrosponding to the object. Rooms and Creeps will accept the name in addition to the object.
 
-	let link = Game.getObjectById(LINK_ID);
-	let linkSVG = new global.svg.link(link);
-	// or
-	let linkSVG = new global.svg.link(LINK_ID);
+```
+// Import screeps-svg
+let svg = require('./screeps-svg.js');
 
-	console.log(linkSVG.string);
+// Usage
+let link = Game.getObjectById(LINK_ID);
+let linkSVG = new svg.Link(link);
+// or
+let linkSVG = new svg.Link(LINK_ID);
+
+console.log(linkSVG.string);
+```
+
+If you want to use the module globally you can assign it to `global.svg`.
+
+```
+_.assign(global, {
+	svg: require('./screeps-svg')
+});
+
+// Usage
+let link = Game.getObjectById(LINK_ID);
+let linkSVG = new global.svg.Link(link);
+// or
+let linkSVG = new global.svg.Link(LINK_ID);
+
+console.log(linkSVG.string);
+```
 
 ## Todo
 

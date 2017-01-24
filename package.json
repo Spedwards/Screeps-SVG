@@ -1,0 +1,35 @@
+{
+  "name": "screeps-svg",
+  "version": "0.1.0",
+  "description": "Creates SVG Elements for game objects that can be logged to console.",
+  "main": "src/SVGGlobal.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c",
+    "postbuild": "git add dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spedwards/screeps-svg.git"
+  },
+  "keywords": [
+    "screeps",
+    "svg",
+    "game",
+    "logging"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spedwards/screeps-svg/issues"
+  },
+  "homepage": "https://github.com/spedwards/screeps-svg#readme",
+  "devDependencies": {
+    "pre-commit": "^1.2.2",
+    "rollup": "^0.41.4",
+    "rollup-plugin-commonjs": "^7.0.0"
+  },
+  "pre-commit": [
+    "build"
+  ]
+}
