@@ -10,4 +10,4 @@ The use is identical for each of the classes. For game objects (all but room), t
 	// or
 	let linkSVG = new global.svg.link(LINK_ID);
 	
-	console.log(linkSVG.string);```
+	console.log(linkSVG.string);
