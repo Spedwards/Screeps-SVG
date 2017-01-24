@@ -18,7 +18,6 @@ class SVGStorageObject extends SVG {
 		if (structure === false) throw new Error('Not a Structure object!');
 		
 		this.object = structure;
-		this.string = this.toString();
 	}
 	
 	/**
@@ -29,16 +28,13 @@ class SVGStorageObject extends SVG {
 	 * @returns {string}
 	 */
 	toString() {
-		if (!this.string) {
-			let outStr = '';
-			
-			Object.keys(this.object.store).forEach(type => {
-				outStr += (new SVGMineral(type, this.object.store[type])).toString();
-				outStr += '\n';
-			});
-			return outStr;
-		}
-		return this.string;
+		let outStr = '';
+
+		Object.keys(this.object.store).forEach(type => {
+			outStr += (new SVGMineral(type, this.object.store[type])).toString();
+			outStr += '\n';
+		});
+		return outStr;
 	}
 	
 }
