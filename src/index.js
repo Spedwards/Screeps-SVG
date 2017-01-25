@@ -7,6 +7,7 @@ module.exports = {
 	Nuker: require('./SVGNuker'),
 	Room: require('./SVGRoom'),
 	Source: require('./SVGSource'),
+	Spawn: require('./SVGSpawn'),
 	Storage: require('./SVGStorage'),
 	Terminal: require('./SVGTerminal'),
 	Tower: require('./SVGTower'),

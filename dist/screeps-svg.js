@@ -970,13 +970,17 @@ class SVGSource extends SVG$8 {
 
 var SVGSource_1 = SVGSource;
 
-let SVG$9 = SVG_1;
+var SVGSpawn_1 = {
+
+};
+
+let SVG$10 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given tower object.
  * @author Spedwards
  */
-class SVGTower extends SVG$9 {
+class SVGTower extends SVG$10 {
 
 	/**
 	 * @author Spedwards
@@ -1043,6 +1047,7 @@ var index = {
 	Nuker: SVGNuker_1,
 	Room: SVGRoom_1,
 	Source: SVGSource_1,
+	Spawn: SVGSpawn_1,
 	Storage: SVGStorage_1,
 	Terminal: SVGTerminal_1,
 	Tower: SVGTower_1,
