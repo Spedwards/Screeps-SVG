@@ -25,12 +25,11 @@ class SVGLink extends SVG {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_HEIGHT = 60;
-			const SVG_WIDTH = 60;
+			const SVG_SIZE = 50;
 
 			const ENERGY_SCALE = 0.6 * this.link.energy / this.link.energyCapacity;
 
-			let outStr = `<svg class="link owner" height="${SVG_HEIGHT}" width="${SVG_WIDTH}" viewBox="0 0 150 150">` +
+			let outStr = `<svg class="link owner" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 150 150">` +
 				`<g opacity="1" transform="translate(50,50)"><g>` +
 				`<path class="border" d="M 0 -50 L 40 0 L 0 50 L -40 0 Z" fill="#181818" stroke-width="5" />` +
 				`<path d="M 0 -50 L 40 0 L 0 50 L -40 0 Z" fill="#555" transform="scale(0.6 0.6)" />`;

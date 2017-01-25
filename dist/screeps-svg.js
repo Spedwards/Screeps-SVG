@@ -468,10 +468,9 @@ class SVGLab extends SVG$4 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_HEIGHT = 50;
-			const SVG_WIDTH = 50;
+			const SVG_SIZE = 50;
 
-			let outStr = `<svg viewBox="0 0 120 120" height="${SVG_HEIGHT}" width="${SVG_WIDTH}">` +
+			let outStr = `<svg viewBox="0 0 120 120" height="${SVG_SIZE}" width="${SVG_SIZE}">` +
 				`<g transform="translate(60,55)">` +
 				`<path class="border" d="M 50 40 A 60 60 0 1 0 -50 40 V 63 H 50 Z" fill="#181818" stroke-width="5"/>` +
 				`<path d="M 36 33 A 46 43 0 1 0 -36 33 Z" fill="#555"/>`;
@@ -545,12 +544,11 @@ class SVGLink extends SVG$5 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_HEIGHT = 60;
-			const SVG_WIDTH = 60;
+			const SVG_SIZE = 50;
 
 			const ENERGY_SCALE = 0.6 * this.link.energy / this.link.energyCapacity;
 
-			let outStr = `<svg class="link owner" height="${SVG_HEIGHT}" width="${SVG_WIDTH}" viewBox="0 0 150 150">` +
+			let outStr = `<svg class="link owner" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 150 150">` +
 				`<g opacity="1" transform="translate(50,50)"><g>` +
 				`<path class="border" d="M 0 -50 L 40 0 L 0 50 L -40 0 Z" fill="#181818" stroke-width="5" />` +
 				`<path d="M 0 -50 L 40 0 L 0 50 L -40 0 Z" fill="#555" transform="scale(0.6 0.6)" />`;
@@ -949,13 +947,12 @@ class SVGSource extends SVG$8 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_HEIGHT = 40;
-			const SVG_WIDTH = 40;
+			const SVG_SIZE = 40;
 
 			const SOURCE_HEIGHT = this.source.energy / this.source.energyCapacity * 60;
-			const SOURCE_POS = (SVG_HEIGHT / 2) - (SOURCE_HEIGHT / 2);
+			const SOURCE_POS = (SVG_SIZE / 2) - (SOURCE_HEIGHT / 2);
 
-			return `<svg  class="source" height="${SVG_HEIGHT}" width="${SVG_WIDTH}" viewBox="0 0 100 100">` +
+			return `<svg  class="source" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 100 100">` +
 				`<g transform="translate(25, 25)">` +
 				`<rect fill="#111111" height="40" rx="15" ry="15" stroke-width="15" stroke="#595026" width="40">` +
 				`<animate app-attr="calcMode#Source.displayOptions.animations ? 'linear' : 'discrete'" attributeName="stroke" dur="4s" repeatCount="indefinite" values="#595026; #0e0c04; #595026" calcMode="linear"></animate>` +
@@ -1002,8 +999,7 @@ class SVGTower extends SVG$9 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_HEIGHT = 60;
-			const SVG_WIDTH = 60;
+			const SVG_SIZE = 60;
 
 			const RADIANS = this.radians;
 
@@ -1015,7 +1011,7 @@ class SVGTower extends SVG$9 {
 
 			const ENERGY_HEIGHT = 58 * this.tower.energy / this.tower.energyCapacity;
 
-			let outStr = `<svg class="tower owner" height="${SVG_HEIGHT}" width="${SVG_WIDTH}" viewBox="0 0 300 300">` +
+			let outStr = `<svg class="tower owner" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 300 300">` +
 				`<g transform="translate(75,75)" opacity="1">` +
 				`<ellipse class="border" cx="0" cy="0" fill="#222" rx="65" ry="65" stroke-width="5"></ellipse>` +
 				`<g class="rotatable" style="transform: rotate(${RADIANS}rad); transition: transform 2s;">` +

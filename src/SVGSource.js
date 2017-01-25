@@ -13,7 +13,7 @@ class SVGSource extends SVG {
 	constructor(source) {
 		super();
 		let object = this.validateConstructor(source, SVG.SOURCE);
-		if (object === false) throw new Error('No a Source object!');
+		if (object === false) throw new Error('Not a Source object!');
 
 		this.source = object;
 		this.string = this.toString();
@@ -25,13 +25,12 @@ class SVGSource extends SVG {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_HEIGHT = 40;
-			const SVG_WIDTH = 40;
+			const SVG_SIZE = 40;
 
 			const SOURCE_HEIGHT = this.source.energy / this.source.energyCapacity * 60;
-			const SOURCE_POS = (SVG_HEIGHT / 2) - (SOURCE_HEIGHT / 2);
+			const SOURCE_POS = (SVG_SIZE / 2) - (SOURCE_HEIGHT / 2);
 
-			return `<svg  class="source" height="${SVG_HEIGHT}" width="${SVG_WIDTH}" viewBox="0 0 100 100">` +
+			return `<svg  class="source" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 100 100">` +
 				`<g transform="translate(25, 25)">` +
 				`<rect fill="#111111" height="40" rx="15" ry="15" stroke-width="15" stroke="#595026" width="40">` +
 				`<animate app-attr="calcMode#Source.displayOptions.animations ? 'linear' : 'discrete'" attributeName="stroke" dur="4s" repeatCount="indefinite" values="#595026; #0e0c04; #595026" calcMode="linear"></animate>` +

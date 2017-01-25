@@ -27,8 +27,7 @@ class SVGTower extends SVG {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_HEIGHT = 60;
-			const SVG_WIDTH = 60;
+			const SVG_SIZE = 60;
 
 			const RADIANS = this.radians;
 
@@ -40,7 +39,7 @@ class SVGTower extends SVG {
 
 			const ENERGY_HEIGHT = 58 * this.tower.energy / this.tower.energyCapacity;
 
-			let outStr = `<svg class="tower owner" height="${SVG_HEIGHT}" width="${SVG_WIDTH}" viewBox="0 0 300 300">` +
+			let outStr = `<svg class="tower owner" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 300 300">` +
 				`<g transform="translate(75,75)" opacity="1">` +
 				`<ellipse class="border" cx="0" cy="0" fill="#222" rx="65" ry="65" stroke-width="5"></ellipse>` +
 				`<g class="rotatable" style="transform: rotate(${RADIANS}rad); transition: transform 2s;">` +
