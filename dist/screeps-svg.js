@@ -288,7 +288,7 @@ class SVGContainer extends SVGStorageObject {
 			const OTHER_Y = START_Y - OTHER_HEIGHT;
 			const POWER_Y = START_Y - POWER_HEIGHT;
 			
-			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 100 100">` +
+			return `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 100 100">` +
 					`<g transform="translate(50,50)" opacity="1">` +
 					`<rect fill="#555555" height="60" stroke-width="10" stroke="#181818" width="50" x="-25" y="-30" />` +
 					`<!-- minerals -->` +
@@ -937,7 +937,7 @@ class SVGSource extends SVG$8 {
 	constructor(source) {
 		super();
 		let object = this.validateConstructor(source, SVG$8.SOURCE);
-		if (object === false) throw new Error('No a Source object!');
+		if (object === false) throw new Error('Not a Source object!');
 
 		this.source = object;
 		this.string = this.toString();
