@@ -1,11 +1,11 @@
-let SVG = require('SVG');
+let SVG = require('./SVG');
 
 /**
  * Returns a html/svg string representation of the given source object.
  * @author Spedwards
  */
 class SVGSource extends SVG {
-	
+
 	/**
 	 * @author Spedwards
 	 * @param {Source | string} source - Source object or ID string corrosponding to a Source object.
@@ -14,11 +14,11 @@ class SVGSource extends SVG {
 		super();
 		let object = this.validateConstructor(source, SVG.SOURCE);
 		if (object === false) throw new Error('No a Source object!');
-		
+
 		this.source = object;
 		this.string = this.toString();
 	}
-	
+
 	/**
 	 * @author Spedwards
 	 * @returns {string}
@@ -27,10 +27,10 @@ class SVGSource extends SVG {
 		if (!this.string) {
 			const SVG_HEIGHT = 40;
 			const SVG_WIDTH = 40;
-			
+
 			const SOURCE_HEIGHT = this.source.energy / this.source.energyCapacity * 60;
 			const SOURCE_POS = (SVG_HEIGHT / 2) - (SOURCE_HEIGHT / 2);
-			
+
 			return `<svg  class="source" height="${SVG_HEIGHT}" width="${SVG_WIDTH}" viewBox="0 0 100 100">` +
 				`<g transform="translate(25, 25)">` +
 				`<rect fill="#111111" height="40" rx="15" ry="15" stroke-width="15" stroke="#595026" width="40">` +
@@ -44,7 +44,7 @@ class SVGSource extends SVG {
 		}
 		return this.string;
 	}
-	
+
 }
 
 module.exports = SVGSource;

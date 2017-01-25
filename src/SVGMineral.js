@@ -1,4 +1,4 @@
-let SVG = require('SVG');
+let SVG = require('./SVG');
 
 /**
  * Takes a resource type constant as input and
@@ -8,7 +8,7 @@ let SVG = require('SVG');
  * @author Spedwards
  */
 class SVGMineral extends SVG {
-	
+
 	/**
 	 * @author Spedwards
 	 * @param {string} resourceType
@@ -18,12 +18,12 @@ class SVGMineral extends SVG {
 		super();
 		if (typeof resourceType !== 'string') throw new Error('Resource is not a String!');
 		if (!Number.isInteger(amount)) throw new Error('Amount is not an Integer!');
-		
+
 		this.resourceType = resourceType;
 		this.amount = amount;
 		this.string = this.toString();
 	}
-	
+
 	/**
 	 * @author Helam
 	 * @returns {string}
@@ -32,16 +32,16 @@ class SVGMineral extends SVG {
 		if (!this.string) {
 			let length = Math.max(1, Math.ceil(Math.log10(this.amount + 1)));
 			let amountWidth = length * 10 + 5;
-			
+
 			if (this.amount === false) {
 				amountWidth = 0;
 			}
-			
+
 			let textDisplacement = 14;
 			let finalWidth = 14 + amountWidth;
-			
+
 			let outStr = `<svg width="!!" height="14">`;
-			
+
 			if (this.resourceType === RESOURCE_ENERGY) {
 				outStr += `<circle cx="7" cy="7" r="5" style="fill:#FEE476"/>`;
 			} else if (this.resourceType === RESOURCE_POWER) {
@@ -57,7 +57,7 @@ class SVGMineral extends SVG {
 					[RESOURCE_ZYNTHIUM]: {back: `#58482D`, front: `#D9B478`},
 					[RESOURCE_CATALYST]: {back: `#572122`, front: `#F26D6F`},
 				};
-				
+
 				const COMPOUNDS = {
 					U: {back: `#58D7F7`, front: `#157694`},
 					L: {back: `#29F4A5`, front: `#22815A`},
@@ -67,9 +67,9 @@ class SVGMineral extends SVG {
 					O: {back: `#99ccff`, front: `#000066`},
 					H: {back: `#99ccff`, front: `#000066`},
 				};
-				
+
 				let colours = BASE_MINERALS[this.resourceType];
-				
+
 				if (colours) {
 					outStr += `<circle cx="7" cy="7" r="5" style="stroke-width:1;stroke:${colours.front};fill:${colours.back}"/>` +
 						`<text x="7" y="8" font-family="Verdana" font-size="8" alignment-baseline="middle" text-anchor="middle" style="fill:${colours.front};font-weight:bold;">${this.resourceType === undefined ? '?' : this.resourceType}</text>`;
@@ -87,19 +87,19 @@ class SVGMineral extends SVG {
 					}
 				}
 			}
-			
+
 			if (this.amount !== false) {
 				outStr += `<text font-family="Verdana" font-size="10" x="${textDisplacement + amountWidth/2}" y="8" alignment-baseline="middle" text-anchor="middle" style="fill:white"> x ${this.amount.toLocaleString()}</text>`;
 			}
 			outStr += `</svg>`;
-			
+
 			outStr = outStr.split('!!').join(finalWidth);
-			
+
 			return outStr;
 		}
 		return this.string;
 	}
-	
+
 }
 
 module.exports = SVGMineral;
