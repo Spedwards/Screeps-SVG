@@ -1,4 +1,5 @@
 let SVG = require('./SVG');
+let SVGMineral = require('./SVGMineral');
 
 /**
  * Acts as the parent to SVGStorage and SVGTerminal.
@@ -18,9 +19,9 @@ class SVGStorageObject extends SVG {
 		if (structure === false) throw new Error('Not a Structure object!');
 
 		this.object = structure;
-		this.string = this.toString();
+		this.contents = this.getContents();
 	}
-
+	
 	/**
 	 * Outputs the contents of any StructureStorage, StructureContainer or StructureTerminal
 	 * object as a html/svg string.
@@ -28,17 +29,17 @@ class SVGStorageObject extends SVG {
 	 * @author Enrico
 	 * @returns {string}
 	 */
-	toString() {
-		if (!this.string) {
+	getContents() {
+		if (!this.contents) {
 			let outStr = '';
-
+			
 			Object.keys(this.object.store).forEach(type => {
 				outStr += (new SVGMineral(type, this.object.store[type])).toString();
 				outStr += '\n';
 			});
 			return outStr;
 		}
-		return this.string;
+		return this.contents;
 	}
 
 }

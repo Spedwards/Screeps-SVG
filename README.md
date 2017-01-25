@@ -50,4 +50,3 @@ For testing purposes you can bundle the project by executing `npm run build`.
  - Add Extension
  - Add Container
  - Add Full Mineral
- - Move Storage/Terminal specific code from Room to respective class

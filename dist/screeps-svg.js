@@ -365,7 +365,7 @@ let SVG$4 = SVG_1;
  * @author Helam
  * @author Spedwards
  */
-class SVGMineral$1 extends SVG$4 {
+class SVGMineral extends SVG$4 {
 
 	/**
 	 * @author Spedwards
@@ -460,7 +460,7 @@ class SVGMineral$1 extends SVG$4 {
 
 }
 
-var SVGMineral_1 = SVGMineral$1;
+var SVGMineral_1 = SVGMineral;
 
 let SVG$5 = SVG_1;
 
@@ -520,7 +520,180 @@ class SVGNuker extends SVG$5 {
 
 var SVGNuker_1 = SVGNuker;
 
+let SVG$7 = SVG_1;
+let SVGMineral$1 = SVGMineral_1;
+
+/**
+ * Acts as the parent to SVGStorage and SVGTerminal.
+ * @author Helam
+ * @author Enrico
+ * @author Spedwards
+ */
+class SVGStorageObject$1 extends SVG$7 {
+
+	/**
+	 * @author Spedwards
+	 * @param {StructureStorage | StructureContainer | StructureTerminal} object - Either a StructureStorage, StructureContainer or StructureTerminal object, or an ID string corrosponding to one.
+	 */
+	constructor(object, expectedType) {
+		super();
+		let structure = this.validateConstructor(object, expectedType);
+		if (structure === false) throw new Error('Not a Structure object!');
+
+		this.object = structure;
+		this.contents = this.getContents();
+	}
+	
+	/**
+	 * Outputs the contents of any StructureStorage, StructureContainer or StructureTerminal
+	 * object as a html/svg string.
+	 * @author Helam
+	 * @author Enrico
+	 * @returns {string}
+	 */
+	getContents() {
+		if (!this.contents) {
+			let outStr = '';
+			
+			Object.keys(this.object.store).forEach(type => {
+				outStr += (new SVGMineral$1(type, this.object.store[type])).toString();
+				outStr += '\n';
+			});
+			return outStr;
+		}
+		return this.contents;
+	}
+
+}
+
+var SVGStorageObject_1 = SVGStorageObject$1;
+
+let SVGStorageObject = SVGStorageObject_1;
+
+/**
+ * Returns a html/svg string representation of the given storage object.
+ * @author Spedwards
+ */
+class SVGStorage$1 extends SVGStorageObject {
+
+	/**
+	 * @author Spedwards
+	 * @param {StructureStorage} storage - StructureStorage object or ID string corrosponding to a StructureStorage object.
+	 */
+	constructor(storage) {
+		super(storage, STRUCTURE_STORAGE);
+		this.string = this.toString();
+	}
+	
+	/**
+	 * @author Helam
+	 * @returns {string}
+	 */
+	toString() {
+		if (!this.string) {
+			const STORAGE = this.object;
+			const CAPACITY = STORAGE.storeCapacity;
+			const ENERGY = STORAGE.store[RESOURCE_ENERGY];
+			const POWER = STORAGE.store[RESOURCE_POWER] || 0;
+			const OTHER = _.sum(STORAGE.store) - ENERGY - POWER;
+			
+			const HEIGHT = 28;
+			const START_Y = 18;
+			
+			const ENERGY_HEIGHT = HEIGHT * (ENERGY / CAPACITY);
+			const OTHER_HEIGHT = HEIGHT * (OTHER / CAPACITY) + ENERGY_HEIGHT;
+			const POWER_HEIGHT = HEIGHT * (POWER / CAPACITY) + OTHER_HEIGHT;
+			
+			const POWER_Y = START_Y + (HEIGHT - POWER_HEIGHT);
+			const MINERAL_Y = START_Y + (HEIGHT - OTHER_HEIGHT);
+			const ENERGY_Y = START_Y + (HEIGHT - ENERGY_HEIGHT);
+			
+			return `<svg width="50" height="60">` +
+					`<path style="stroke-width: 1;stroke:#90BA94" d='M16 48 C18 52 38 52 40 48 C42 46 42 18 40 16 C38 12 18 12 16 16 C14 18 14 46 16 48' />` +
+					`<path style="fill:#555555" d='M18 46 L38 46 L38 18 L18 18' />` +
+					`<!-- power -->` +
+					`<rect x="18" y="${POWER_Y}" width="20" height="${POWER_HEIGHT}" style="fill:#F1243A" />` +
+					`<!-- minerals -->` +
+					`<rect x="18" y="${MINERAL_Y}" width="20" height="${OTHER_HEIGHT}" style="fill:#FFFFFF" />` +
+					`<!-- energy -->` +
+					`<rect x="18" y="${ENERGY_Y}" width="20" height="${ENERGY_HEIGHT}" style="fill:#FEE476" />` +
+					`</svg>`;
+		}
+		return this.string;
+	}
+
+}
+
+var SVGStorage_1 = SVGStorage$1;
+
+let SVGStorageObject$2 = SVGStorageObject_1;
+
+/**
+ * Returns a html/svg string representation of the given terminal object.
+ * @author Spedwards
+ */
+class SVGTerminal$1 extends SVGStorageObject$2 {
+
+	/**
+	 * @author Spedwards
+	 * @param {StructureTerminal} terminal - StructureTerminal object or ID string corrosponding to a StructureTerminal object.
+	 */
+	constructor(terminal) {
+		super(terminal, STRUCTURE_TERMINAL);
+		this.string = this.toString();
+	}
+	
+	/**
+	 * @author Helam
+	 * @returns {string}
+	 */
+	toString() {
+		if (!this.string) {
+			const TERMINAL = this.object;
+			const CAPACITY = TERMINAL.storeCapacity;
+			const ENERGY = TERMINAL.store[RESOURCE_ENERGY];
+			const POWER = TERMINAL.store[RESOURCE_POWER] || 0;
+			const OTHER = _.sum(TERMINAL.store) - ENERGY - POWER;
+			
+			const RADIUS = 6;
+			
+			const START_X = 22;
+			const START_Y = 26;
+			
+			const ENERGY_RADIUS = RADIUS * (ENERGY / CAPACITY);
+			const OTHER_RADIUS = RADIUS * (OTHER / CAPACITY) + ENERGY_RADIUS;
+			const POWER_RADIUS = RADIUS * (POWER / CAPACITY) + OTHER_RADIUS;
+			
+			const POWER_X = START_X + (RADIUS - POWER_RADIUS);
+			const OTHER_X = START_X + (RADIUS - OTHER_RADIUS);
+			const ENERGY_X = START_X + (RADIUS - ENERGY_RADIUS);
+			
+			const POWER_Y = START_Y + (RADIUS - POWER_RADIUS);
+			const OTHER_Y = START_Y + (RADIUS - OTHER_RADIUS);
+			const ENERGY_Y = START_Y + (RADIUS - ENERGY_RADIUS);
+			
+			return `<svg width="50" height="60" style="transform:scale(1.2,1.2)">` +
+					`<path vector-effect="non-scaling-stroke" style="stroke:#90BA94" d='M36 40 L42 32 L36 24 L28 18 L20 24 L14 32 L20 40 L28 46 Z' />` +
+					`<path vector-effect="non-scaling-stroke" style="fill:#AAAAAA" d='M34 38 L38 32 L34 26 L28 22 L22 26 L18 32 L22 38 L28 42 Z' />` +
+					`<path vector-effect="non-scaling-stroke" style="stroke-width:2;stroke:black;fill:#555555" d='M34 38 L34 32 L34 26 L28 26 L22 26 L22 32 L22 38 L28 38 Z' />` +
+					`<!-- power -->` +
+					`<rect x="${POWER_X}" y="${POWER_Y}" width="${POWER_RADIUS * 2}" height="${POWER_RADIUS * 2}" style="fill:#F1243A" />` +
+					`<!-- mineral -->` +
+					`<rect x="${OTHER_X}" y="${OTHER_Y}" width="${OTHER_RADIUS * 2}" height="${OTHER_RADIUS * 2}" style="fill:#FFFFFF" />` +
+					`<!-- energy -->` +
+					`<rect x="${ENERGY_X}" y="${ENERGY_Y}" width="${ENERGY_RADIUS * 2}" height="${ENERGY_RADIUS * 2}" style="fill:#FEE476" />` +
+					`</svg>`;
+		}
+		return this.string;
+	}
+
+}
+
+var SVGTerminal_1 = SVGTerminal$1;
+
 let SVG$6 = SVG_1;
+let SVGStorage = SVGStorage_1;
+let SVGTerminal = SVGTerminal_1;
 
 /**
  * Takes a room and outputs the html/svg string for the storage and terminal of that room.
@@ -551,7 +724,9 @@ class SVGRoom extends SVG$6 {
 	toString() {
 		if (!this.string) {
 			let storage = this.room.storage;
+			let storageSVG;
 			let terminal = this.room.terminal;
+			let terminalSVG;
 
 			let outStr = ``;
 
@@ -637,93 +812,46 @@ class SVGRoom extends SVG$6 {
 				`<span style="background-color:#000" class="tip">`;
 
 			if (storage) {
-				let svgStorage = new SVGStorage(storage);
-				outStr += svgStorage.toString();
+				storageSVG = new SVGStorage(storage);
+				outStr += storageSVG.getContents();
 			} else {
 				outStr += `No Storage Built`;
 			}
-			outStr += `</span>` +
-				`<svg width="50" height="60">` +
-				`<path style="stroke-width: 1;stroke:#90BA94" d='M16 48 C18 52 38 52 40 48 C42 46 42 18 40 16 C38 12 18 12 16 16 C14 18 14 46 16 48' />` +
-				`<path style="fill:#555555" d='M18 46 L38 46 L38 18 L18 18' />` +
-				`<!-- coords of storage inner box -->` +
-				`<!--<rect x="18" y="18" width="20" height="28" style="fill:#F1243A" />-->`;
+			outStr += `</span>`;
 			if (storage) {
-				let capacity = storage.storeCapacity;
-				let energy = storage.store[RESOURCE_ENERGY];
-				let power = storage.store[RESOURCE_POWER] || 0;
-				let other = _.sum(storage.store) - energy - power;
-
-				const HEIGHT = 28;
-				const START_Y = 18;
-
-				let energyHeight = HEIGHT * (energy / capacity);
-				let otherHeight = HEIGHT * (other / capacity) + energyHeight;
-				let powerHeight = HEIGHT * (power / capacity) + otherHeight;
-
-				outStr += `<!-- power -->` +
-					`<rect x="18" y="${START_Y + (HEIGHT - powerHeight)}" width="20" height="${powerHeight}" style="fill:#F1243A" />` +
-					`<!-- minerals -->` +
-					`<rect x="18" y="${START_Y + (HEIGHT - otherHeight)}" width="20" height="${otherHeight}" style="fill:#FFFFFF" />` +
-					`<!-- energy -->` +
-					`<rect x="18" y="${START_Y + (HEIGHT - energyHeight)}" width="20" height="${energyHeight}" style="fill:#FEE476" />`;
+				outStr += storageSVG.toString();
 			} else {
-				outStr += `<path style="fill:red" d='M44 18 L42 16 L28 30 L14 16 L12 18 L26 32 L12 46 L14 48 L28 34 L42 48 L44 46 L30 32 Z' />`;
+				outStr += `<svg width="50" height="60">` +
+						`<path style="stroke-width: 1;stroke:#90BA94" d='M16 48 C18 52 38 52 40 48 C42 46 42 18 40 16 C38 12 18 12 16 16 C14 18 14 46 16 48' />` +
+						`<path style="fill:#555555" d='M18 46 L38 46 L38 18 L18 18' />` +
+						`<path style="fill:red" d='M44 18 L42 16 L28 30 L14 16 L12 18 L26 32 L12 46 L14 48 L28 34 L42 48 L44 46 L30 32 Z' />` +
+						`</svg>`;
 			}
-
-			outStr += `</svg>` +
-				`</span>` +
+			outStr += `</span>` +
 
 				`<span class="tool">` +
 				`<span style="background-color:#000" class="tip">`;
 
 			if (terminal) {
-				let svgTerminal = new SVGTerminal(terminal);
-				outStr += svgTerminal.toString();
+				terminalSVG = new SVGTerminal(terminal);
+				outStr += terminalSVG.getContents();
 			} else {
 				outStr += `No Terminal Built`;
 			}
-
-			outStr += `</span>` +
-				`<svg width="50" height="60" style="transform:scale(1.2,1.2)">` +
-				`<path vector-effect="non-scaling-stroke" style="stroke:#90BA94" d='M36 40 L42 32 L36 24 L28 18 L20 24 L14 32 L20 40 L28 46 Z' />` +
-				`<path vector-effect="non-scaling-stroke" style="fill:#AAAAAA" d='M34 38 L38 32 L34 26 L28 22 L22 26 L18 32 L22 38 L28 42 Z' />` +
-				`<path vector-effect="non-scaling-stroke" style="stroke-width:2;stroke:black;fill:#555555" d='M34 38 L34 32 L34 26 L28 26 L22 26 L22 32 L22 38 L28 38 Z' />`;
+			outStr += `</span>`;
 
 			if (terminal) {
-				let capacity = terminal.storeCapacity;
-				let energy = terminal.store[RESOURCE_ENERGY];
-				let power = terminal.store[RESOURCE_POWER] || 0;
-				let other = _.sum(terminal.store) - energy - power;
-
-				const RADIUS = 6;
-
-				const START_X = 22;
-				const START_Y = 26;
-
-				let energyRadius = RADIUS * (energy / capacity);
-				let otherRadius = RADIUS * (other / capacity) + energyRadius;
-				let powerRadius = RADIUS * (power / capacity) + otherRadius;
-
-				let powerX = START_X + (RADIUS - powerRadius);
-				let otherX = START_X + (RADIUS - otherRadius);
-				let energyX = START_X + (RADIUS - energyRadius);
-
-				let powerY = START_Y + (RADIUS - powerRadius);
-				let otherY = START_Y + (RADIUS - otherRadius);
-				let energyY = START_Y + (RADIUS - energyRadius);
-
-				outStr += `<!-- power -->` +
-					`<rect x="${powerX}" y="${powerY}" width="${powerRadius * 2}" height="${powerRadius * 2}" style="fill:#F1243A" />` +
-					`<!-- minerals -->` +
-					`<rect x="${otherX}" y="${otherY}" width="${otherRadius * 2}" height="${otherRadius * 2}" style="fill:#FFFFFF" />` +
-					`<!-- energy -->` +
-					`<rect x="${energyX}" y="${energyY}" width="${energyRadius * 2}" height="${energyRadius * 2}" style="fill:#FEE476" />`;
+				outStr += terminalSVG.toString();
 			} else {
-				outStr += `<path style="fill:red" d='M44 18 L42 16 L28 30 L14 16 L12 18 L26 32 L12 46 L14 48 L28 34 L42 48 L44 46 L30 32 Z' />`;
+				outStr += `<svg width="50" height="60" style="transform:scale(1.2,1.2)">` +
+						`<path vector-effect="non-scaling-stroke" style="stroke:#90BA94" d='M36 40 L42 32 L36 24 L28 18 L20 24 L14 32 L20 40 L28 46 Z' />` +
+						`<path vector-effect="non-scaling-stroke" style="fill:#AAAAAA" d='M34 38 L38 32 L34 26 L28 22 L22 26 L18 32 L22 38 L28 42 Z' />` +
+						`<path vector-effect="non-scaling-stroke" style="stroke-width:2;stroke:black;fill:#555555" d='M34 38 L34 32 L34 26 L28 26 L22 26 L22 32 L22 38 L28 38 Z' />` +
+						`<path style="fill:red" d='M44 18 L42 16 L28 30 L14 16 L12 18 L26 32 L12 46 L14 48 L28 34 L42 48 L44 46 L30 32 Z' />` +
+						`</svg>`;
 			}
-			outStr += `</svg>` +
-				`</span>`;
+			
+			outStr += `</span>`;
 
 			return outStr;
 		}
@@ -734,13 +862,13 @@ class SVGRoom extends SVG$6 {
 
 var SVGRoom_1 = SVGRoom;
 
-let SVG$7 = SVG_1;
+let SVG$8 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given source object.
  * @author Spedwards
  */
-class SVGSource extends SVG$7 {
+class SVGSource extends SVG$8 {
 
 	/**
 	 * @author Spedwards
@@ -748,7 +876,7 @@ class SVGSource extends SVG$7 {
 	 */
 	constructor(source) {
 		super();
-		let object = this.validateConstructor(source, SVG$7.SOURCE);
+		let object = this.validateConstructor(source, SVG$8.SOURCE);
 		if (object === false) throw new Error('No a Source object!');
 
 		this.source = object;
@@ -784,93 +912,6 @@ class SVGSource extends SVG$7 {
 }
 
 var SVGSource_1 = SVGSource;
-
-let SVG$8 = SVG_1;
-
-/**
- * Acts as the parent to SVGStorage and SVGTerminal.
- * @author Helam
- * @author Enrico
- * @author Spedwards
- */
-class SVGStorageObject$1 extends SVG$8 {
-
-	/**
-	 * @author Spedwards
-	 * @param {StructureStorage | StructureContainer | StructureTerminal} object - Either a StructureStorage, StructureContainer or StructureTerminal object, or an ID string corrosponding to one.
-	 */
-	constructor(object, expectedType) {
-		super();
-		let structure = this.validateConstructor(object, expectedType);
-		if (structure === false) throw new Error('Not a Structure object!');
-
-		this.object = structure;
-		this.string = this.toString();
-	}
-
-	/**
-	 * Outputs the contents of any StructureStorage, StructureContainer or StructureTerminal
-	 * object as a html/svg string.
-	 * @author Helam
-	 * @author Enrico
-	 * @returns {string}
-	 */
-	toString() {
-		if (!this.string) {
-			let outStr = '';
-
-			Object.keys(this.object.store).forEach(type => {
-				outStr += (new SVGMineral(type, this.object.store[type])).toString();
-				outStr += '\n';
-			});
-			return outStr;
-		}
-		return this.string;
-	}
-
-}
-
-var SVGStorageObject_1 = SVGStorageObject$1;
-
-let SVGStorageObject = SVGStorageObject_1;
-
-/**
- * Returns a html/svg string representation of the given storage object.
- * @author Spedwards
- */
-class SVGStorage$1 extends SVGStorageObject {
-
-	/**
-	 * @author Spedwards
-	 * @param {StructureStorage} storage - StructureStorage object or ID string corrosponding to a StructureStorage object.
-	 */
-	constructor(storage) {
-		super(storage, STRUCTURE_STORAGE);
-	}
-
-}
-
-var SVGStorage_1 = SVGStorage$1;
-
-let SVGStorageObject$2 = SVGStorageObject_1;
-
-/**
- * Returns a html/svg string representation of the given terminal object.
- * @author Spedwards
- */
-class SVGTerminal$1 extends SVGStorageObject$2 {
-
-	/**
-	 * @author Spedwards
-	 * @param {StructureTerminal} terminal - StructureTerminal object or ID string corrosponding to a StructureTerminal object.
-	 */
-	constructor(terminal) {
-		super(terminal, STRUCTURE_TERMINAL);
-	}
-
-}
-
-var SVGTerminal_1 = SVGTerminal$1;
 
 let SVG$9 = SVG_1;
 
