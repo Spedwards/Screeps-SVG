@@ -18,7 +18,7 @@ let linkSVG = new svg.Link(link);
 // or
 let linkSVG = new svg.Link(LINK_ID);
 
-console.log(linkSVG.string);
+console.log(linkSVG);
 ```
 
 If you want to use the module globally you can assign it to `global.svg`.
@@ -34,14 +34,14 @@ let linkSVG = new global.svg.Link(link);
 // or
 let linkSVG = new global.svg.Link(LINK_ID);
 
-console.log(linkSVG.string);
+console.log(linkSVG);
 ```
 
 ## Contribute
 
 Clone the project and execute `npm install`.
 
-For testing purposes you can bundle the project by executing `npm run bundle`.
+For testing purposes you can bundle the project by executing `npm run build`.
 
 ## Todo
 
