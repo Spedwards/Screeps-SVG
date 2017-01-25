@@ -1,7 +1,15 @@
 let SVG = require('./SVG');
 
+/**
+ * Returns a html/svg string representation of the given spawn object.
+ * @author Spedwards
+ */
 class SVGSpawn extends SVG {
 	
+	/**
+	 * @author Spedwards
+	 * @param {StructureSpawn | string} spawn - StructureSpawn object or ID string corrosponding to a StructureSpawn object.
+	 */
 	constructor(spawn) {
 		super();
 		let object = this.validateConstructor(spawn, STRUCTURE_SPAWN);
@@ -11,6 +19,10 @@ class SVGSpawn extends SVG {
 		this.string = this.toString();
 	}
 	
+	/**
+	 * @author Spedwards
+	 * @returns {string}
+	 */
 	toString() {
 		if (!this.string) {
 			const SVG_SIZE = 50;
@@ -49,3 +61,5 @@ class SVGSpawn extends SVG {
 	}
 	
 }
+
+module.exports = SVGSpawn;
