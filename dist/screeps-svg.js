@@ -92,14 +92,228 @@ class SVG$1 {
 
 var SVG_1 = SVG$1;
 
+let SVG$2 = SVG_1;
+
+/**
+ * Takes a resource type constant as input and
+ * returns the html/svg string for the icon of
+ * that resource upon calling `.toString()`
+ * @author Helam
+ * @author Spedwards
+ */
+class SVGMineral$1 extends SVG$2 {
+
+	/**
+	 * @author Spedwards
+	 * @param {string} resourceType
+	 * @param {Number | Boolean} [amount = 0] - 0 by default, pass false to hide it
+	 */
+	constructor(resourceType, amount = 0) {
+		super();
+		if (typeof resourceType !== 'string') throw new Error('Resource is not a String!');
+		if (!Number.isInteger(amount)) throw new Error('Amount is not an Integer!');
+
+		this.resourceType = resourceType;
+		this.amount = amount;
+		this.string = this.toString();
+	}
+
+	/**
+	 * @author Helam
+	 * @returns {string}
+	 */
+	toString() {
+		if (!this.string) {
+			let length = Math.max(1, Math.ceil(Math.log10(this.amount + 1)));
+			let amountWidth = length * 10 + 5;
+
+			if (this.amount === false) {
+				amountWidth = 0;
+			}
+
+			let textDisplacement = 14;
+			let finalWidth = 14 + amountWidth;
+
+			let outStr = `<svg width="!!" height="14">`;
+
+			if (this.resourceType === RESOURCE_ENERGY) {
+				outStr += `<circle cx="7" cy="7" r="5" style="fill:#FEE476"/>`;
+			} else if (this.resourceType === RESOURCE_POWER) {
+				outStr += `<circle cx="7" cy="7" r="5" style="fill:#F1243A"/>`;
+			} else {
+				const BASE_MINERALS = {
+					[undefined]: {back: `#fff`, front: `#000`},
+					[RESOURCE_HYDROGEN]: {back: `#4B4B4B`, front: `#989898`},
+					[RESOURCE_OXYGEN]: {back: `#4B4B4B`, front: `#989898`},
+					[RESOURCE_UTRIUM]: {back: `#0A5D7C`, front: `#48C5E5`},
+					[RESOURCE_LEMERGIUM]: {back: `#265C42`, front: `#24D490`},
+					[RESOURCE_KEANIUM]: {back: `#371A80`, front: `#9269EC`},
+					[RESOURCE_ZYNTHIUM]: {back: `#58482D`, front: `#D9B478`},
+					[RESOURCE_CATALYST]: {back: `#572122`, front: `#F26D6F`},
+				};
+
+				const COMPOUNDS = {
+					U: {back: `#58D7F7`, front: `#157694`},
+					L: {back: `#29F4A5`, front: `#22815A`},
+					K: {back: `#9F76FC`, front: `#482794`},
+					Z: {back: `#FCD28D`, front: `#7F6944`},
+					G: {back: `#FFFFFF`, front: `#767676`},
+					O: {back: `#99ccff`, front: `#000066`},
+					H: {back: `#99ccff`, front: `#000066`},
+				};
+
+				let colours = BASE_MINERALS[this.resourceType];
+
+				if (colours) {
+					outStr += `<circle cx="7" cy="7" r="5" style="stroke-width:1;stroke:${colours.front};fill:${colours.back}"/>` +
+						`<text x="7" y="8" font-family="Verdana" font-size="8" alignment-baseline="middle" text-anchor="middle" style="fill:${colours.front};font-weight:bold;">${this.resourceType === undefined ? '?' : this.resourceType}</text>`;
+				} else {
+					let compoundType = ['U', 'L', 'K', 'Z', 'G', 'H', 'O'].find(type => resourceType.indexOf(type) !== -1);
+					colours = COMPOUNDS[compoundType];
+					if (colours) {
+						let width = this.resourceType.length * 9;
+						finalWidth += width;
+						textDisplacement += width;
+						outStr += `<rect x="0" y="0" width="${width}" height="14" style="fill:${colours.back}"/>` +
+							`<text x="${width / 2.0}" y="8" font-family="Verdana" font-size="8" alignment-baseline="middle" text-anchor="middle" style="fill:${colours.front};font-weight:bold;">${this.resourceType}</text>`;
+					} else {
+						throw new Error(`Invalid resource type ${this.resourceType} in SVGMineral!`);
+					}
+				}
+			}
+
+			if (this.amount !== false) {
+				outStr += `<text font-family="Verdana" font-size="10" x="${textDisplacement + amountWidth/2}" y="8" alignment-baseline="middle" text-anchor="middle" style="fill:white"> x ${this.amount.toLocaleString()}</text>`;
+			}
+			outStr += `</svg>`;
+
+			outStr = outStr.split('!!').join(finalWidth);
+
+			return outStr;
+		}
+		return this.string;
+	}
+
+}
+
+var SVGMineral_1 = SVGMineral$1;
+
 let SVG = SVG_1;
+let SVGMineral = SVGMineral_1;
+
+/**
+ * Acts as the parent to SVGStorage and SVGTerminal.
+ * @author Helam
+ * @author Enrico
+ * @author Spedwards
+ */
+class SVGStorageObject$1 extends SVG {
+
+	/**
+	 * @author Spedwards
+	 * @param {StructureStorage | StructureContainer | StructureTerminal} object - Either a StructureStorage, StructureContainer or StructureTerminal object, or an ID string corrosponding to one.
+	 */
+	constructor(object, expectedType) {
+		super();
+		let structure = this.validateConstructor(object, expectedType);
+		if (structure === false) throw new Error('Not a Structure object!');
+
+		this.object = structure;
+		this.contents = this.getContents();
+	}
+	
+	/**
+	 * Outputs the contents of any StructureStorage, StructureContainer or StructureTerminal
+	 * object as a html/svg string.
+	 * @author Helam
+	 * @author Enrico
+	 * @returns {string}
+	 */
+	getContents() {
+		if (!this.contents) {
+			let outStr = '';
+			
+			Object.keys(this.object.store).forEach(type => {
+				outStr += (new SVGMineral(type, this.object.store[type])).toString();
+				outStr += '\n';
+			});
+			return outStr;
+		}
+		return this.contents;
+	}
+
+}
+
+var SVGStorageObject_1 = SVGStorageObject$1;
+
+let SVGStorageObject = SVGStorageObject_1;
+
+/**
+ * Returns a html/svg string representation of the given container object.
+ * @author Spedwards
+ */
+class SVGContainer extends SVGStorageObject {
+	
+	/**
+	 * @author Spedwards
+	 * @param {StructureContainer | string} container - StructureContainer object or ID string corrosponding to a StructureContainer object.
+	 */
+	constructor(container) {
+		super(container, STRUCTURE_CONTAINER);
+		this.string = this.toString();
+	}
+	
+	/**
+	 * @author Spedwards
+	 * @returns {string}
+	 */
+	toString() {
+		if (!this.string) {
+			const SVG_SIZE = 35;
+			
+			const CONTAINER = this.object;
+			const CAPACITY = CONTAINER.storeCapacity;
+			const ENERGY = CONTAINER.store[RESOURCE_ENERGY];
+			const POWER = CONTAINER.store[RESOURCE_POWER] || 0;
+			const OTHER = _.sum(CONTAINER.store) - ENERGY - POWER;
+			
+			const HEIGHT = 50;
+			const START_Y = 25;
+			
+			const ENERGY_HEIGHT = ENERGY * HEIGHT / CAPACITY;
+			const POWER_HEIGHT = POWER * HEIGHT / CAPACITY;
+			const OTHER_HEIGHT = OTHER * HEIGHT / CAPACITY;
+			
+			const ENERGY_Y = START_Y - ENERGY_HEIGHT;
+			const OTHER_Y = START_Y - OTHER_HEIGHT;
+			const POWER_Y = START_Y - POWER_HEIGHT;
+			
+			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 100 100">` +
+					`<g transform="translate(50,50)" opacity="1">` +
+					`<rect fill="#555555" height="60" stroke-width="10" stroke="#181818" width="50" x="-25" y="-30" />` +
+					`<!-- minerals -->` +
+					`<rect fill="#FFFFFF" height="${OTHER_HEIGHT}" y="${OTHER_Y}" width="40" x="-20" />` +
+					`<!-- power -->` +
+					`<rect fill="#F1243A" height="${POWER_HEIGHT}" y="${POWER_Y}" width="40" x="-20" />` +
+					`<!-- energy -->` +
+					`<rect fill="#FEE476" height="${ENERGY_HEIGHT}" y="${ENERGY_Y}" width="40" x="-20" />` +
+					`</g></svg>`;
+		}
+		return this.string;
+	}
+	
+}
+
+var SVGContainer_1 = SVGContainer;
+
+let SVG$3 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given creep object.
  * @author Helam
  * @author Spedwards
  */
-class SVGCreep extends SVG {
+class SVGCreep extends SVG$3 {
 
 	/**
 	 * @author Spedwards
@@ -107,7 +321,7 @@ class SVGCreep extends SVG {
 	 */
 	constructor(creep) {
 		super();
-		let object = this.validateConstructor(creep, SVG.CREEP);
+		let object = this.validateConstructor(creep, SVG$3.CREEP);
 		if (object === false) throw new Error('Not a Creep object!');
 
 		this.creep = object;
@@ -224,14 +438,14 @@ class SVGCreep extends SVG {
 
 var SVGCreep_1 = SVGCreep;
 
-let SVG$2 = SVG_1;
+let SVG$4 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given lab object.
  * @author Enrico
  * @author Spedwards
  */
-class SVGLab extends SVG$2 {
+class SVGLab extends SVG$4 {
 
 	/**
 	 * @author Spedwards
@@ -304,13 +518,13 @@ class SVGLab extends SVG$2 {
 
 var SVGLab_1 = SVGLab;
 
-let SVG$3 = SVG_1;
+let SVG$5 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given link object.
  * @author Spedwards
  */
-class SVGLink extends SVG$3 {
+class SVGLink extends SVG$5 {
 
 	/**
 	 * @author Spedwards
@@ -356,120 +570,14 @@ class SVGLink extends SVG$3 {
 
 var SVGLink_1 = SVGLink;
 
-let SVG$4 = SVG_1;
-
-/**
- * Takes a resource type constant as input and
- * returns the html/svg string for the icon of
- * that resource upon calling `.toString()`
- * @author Helam
- * @author Spedwards
- */
-class SVGMineral extends SVG$4 {
-
-	/**
-	 * @author Spedwards
-	 * @param {string} resourceType
-	 * @param {Number | Boolean} [amount = 0] - 0 by default, pass false to hide it
-	 */
-	constructor(resourceType, amount = 0) {
-		super();
-		if (typeof resourceType !== 'string') throw new Error('Resource is not a String!');
-		if (!Number.isInteger(amount)) throw new Error('Amount is not an Integer!');
-
-		this.resourceType = resourceType;
-		this.amount = amount;
-		this.string = this.toString();
-	}
-
-	/**
-	 * @author Helam
-	 * @returns {string}
-	 */
-	toString() {
-		if (!this.string) {
-			let length = Math.max(1, Math.ceil(Math.log10(this.amount + 1)));
-			let amountWidth = length * 10 + 5;
-
-			if (this.amount === false) {
-				amountWidth = 0;
-			}
-
-			let textDisplacement = 14;
-			let finalWidth = 14 + amountWidth;
-
-			let outStr = `<svg width="!!" height="14">`;
-
-			if (this.resourceType === RESOURCE_ENERGY) {
-				outStr += `<circle cx="7" cy="7" r="5" style="fill:#FEE476"/>`;
-			} else if (this.resourceType === RESOURCE_POWER) {
-				outStr += `<circle cx="7" cy="7" r="5" style="fill:#F1243A"/>`;
-			} else {
-				const BASE_MINERALS = {
-					[undefined]: {back: `#fff`, front: `#000`},
-					[RESOURCE_HYDROGEN]: {back: `#4B4B4B`, front: `#989898`},
-					[RESOURCE_OXYGEN]: {back: `#4B4B4B`, front: `#989898`},
-					[RESOURCE_UTRIUM]: {back: `#0A5D7C`, front: `#48C5E5`},
-					[RESOURCE_LEMERGIUM]: {back: `#265C42`, front: `#24D490`},
-					[RESOURCE_KEANIUM]: {back: `#371A80`, front: `#9269EC`},
-					[RESOURCE_ZYNTHIUM]: {back: `#58482D`, front: `#D9B478`},
-					[RESOURCE_CATALYST]: {back: `#572122`, front: `#F26D6F`},
-				};
-
-				const COMPOUNDS = {
-					U: {back: `#58D7F7`, front: `#157694`},
-					L: {back: `#29F4A5`, front: `#22815A`},
-					K: {back: `#9F76FC`, front: `#482794`},
-					Z: {back: `#FCD28D`, front: `#7F6944`},
-					G: {back: `#FFFFFF`, front: `#767676`},
-					O: {back: `#99ccff`, front: `#000066`},
-					H: {back: `#99ccff`, front: `#000066`},
-				};
-
-				let colours = BASE_MINERALS[this.resourceType];
-
-				if (colours) {
-					outStr += `<circle cx="7" cy="7" r="5" style="stroke-width:1;stroke:${colours.front};fill:${colours.back}"/>` +
-						`<text x="7" y="8" font-family="Verdana" font-size="8" alignment-baseline="middle" text-anchor="middle" style="fill:${colours.front};font-weight:bold;">${this.resourceType === undefined ? '?' : this.resourceType}</text>`;
-				} else {
-					let compoundType = ['U', 'L', 'K', 'Z', 'G', 'H', 'O'].find(type => resourceType.indexOf(type) !== -1);
-					colours = COMPOUNDS[compoundType];
-					if (colours) {
-						let width = this.resourceType.length * 9;
-						finalWidth += width;
-						textDisplacement += width;
-						outStr += `<rect x="0" y="0" width="${width}" height="14" style="fill:${colours.back}"/>` +
-							`<text x="${width / 2.0}" y="8" font-family="Verdana" font-size="8" alignment-baseline="middle" text-anchor="middle" style="fill:${colours.front};font-weight:bold;">${this.resourceType}</text>`;
-					} else {
-						throw new Error(`Invalid resource type ${this.resourceType} in SVGMineral!`);
-					}
-				}
-			}
-
-			if (this.amount !== false) {
-				outStr += `<text font-family="Verdana" font-size="10" x="${textDisplacement + amountWidth/2}" y="8" alignment-baseline="middle" text-anchor="middle" style="fill:white"> x ${this.amount.toLocaleString()}</text>`;
-			}
-			outStr += `</svg>`;
-
-			outStr = outStr.split('!!').join(finalWidth);
-
-			return outStr;
-		}
-		return this.string;
-	}
-
-}
-
-var SVGMineral_1 = SVGMineral;
-
-let SVG$5 = SVG_1;
+let SVG$6 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given nuker object.
  * @author Enrico
  * @author Spedwards
  */
-class SVGNuker extends SVG$5 {
+class SVGNuker extends SVG$6 {
 
 	/**
 	 * @author Spedwards
@@ -520,61 +628,13 @@ class SVGNuker extends SVG$5 {
 
 var SVGNuker_1 = SVGNuker;
 
-let SVG$7 = SVG_1;
-let SVGMineral$1 = SVGMineral_1;
-
-/**
- * Acts as the parent to SVGStorage and SVGTerminal.
- * @author Helam
- * @author Enrico
- * @author Spedwards
- */
-class SVGStorageObject$1 extends SVG$7 {
-
-	/**
-	 * @author Spedwards
-	 * @param {StructureStorage | StructureContainer | StructureTerminal} object - Either a StructureStorage, StructureContainer or StructureTerminal object, or an ID string corrosponding to one.
-	 */
-	constructor(object, expectedType) {
-		super();
-		let structure = this.validateConstructor(object, expectedType);
-		if (structure === false) throw new Error('Not a Structure object!');
-
-		this.object = structure;
-		this.contents = this.getContents();
-	}
-	
-	/**
-	 * Outputs the contents of any StructureStorage, StructureContainer or StructureTerminal
-	 * object as a html/svg string.
-	 * @author Helam
-	 * @author Enrico
-	 * @returns {string}
-	 */
-	getContents() {
-		if (!this.contents) {
-			let outStr = '';
-			
-			Object.keys(this.object.store).forEach(type => {
-				outStr += (new SVGMineral$1(type, this.object.store[type])).toString();
-				outStr += '\n';
-			});
-			return outStr;
-		}
-		return this.contents;
-	}
-
-}
-
-var SVGStorageObject_1 = SVGStorageObject$1;
-
-let SVGStorageObject = SVGStorageObject_1;
+let SVGStorageObject$2 = SVGStorageObject_1;
 
 /**
  * Returns a html/svg string representation of the given storage object.
  * @author Spedwards
  */
-class SVGStorage$1 extends SVGStorageObject {
+class SVGStorage$1 extends SVGStorageObject$2 {
 
 	/**
 	 * @author Spedwards
@@ -626,13 +686,13 @@ class SVGStorage$1 extends SVGStorageObject {
 
 var SVGStorage_1 = SVGStorage$1;
 
-let SVGStorageObject$2 = SVGStorageObject_1;
+let SVGStorageObject$3 = SVGStorageObject_1;
 
 /**
  * Returns a html/svg string representation of the given terminal object.
  * @author Spedwards
  */
-class SVGTerminal$1 extends SVGStorageObject$2 {
+class SVGTerminal$1 extends SVGStorageObject$3 {
 
 	/**
 	 * @author Spedwards
@@ -691,7 +751,7 @@ class SVGTerminal$1 extends SVGStorageObject$2 {
 
 var SVGTerminal_1 = SVGTerminal$1;
 
-let SVG$6 = SVG_1;
+let SVG$7 = SVG_1;
 let SVGStorage = SVGStorage_1;
 let SVGTerminal = SVGTerminal_1;
 
@@ -701,7 +761,7 @@ let SVGTerminal = SVGTerminal_1;
  * @author Dragnar
  * @author Spedwards
  */
-class SVGRoom extends SVG$6 {
+class SVGRoom extends SVG$7 {
 
 	/**
 	 * @author Spedwards
@@ -709,7 +769,7 @@ class SVGRoom extends SVG$6 {
 	 */
 	constructor(roomArg) {
 		super();
-		let object = this.validateConstructor(roomArg, SVG$6.ROOM);
+		let object = this.validateConstructor(roomArg, SVG$7.ROOM);
 		if (object === false) throw new Error('Not a Room object!');
 
 		this.room = object;
@@ -979,16 +1039,17 @@ class SVGTower extends SVG$9 {
 var SVGTower_1 = SVGTower;
 
 var index = {
-	SVGCreep: SVGCreep_1,
-	SVGLab: SVGLab_1,
-	SVGLink: SVGLink_1,
-	SVGMineral: SVGMineral_1,
-	SVGNuker: SVGNuker_1,
-	SVGRoom: SVGRoom_1,
-	SVGSource: SVGSource_1,
-	SVGStorage: SVGStorage_1,
-	SVGTerminal: SVGTerminal_1,
-	SVGTower: SVGTower_1,
+	Container: SVGContainer_1,
+	Creep: SVGCreep_1,
+	Lab: SVGLab_1,
+	Link: SVGLink_1,
+	Mineral: SVGMineral_1,
+	Nuker: SVGNuker_1,
+	Room: SVGRoom_1,
+	Source: SVGSource_1,
+	Storage: SVGStorage_1,
+	Terminal: SVGTerminal_1,
+	Tower: SVGTower_1,
 };
 
 module.exports = index;

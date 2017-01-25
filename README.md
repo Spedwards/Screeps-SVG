@@ -48,5 +48,4 @@ For testing purposes you can bundle the project by executing `npm run build`.
  - Add Controller
  - Add Spawn
  - Add Extension
- - Add Container
  - Add Full Mineral
