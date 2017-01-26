@@ -9,6 +9,7 @@ module.exports = {
 	Nuker: require('./SVGNuker'),
 	Observer: require('./SVGObserver'),
 	PowerSpawn: require('./SVGPowerSpawn'),
+	Resource: require('./SVGResource'),
 	Room: require('./SVGRoom'),
 	Source: require('./SVGSource'),
 	Spawn: require('./SVGSpawn'),

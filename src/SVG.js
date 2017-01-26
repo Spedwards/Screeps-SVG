@@ -27,6 +27,13 @@ class SVG {
 	}
 	
 	/**
+	 * @returns {string}
+	 */
+	static get MINERAL() {
+		return 'mineral';
+	}
+	
+	/**
 	 * Gets player name
 	 * @returns {string}
 	 */
@@ -73,6 +80,16 @@ class SVG {
 			
 			if (source instanceof Source) {
 				return source;
+			}
+			return false;
+		} else if (expectedType === SVG.MINERAL) {
+			let mineral = object;
+			if (typeof object === 'string') {
+				mineral = this.id(object);
+			}
+			
+			if (mineral instanceof Mineral) {
+				return mineral;
 			}
 			return false;
 		} else {

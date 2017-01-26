@@ -34,7 +34,7 @@ class SVGStorageObject extends SVG {
 			let outStr = '';
 			
 			Object.keys(this.object.store).forEach(type => {
-				outStr += (new SVGMineral(type, this.object.store[type])).toString();
+				outStr += (new SVGResource(type, this.object.store[type])).toString();
 				outStr += '\n';
 			});
 			return outStr;
