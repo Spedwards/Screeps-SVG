@@ -593,9 +593,70 @@ class SVGCreep extends SVG$4 {
 
 var SVGCreep_1 = SVGCreep;
 
-var SVGExtension_1 = {
+let SVG$5 = SVG_1;
 
-};
+/**
+ * Returns a html/svg string representation of the given extension object.
+ * @author Spedwards
+ */
+class SVGExtension extends SVG$5 {
+	
+	/**
+	 * @author Spedwards
+	 * @param {StructureExtension | string} extension - StructureExtension object or ID string corrosponding to a StructureExtension object.
+	 */
+	constructor(extension) {
+		super();
+		let object = this.validateConstructor(extension, STRUCTURE_EXTENSION);
+		if (object === false) throw new Error('Not an Extension object!');
+		
+		this.extension = object;
+		this.string = this.toString();
+	}
+	
+	/**
+	 * @author Spedwards
+	 * @returns {string}
+	 */
+	toString() {
+		if (!this.string) {
+			const SVG_SIZE = 50;
+			
+			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 100 100">` +
+					`<g transform="translate(50,50)">` +
+					`<g>` +
+					`<ellipse rx="${this.getSize()}" ry="${this.getSize()}" cx="0" cy="0" fill="#181818" stroke-width="5" />`;
+			
+			if (this.extension.energy > 0) {
+				const ENERGY_RADIUS = 0.7 * this.getSize() * Math.min(this.extension.energy / this.extension.energyCapacity, 1);
+				outStr += `<ellipse cx="0" cy="0" fill="#FFE56D" rx="${ENERGY_RADIUS}" ry="${ENERGY_RADIUS}" />`;
+			}
+			
+			outStr += `</g></g></svg>`;
+			
+			return outStr;
+		}
+		return this.string;
+	}
+	
+	/**
+	 * @author Spedwards
+	 * @returns {Number}
+	 */
+	getSize() {
+		switch(this.extension.room.controller.level) {
+			case 8:
+				return 50;
+			case 7:
+				return 40;
+			default:
+				return 34;
+		}
+	}
+	
+}
+
+var SVGExtension_1 = SVGExtension;
 
 let SVG$6 = SVG_1;
 
@@ -785,9 +846,53 @@ class SVGNuker extends SVG$8 {
 
 var SVGNuker_1 = SVGNuker;
 
-var SVGObserver_1 = {
+let SVG$9 = SVG_1;
 
-};
+/**
+ * Returns a html/svg string representation of the given observer object.
+ * @author Spedwards
+ */
+class SVGObserver extends SVG$9 {
+	
+	/**
+	 * @author Spedwards
+	 * @param {StructureObserver | string} observer - StructureObserver object or ID string corrosponding to a StructureObserver object.
+	 */
+	constructor(observer) {
+		super();
+		let object = this.validateConstructor(observer, STRUCTURE_OBSERVER);
+		if (object === false) throw new Error('Not an Observer object!');
+		
+		this.observer = object;
+		this.string = this.toString();
+	}
+	
+	/**
+	 * @author Spedwards
+	 * @returns {string}
+	 */
+	toString() {
+		if (!this.string) {
+			const SVG_SIZE = 50;
+			
+			const COLOUR = this.player === this.observer.owner.username ? `#8FBB93` : `#ED5557`;
+			
+			return `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 100 100">` +
+					`<g transform="translate(50,50)">` +
+					`<ellipse rx="45" ry="40" fill="#111111" stroke="${COLOUR}" stroke-width="5" cx="0" cy="0" />` +
+					`<ellipse rx="20" ry="20" fill="${COLOUR}" cx="0" cy="-15">` +
+					`<animate attributeName="cx" attributeType="XML" dur="2s" repeatCount="indefinite" values="20;20;0;0;-20;-20;0;0;20" calcMode="linear" />` +
+					`<animate attributeName="cy" attributeType="XML" dur="2s" repeatCount="indefinite" values="0;0;15;15;0;0;-15;-15;0" calcMode="linear" />` +
+					`</ellipse>` +
+					`</g>` +
+					`</svg>`;
+		}
+		return this.string;
+	}
+	
+}
+
+var SVGObserver_1 = SVGObserver;
 
 let SVGStorageObject$2 = SVGStorageObject_1;
 

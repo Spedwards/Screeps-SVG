@@ -60,3 +60,5 @@ class SVGExtension extends SVG {
 	}
 	
 }
+
+module.exports = SVGExtension;

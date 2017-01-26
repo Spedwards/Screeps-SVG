@@ -43,3 +43,5 @@ class SVGObserver extends SVG {
 	}
 	
 }
+
+module.exports = SVGObserver;
