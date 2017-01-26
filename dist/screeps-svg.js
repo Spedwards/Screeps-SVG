@@ -1206,13 +1206,14 @@ class SVGTower extends SVG$11 {
 	 * @param {StructureTower | string} tower - StructureTower object or ID string corrosponding to a StructureTower object.
 	 * @param {Number} [angle = 315] - The angle at which the tower will point.
 	 */
-	constructor(tower, angle = 315) {
+	constructor(tower, angle = 315, animated = false) {
 		super();
 		let object = this.validateConstructor(tower, STRUCTURE_TOWER);
 		if (object === false) throw new Error('Not a Tower object!');
 
 		this.tower = object;
 		this.radians = angle * (Math.PI / 180);
+		this.animated = animated;
 		this.string = this.toString();
 	}
 
@@ -1236,15 +1237,18 @@ class SVGTower extends SVG$11 {
 
 			let outStr = `<svg class="tower owner" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 300 300">` +
 				`<g transform="translate(75,75)" opacity="1">` +
-				`<ellipse class="border" cx="0" cy="0" fill="#222" rx="65" ry="65" stroke-width="5"></ellipse>` +
-				`<g class="rotatable" style="transform: rotate(${RADIANS}rad); transition: transform 2s;">` +
-				`<rect fill="#aaa" height="50" stroke-width="7" stroke="#181818" width="40" x="${BARREL_X}" y="${BARREL_Y}"></rect>` +
-				`<rect fill="#555" height="58" rx="12" ry="10" width="78" x="${TANK_X}" y="${TANK_Y}"></rect>` +
-				`<animateTransform attributeName="transform" attributeType="XML" dur="5s" keyTimes="0;0.4;0.75;1" repeatCount="indefinite" type="rotate" values="315deg;90deg;200deg;315deg" calcMode="linear" />`;
+				`<ellipse class="border" cx="0" cy="0" fill="#222" rx="65" ry="65" stroke-width="5" />` +
+				`<g class="rotatable" transform="rotate(${RADIANS}rad)" style="transition: transform 2s;">` +
+				`<rect fill="#aaa" height="50" stroke-width="7" stroke="#181818" width="40" x="${BARREL_X}" y="${BARREL_Y}" />` +
+				`<rect fill="#555" height="58" rx="12" ry="10" width="78" x="${TANK_X}" y="${TANK_Y}" />`;
+			
+			if (this.animated) {
+				outStr += `<animateTransform attributeName="transform" attributeType="XML" dur="5s" keyTimes="0;0.4;0.75;1" repeatCount="indefinite" type="rotate" values="315;90;200;315" calcMode="linear" />`;
+			}
 
 			if (this.tower.energy > 0) {
 				// ENERGY
-				outStr += `<rect fill="#ffe56d" height="${ENERGY_HEIGHT}" y="${33 - ENERGY_HEIGHT}" rx="12" ry="12" width="78" x="${TANK_X}"></rect>`;
+				outStr += `<rect fill="#ffe56d" height="${ENERGY_HEIGHT}" y="${33 - ENERGY_HEIGHT}" rx="12" ry="12" width="78" x="${TANK_X}" />`;
 			}
 
 			outStr += `</g></g></svg>`;
