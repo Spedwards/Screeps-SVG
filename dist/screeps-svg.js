@@ -894,6 +894,67 @@ class SVGObserver extends SVG$9 {
 
 var SVGObserver_1 = SVGObserver;
 
+let SVG$10 = SVG_1;
+
+/**
+ * Returns a html/svg string representation of the given spawn object.
+ * @author Spedwards
+ */
+class SVGPowerSpawn extends SVG$10 {
+	
+	/**
+	 * @author Spedwards
+	 * @param {StructurePowerSpawn | string} powerSpawn - StructurePowerSpawn object or ID string corrosponding to a StructurePowerSpawn object.
+	 */
+	constructor(powerSpawn) {
+		super();
+		let object = this.validateConstructor(powerSpawn, STRUCTURE_POWER_SPAWN);
+		if (object === false) throw new Error('Not a Power Spawn object!');
+		
+		this.powerSpawn = object;
+		this.string = this.toString();
+	}
+	
+	/**
+	 * @author Spedwards
+	 * @returns {string}
+	 */
+	toString() {
+		if (!this.string) {
+			const SVG_SIZE = 50;
+			
+			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 160 160">` +
+					`<g transform="translate(80,80)">` +
+					`<ellipse rx="75" ry="75" cx="0" cy="0" fill="#222222" stroke="#CCCCCC" stroke-width="7" />` +
+					`<ellipse rx="68" ry="68" cx="0" cy="0" fill="#222222" stroke="#F41F33" stroke-width="10" />` +
+					`<ellipse rx="59" ry="59" cx="0" cy="0" fill="#181818" />` +
+					`<ellipse rx="37" ry="37" cx="0" cy="0" fill="#555555" />`;
+			
+			if (this.powerSpawn.power) {
+				const LARGE_ARC_FLAG = (this.powerSpawn.power < this.powerSpawn.powerCapacity / 2) ? 0 : 1;
+				const END_X = 50 * Math.cos(Math.PI * 2 * (this.powerSpawn.power / this.powerSpawn.powerCapacity));
+				const END_Y = 50 * Math.sin(Math.PI * 2 * (this.powerSpawn.power / this.powerSpawn.powerCapacity));
+				
+				outStr += `<path fill="transparent" d="M 50 0 A 50 50 0 ${LARGE_ARC_FLAG} 1 ${END_X} ${END_Y}" stroke-width="15" stroke="#F41F33" transform="rotate(-90)" />`;
+			}
+			
+			if (this.powerSpawn.energy > 0) {
+				const RADIUS = 38 * Math.min(this.powerSpawn.energy / this.powerSpawn.energyCapacity, 1);
+				
+				outStr += `<ellipse rx="${RADIUS}" ry="${RADIUS}" cx="0" cy="0" fill="#FFE56D" />`;
+			}
+			
+			outStr += `</g></svg>`;
+			
+			return outStr;
+		}
+		return this.string;
+	}
+	
+}
+
+var SVGPowerSpawn_1 = SVGPowerSpawn;
+
 let SVGStorageObject$2 = SVGStorageObject_1;
 
 /**
@@ -1017,7 +1078,7 @@ class SVGTerminal$1 extends SVGStorageObject$3 {
 
 var SVGTerminal_1 = SVGTerminal$1;
 
-let SVG$10 = SVG_1;
+let SVG$11 = SVG_1;
 let SVGStorage = SVGStorage_1;
 let SVGTerminal = SVGTerminal_1;
 
@@ -1027,7 +1088,7 @@ let SVGTerminal = SVGTerminal_1;
  * @author Dragnar
  * @author Spedwards
  */
-class SVGRoom extends SVG$10 {
+class SVGRoom extends SVG$11 {
 
 	/**
 	 * @author Spedwards
@@ -1035,7 +1096,7 @@ class SVGRoom extends SVG$10 {
 	 */
 	constructor(roomArg) {
 		super();
-		let object = this.validateConstructor(roomArg, SVG$10.ROOM);
+		let object = this.validateConstructor(roomArg, SVG$11.ROOM);
 		if (object === false) throw new Error('Not a Room object!');
 
 		this.room = object;
@@ -1188,13 +1249,13 @@ class SVGRoom extends SVG$10 {
 
 var SVGRoom_1 = SVGRoom;
 
-let SVG$11 = SVG_1;
+let SVG$12 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given source object.
  * @author Spedwards
  */
-class SVGSource extends SVG$11 {
+class SVGSource extends SVG$12 {
 
 	/**
 	 * @author Spedwards
@@ -1202,7 +1263,7 @@ class SVGSource extends SVG$11 {
 	 */
 	constructor(source) {
 		super();
-		let object = this.validateConstructor(source, SVG$11.SOURCE);
+		let object = this.validateConstructor(source, SVG$12.SOURCE);
 		if (object === false) throw new Error('Not a Source object!');
 
 		this.source = object;
@@ -1238,13 +1299,13 @@ class SVGSource extends SVG$11 {
 
 var SVGSource_1 = SVGSource;
 
-let SVG$12 = SVG_1;
+let SVG$13 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given spawn object.
  * @author Spedwards
  */
-class SVGSpawn extends SVG$12 {
+class SVGSpawn extends SVG$13 {
 	
 	/**
 	 * @author Spedwards
@@ -1267,8 +1328,8 @@ class SVGSpawn extends SVG$12 {
 		if (!this.string) {
 			const SVG_SIZE = 50;
 			
-			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 500 500">` +
-					`<g transform="translate(250,250)">` +
+			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 150 150">` +
+					`<g transform="translate(75,75)">` +
 					`<g>` +
 					`<ellipse rx="70" ry="70" cx="0" cy="0" fill="#CCCCCC" />` +
 					`<ellipse rx="59" ry="59" cx="0" cy="0" fill="#181818" />` +
@@ -1277,12 +1338,11 @@ class SVGSpawn extends SVG$12 {
 					`<ellipse rx="37" ry="37" cx="0" cy="0" fill="#555555" />`;
 			
 			if (this.spawn.spawning) {
-				// If you know what VALUE_A actually is, please change it.
-				const VALUE_A = this.spawn.spawning.remainingTime + 0.01 > this.spawn.spawning.needTime / 2 ? 0 : 1;
+				const LARGE_ARC_FLAG = this.spawn.spawning.remainingTime + 0.01 > this.spawn.spawning.needTime / 2 ? 0 : 1;
 				const END_X = 50 * Math.cos(-Math.PI * 2 * (this.spawn.spawning.remainingTime + 0.01) / this.spawn.spawning.needTime);
 				const END_Y = 50 * Math.sin(-Math.PI * 2 * (this.spawn.spawning.remainingTime + 0.01) / this.spawn.spawning.needTime);
 				
-				outStr += `<path fill="transparent" d="M 50 0 A 50 50 0 ${VALUE_A} 1 ${END_X} ${END_Y}" stroke-width="15" stroke="#AAAAAA" transform="rotate(-90)" />`;
+				outStr += `<path fill="transparent" d="M 50 0 A 50 50 0 ${LARGE_ARC_FLAG} 1 ${END_X} ${END_Y}" stroke-width="15" stroke="#AAAAAA" transform="rotate(-90)" />`;
 			}
 			
 			if (this.spawn.energy > 0) {
@@ -1306,13 +1366,13 @@ class SVGSpawn extends SVG$12 {
 
 var SVGSpawn_1 = SVGSpawn;
 
-let SVG$13 = SVG_1;
+let SVG$14 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given tower object.
  * @author Spedwards
  */
-class SVGTower extends SVG$13 {
+class SVGTower extends SVG$14 {
 
 	/**
 	 * @author Spedwards
@@ -1386,6 +1446,7 @@ var index = {
 	Mineral: SVGMineral_1,
 	Nuker: SVGNuker_1,
 	Observer: SVGObserver_1,
+	PowerSpawn: SVGPowerSpawn_1,
 	Room: SVGRoom_1,
 	Source: SVGSource_1,
 	Spawn: SVGSpawn_1,

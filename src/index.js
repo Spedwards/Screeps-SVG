@@ -8,6 +8,7 @@ module.exports = {
 	Mineral: require('./SVGMineral'),
 	Nuker: require('./SVGNuker'),
 	Observer: require('./SVGObserver'),
+	PowerSpawn: require('./SVGPowerSpawn'),
 	Room: require('./SVGRoom'),
 	Source: require('./SVGSource'),
 	Spawn: require('./SVGSpawn'),
