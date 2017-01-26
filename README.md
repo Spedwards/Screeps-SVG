@@ -37,6 +37,8 @@ let linkSVG = new global.svg.Link(LINK_ID);
 console.log(linkSVG);
 ```
 
+![Demo Outputs](demo.png)
+
 ## Contribute
 
 Clone the project and execute `npm install`.
