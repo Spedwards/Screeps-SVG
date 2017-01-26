@@ -27,6 +27,14 @@ class SVG {
 	}
 	
 	/**
+	 * Gets player name
+	 * @returns {string}
+	 */
+	get player() {
+		return _(Game.rooms).filter(r => r.controller.my).min(r => r.controller.level).controller.owner.username;
+	}
+	
+	/**
 	 * Validate the parameter type is correct.
 	 * @param {*} object - The object to check against.
 	 * @param {string} expectedType - SVG.CREEP, SVG.ROOM, SVG.SOURCE, or on of the STRUCTURE_* constants.

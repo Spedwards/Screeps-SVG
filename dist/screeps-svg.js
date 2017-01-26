@@ -29,6 +29,14 @@ class SVG$1 {
 	}
 	
 	/**
+	 * Gets player name
+	 * @returns {string}
+	 */
+	get player() {
+		return _(Game.rooms).filter(r => r.controller.my).min(r => r.controller.level).controller.owner.username;
+	}
+	
+	/**
 	 * Validate the parameter type is correct.
 	 * @param {*} object - The object to check against.
 	 * @param {string} expectedType - SVG.CREEP, SVG.ROOM, SVG.SOURCE, or on of the STRUCTURE_* constants.
@@ -1006,7 +1014,7 @@ class SVGSpawn extends SVG$9 {
 					`<ellipse rx="59" ry="59" cx="0" cy="0" fill="#181818" />` +
 					// Temp Fill - Until Badges
 					// Replace this line with badges
-					`<ellipse rx="38" ry="38" cx="0" cy="0" fill="#555555" />`;
+					`<ellipse rx="37" ry="37" cx="0" cy="0" fill="#555555" />`;
 			
 			if (this.spawn.spawning) {
 				// If you know what VALUE_A actually is, please change it.
@@ -1026,6 +1034,8 @@ class SVGSpawn extends SVG$9 {
 			if (this.spawn.spawning) {
 				outStr += `<animateTransform attributeName="transform" attributeType="XML" dur="2s" keyTimes="0;0.25;1" repeatCount="indefinite" type="scale" values="1 1;1.24 1.24;1 1" calcMode="linear" />`;
 			}
+			
+			outStr += `</g></g></svg>`;
 			
 			return outStr;
 		}

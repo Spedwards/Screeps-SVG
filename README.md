@@ -45,7 +45,6 @@ For testing purposes you can bundle the project by executing `npm run build`.
 
 ## Todo
 
- - Add Controller
  - Add Extension
  - Add Power Spawn
  - Add Observer
