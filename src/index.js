@@ -7,6 +7,7 @@ module.exports = {
 	Link: require('./SVGLink'),
 	Mineral: require('./SVGMineral'),
 	Nuker: require('./SVGNuker'),
+	Observer: require('./SVGObserver'),
 	Room: require('./SVGRoom'),
 	Source: require('./SVGSource'),
 	Spawn: require('./SVGSpawn'),

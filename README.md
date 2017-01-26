@@ -48,7 +48,6 @@ For testing purposes you can bundle the project by executing `npm run build`.
 ## Todo
 
  - Add Power Spawn
- - Add Observer
  - Add Full Mineral
  - Potentially Add Extractor (May be included with Mineral)
  - Keeper Lair

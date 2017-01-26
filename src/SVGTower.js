@@ -10,6 +10,7 @@ class SVGTower extends SVG {
 	 * @author Spedwards
 	 * @param {StructureTower | string} tower - StructureTower object or ID string corrosponding to a StructureTower object.
 	 * @param {Number} [angle = 315] - The angle at which the tower will point.
+	 * @param {Boolean} [animated = false] - Whether or not you want the tower to be animated.
 	 */
 	constructor(tower, angle = 315, animated = false) {
 		super();

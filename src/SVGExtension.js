@@ -1,14 +1,14 @@
 let SVG = require('./SVG');
 
 /**
- * Returns a html/svg string representation of the given link object.
+ * Returns a html/svg string representation of the given extension object.
  * @author Spedwards
  */
 class SVGExtension extends SVG {
 	
 	/**
 	 * @author Spedwards
-	 * @param {StructureExtension | string} extension - StructureExtension object of ID string corrosponding to a StructureExtension object.
+	 * @param {StructureExtension | string} extension - StructureExtension object or ID string corrosponding to a StructureExtension object.
 	 */
 	constructor(extension) {
 		super();

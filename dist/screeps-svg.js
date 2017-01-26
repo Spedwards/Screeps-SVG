@@ -785,6 +785,10 @@ class SVGNuker extends SVG$8 {
 
 var SVGNuker_1 = SVGNuker;
 
+var SVGObserver_1 = {
+
+};
+
 let SVGStorageObject$2 = SVGStorageObject_1;
 
 /**
@@ -908,7 +912,7 @@ class SVGTerminal$1 extends SVGStorageObject$3 {
 
 var SVGTerminal_1 = SVGTerminal$1;
 
-let SVG$9 = SVG_1;
+let SVG$10 = SVG_1;
 let SVGStorage = SVGStorage_1;
 let SVGTerminal = SVGTerminal_1;
 
@@ -918,7 +922,7 @@ let SVGTerminal = SVGTerminal_1;
  * @author Dragnar
  * @author Spedwards
  */
-class SVGRoom extends SVG$9 {
+class SVGRoom extends SVG$10 {
 
 	/**
 	 * @author Spedwards
@@ -926,7 +930,7 @@ class SVGRoom extends SVG$9 {
 	 */
 	constructor(roomArg) {
 		super();
-		let object = this.validateConstructor(roomArg, SVG$9.ROOM);
+		let object = this.validateConstructor(roomArg, SVG$10.ROOM);
 		if (object === false) throw new Error('Not a Room object!');
 
 		this.room = object;
@@ -1079,13 +1083,13 @@ class SVGRoom extends SVG$9 {
 
 var SVGRoom_1 = SVGRoom;
 
-let SVG$10 = SVG_1;
+let SVG$11 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given source object.
  * @author Spedwards
  */
-class SVGSource extends SVG$10 {
+class SVGSource extends SVG$11 {
 
 	/**
 	 * @author Spedwards
@@ -1093,7 +1097,7 @@ class SVGSource extends SVG$10 {
 	 */
 	constructor(source) {
 		super();
-		let object = this.validateConstructor(source, SVG$10.SOURCE);
+		let object = this.validateConstructor(source, SVG$11.SOURCE);
 		if (object === false) throw new Error('Not a Source object!');
 
 		this.source = object;
@@ -1129,13 +1133,13 @@ class SVGSource extends SVG$10 {
 
 var SVGSource_1 = SVGSource;
 
-let SVG$11 = SVG_1;
+let SVG$12 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given spawn object.
  * @author Spedwards
  */
-class SVGSpawn extends SVG$11 {
+class SVGSpawn extends SVG$12 {
 	
 	/**
 	 * @author Spedwards
@@ -1197,18 +1201,19 @@ class SVGSpawn extends SVG$11 {
 
 var SVGSpawn_1 = SVGSpawn;
 
-let SVG$12 = SVG_1;
+let SVG$13 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given tower object.
  * @author Spedwards
  */
-class SVGTower extends SVG$12 {
+class SVGTower extends SVG$13 {
 
 	/**
 	 * @author Spedwards
 	 * @param {StructureTower | string} tower - StructureTower object or ID string corrosponding to a StructureTower object.
 	 * @param {Number} [angle = 315] - The angle at which the tower will point.
+	 * @param {Boolean} [animated = false] - Whether or not you want the tower to be animated.
 	 */
 	constructor(tower, angle = 315, animated = false) {
 		super();
@@ -1275,6 +1280,7 @@ var index = {
 	Link: SVGLink_1,
 	Mineral: SVGMineral_1,
 	Nuker: SVGNuker_1,
+	Observer: SVGObserver_1,
 	Room: SVGRoom_1,
 	Source: SVGSource_1,
 	Spawn: SVGSpawn_1,
