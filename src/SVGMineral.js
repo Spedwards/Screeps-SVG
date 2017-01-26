@@ -32,7 +32,7 @@ class SVGMineral extends SVG {
 			return `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 150 150">` +
 					`<g transform="translate(75,75)">` +
 					`<ellipse rx="60" ry="60" cx="0" cy="0" fill="${COLOURS.background}" stroke="${COLOURS.foreground}" stroke-width="10" />` +
-					`<text font-size="82" x="0" y="28" fill="${COLOURS.foreground}">${this.mineralType}</text>` +
+					`<text font-size="82" font-weight="bold" text-anchor="middle" style="font-family: Roboto, serif" x="0" y="28" fill="${COLOURS.foreground}">${this.mineralType}</text>` +
 					`</g></svg>`;
 		}
 		return this.string;
