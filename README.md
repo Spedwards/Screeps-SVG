@@ -25,7 +25,7 @@ If you want to use the module globally you can assign it to `global.svg`.
 
 ```
 _.assign(global, {
-	svg: require('./screeps-svg')
+	svg: require('./screeps-svg'),
 });
 
 // Usage

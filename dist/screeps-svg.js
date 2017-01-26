@@ -622,10 +622,12 @@ class SVGExtension extends SVG$5 {
 		if (!this.string) {
 			const SVG_SIZE = 50;
 			
+			const BORDER_COLOUR = this.player === this.extension.owner.username ? `#8FBB93` : `#ED5557`;
+			
 			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 100 100">` +
 					`<g transform="translate(50,50)">` +
 					`<g>` +
-					`<ellipse rx="${this.getSize()}" ry="${this.getSize()}" cx="0" cy="0" fill="#181818" stroke-width="5" />`;
+					`<ellipse rx="${this.getSize()}" ry="${this.getSize()}" cx="0" cy="0" fill="#181818" stroke="${BORDER_COLOUR}" stroke-width="5" />`;
 			
 			if (this.extension.energy > 0) {
 				const ENERGY_RADIUS = 0.7 * this.getSize() * Math.min(this.extension.energy / this.extension.energyCapacity, 1);
@@ -689,10 +691,12 @@ class SVGLab extends SVG$6 {
 	toString() {
 		if (!this.string) {
 			const SVG_SIZE = 50;
+			
+			const BORDER_COLOUR = this.player === this.lab.owner.username ? `#8FBB93` : `#ED5557`;
 
 			let outStr = `<svg viewBox="0 0 120 120" height="${SVG_SIZE}" width="${SVG_SIZE}">` +
 				`<g transform="translate(60,55)">` +
-				`<path class="border" d="M 50 40 A 60 60 0 1 0 -50 40 V 63 H 50 Z" fill="#181818" stroke-width="5"/>` +
+				`<path d="M 50 40 A 60 60 0 1 0 -50 40 V 63 H 50 Z" fill="#181818" stroke="${BORDER_COLOUR}" stroke-width="5"/>` +
 				`<path d="M 36 33 A 46 43 0 1 0 -36 33 Z" fill="#555"/>`;
 
 			if (this.lab.mineralType) {
@@ -767,10 +771,12 @@ class SVGLink extends SVG$7 {
 			const SVG_SIZE = 50;
 
 			const ENERGY_SCALE = 0.6 * this.link.energy / this.link.energyCapacity;
+			
+			const BORDER_COLOUR = this.player === this.link.owner.username ? `#8FBB93` : `#ED5557`;
 
 			let outStr = `<svg class="link owner" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 150 150">` +
 				`<g opacity="1" transform="translate(50,50)"><g>` +
-				`<path class="border" d="M 0 -50 L 40 0 L 0 50 L -40 0 Z" fill="#181818" stroke-width="5" />` +
+				`<path d="M 0 -50 L 40 0 L 0 50 L -40 0 Z" fill="#181818" stroke="${BORDER_COLOUR}" stroke-width="5" />` +
 				`<path d="M 0 -50 L 40 0 L 0 50 L -40 0 Z" fill="#555" transform="scale(0.6 0.6)" />`;
 
 			if (this.link.energy > 0) {
@@ -818,10 +824,12 @@ class SVGNuker extends SVG$8 {
 		if (!this.string) {
 			const SVG_HEIGHT = 60;
 			const SVG_WIDTH = 40;
+			
+			const BORDER_COLOUR = this.player === this.nuker.owner.username ? `#8FBB93` : `#ED5557`;
 
 			let outStr = `<svg viewBox="0 0 120 180" height="${SVG_HEIGHT}" width="${SVG_WIDTH}">` +
 				`<g transform="translate(60,130)">` +
-				`<path d="M -60 50 L -53 0 L 0 -130 L 53 0 L 60 50 Z" fill="#181818" stroke-width="5"/>` +
+				`<path d="M -60 50 L -53 0 L 0 -130 L 53 0 L 60 50 Z" fill="#181818" stroke="${BORDER_COLOUR}" stroke-width="5"/>` +
 				`<path d="M -40 0 L 0 -100 L 40 0 Z" fill="#555"/>` +
 				`<rect fill="#555" height="15" width="80" x="-40" y="18"/>`;
 
@@ -1408,10 +1416,12 @@ class SVGTower extends SVG$14 {
 			const TANK_Y = -25;
 
 			const ENERGY_HEIGHT = 58 * this.tower.energy / this.tower.energyCapacity;
+			
+			const BORDER_COLOUR = this.player === this.tower.owner.username ? `#8FBB93` : `#ED5557`;
 
 			let outStr = `<svg class="tower owner" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 300 300">` +
 				`<g transform="translate(75,75)" opacity="1">` +
-				`<ellipse class="border" cx="0" cy="0" fill="#222" rx="65" ry="65" stroke-width="5" />` +
+				`<ellipse cx="0" cy="0" fill="#222" rx="65" ry="65" stroke="${BORDER_COLOUR}" stroke-width="5" />` +
 				`<g class="rotatable" transform="rotate(${RADIANS}rad)" style="transition: transform 2s;">` +
 				`<rect fill="#aaa" height="50" stroke-width="7" stroke="#181818" width="40" x="${BARREL_X}" y="${BARREL_Y}" />` +
 				`<rect fill="#555" height="58" rx="12" ry="10" width="78" x="${TANK_X}" y="${TANK_Y}" />`;

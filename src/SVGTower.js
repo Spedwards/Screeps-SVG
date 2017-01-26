@@ -40,10 +40,12 @@ class SVGTower extends SVG {
 			const TANK_Y = -25;
 
 			const ENERGY_HEIGHT = 58 * this.tower.energy / this.tower.energyCapacity;
+			
+			const BORDER_COLOUR = this.player === this.tower.owner.username ? `#8FBB93` : `#ED5557`;
 
 			let outStr = `<svg class="tower owner" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 300 300">` +
 				`<g transform="translate(75,75)" opacity="1">` +
-				`<ellipse class="border" cx="0" cy="0" fill="#222" rx="65" ry="65" stroke-width="5" />` +
+				`<ellipse cx="0" cy="0" fill="#222" rx="65" ry="65" stroke="${BORDER_COLOUR}" stroke-width="5" />` +
 				`<g class="rotatable" transform="rotate(${RADIANS}rad)" style="transition: transform 2s;">` +
 				`<rect fill="#aaa" height="50" stroke-width="7" stroke="#181818" width="40" x="${BARREL_X}" y="${BARREL_Y}" />` +
 				`<rect fill="#555" height="58" rx="12" ry="10" width="78" x="${TANK_X}" y="${TANK_Y}" />`;

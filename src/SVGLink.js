@@ -28,10 +28,12 @@ class SVGLink extends SVG {
 			const SVG_SIZE = 50;
 
 			const ENERGY_SCALE = 0.6 * this.link.energy / this.link.energyCapacity;
+			
+			const BORDER_COLOUR = this.player === this.link.owner.username ? `#8FBB93` : `#ED5557`;
 
 			let outStr = `<svg class="link owner" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 150 150">` +
 				`<g opacity="1" transform="translate(50,50)"><g>` +
-				`<path class="border" d="M 0 -50 L 40 0 L 0 50 L -40 0 Z" fill="#181818" stroke-width="5" />` +
+				`<path d="M 0 -50 L 40 0 L 0 50 L -40 0 Z" fill="#181818" stroke="${BORDER_COLOUR}" stroke-width="5" />` +
 				`<path d="M 0 -50 L 40 0 L 0 50 L -40 0 Z" fill="#555" transform="scale(0.6 0.6)" />`;
 
 			if (this.link.energy > 0) {

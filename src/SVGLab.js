@@ -29,10 +29,12 @@ class SVGLab extends SVG {
 	toString() {
 		if (!this.string) {
 			const SVG_SIZE = 50;
+			
+			const BORDER_COLOUR = this.player === this.lab.owner.username ? `#8FBB93` : `#ED5557`;
 
 			let outStr = `<svg viewBox="0 0 120 120" height="${SVG_SIZE}" width="${SVG_SIZE}">` +
 				`<g transform="translate(60,55)">` +
-				`<path class="border" d="M 50 40 A 60 60 0 1 0 -50 40 V 63 H 50 Z" fill="#181818" stroke-width="5"/>` +
+				`<path d="M 50 40 A 60 60 0 1 0 -50 40 V 63 H 50 Z" fill="#181818" stroke="${BORDER_COLOUR}" stroke-width="5"/>` +
 				`<path d="M 36 33 A 46 43 0 1 0 -36 33 Z" fill="#555"/>`;
 
 			if (this.lab.mineralType) {

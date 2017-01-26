@@ -28,10 +28,12 @@ class SVGNuker extends SVG {
 		if (!this.string) {
 			const SVG_HEIGHT = 60;
 			const SVG_WIDTH = 40;
+			
+			const BORDER_COLOUR = this.player === this.nuker.owner.username ? `#8FBB93` : `#ED5557`;
 
 			let outStr = `<svg viewBox="0 0 120 180" height="${SVG_HEIGHT}" width="${SVG_WIDTH}">` +
 				`<g transform="translate(60,130)">` +
-				`<path d="M -60 50 L -53 0 L 0 -130 L 53 0 L 60 50 Z" fill="#181818" stroke-width="5"/>` +
+				`<path d="M -60 50 L -53 0 L 0 -130 L 53 0 L 60 50 Z" fill="#181818" stroke="${BORDER_COLOUR}" stroke-width="5"/>` +
 				`<path d="M -40 0 L 0 -100 L 40 0 Z" fill="#555"/>` +
 				`<rect fill="#555" height="15" width="80" x="-40" y="18"/>`;
 

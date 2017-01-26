@@ -27,10 +27,12 @@ class SVGExtension extends SVG {
 		if (!this.string) {
 			const SVG_SIZE = 50;
 			
+			const BORDER_COLOUR = this.player === this.extension.owner.username ? `#8FBB93` : `#ED5557`;
+			
 			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 100 100">` +
 					`<g transform="translate(50,50)">` +
 					`<g>` +
-					`<ellipse rx="${this.getSize()}" ry="${this.getSize()}" cx="0" cy="0" fill="#181818" stroke-width="5" />`;
+					`<ellipse rx="${this.getSize()}" ry="${this.getSize()}" cx="0" cy="0" fill="#181818" stroke="${BORDER_COLOUR}" stroke-width="5" />`;
 			
 			if (this.extension.energy > 0) {
 				const ENERGY_RADIUS = 0.7 * this.getSize() * Math.min(this.extension.energy / this.extension.energyCapacity, 1);
