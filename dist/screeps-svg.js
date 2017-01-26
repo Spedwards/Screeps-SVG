@@ -91,7 +91,11 @@ class SVG$1 {
 			}
 			
 			if (mineral instanceof Mineral) {
-				return mineral;
+				return mineral.mineralType;
+			}
+			
+			if (_.includes(['H', 'O', 'U', 'L', 'K', 'Z', 'X'], object)) {
+				return object;
 			}
 			return false;
 		} else {
@@ -134,7 +138,7 @@ class SVGMineral$1 extends SVG$2 {
 		let object = this.validateConstructor(mineral, SVG$2.MINERAL);
 		if (object === false) throw new Error('Not a Mineral object!');
 		
-		this.mineral = object;
+		this.mineralType = object;
 		this.string = this.toString();
 	}
 	
@@ -151,7 +155,7 @@ class SVGMineral$1 extends SVG$2 {
 			return `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 150 150">` +
 					`<g transform="translate(75,75)">` +
 					`<ellipse rx="60" ry="60" cx="0" cy="0" fill="${COLOURS.background}" stroke="${COLOURS.foreground}" stroke-width="10" />` +
-					`<text font-size="82" x="0" y="28" fill="${COLOURS.foreground}">${this.mineral.mineralType}</text>` +
+					`<text font-size="82" x="0" y="28" fill="${COLOURS.foreground}">${this.mineralType}</text>` +
 					`</g></svg>`;
 		}
 		return this.string;
@@ -162,7 +166,7 @@ class SVGMineral$1 extends SVG$2 {
 	 * @returns {Object}
 	 */
 	getColours() {
-		switch(this.mineral.mineralType) {
+		switch(this.mineralType) {
 			case RESOURCE_CATALYST:
 				return {
 					foreground: '#FF7A7A',

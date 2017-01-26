@@ -89,7 +89,11 @@ class SVG {
 			}
 			
 			if (mineral instanceof Mineral) {
-				return mineral;
+				return mineral.mineralType;
+			}
+			
+			if (_.includes(['H', 'O', 'U', 'L', 'K', 'Z', 'X'], object)) {
+				return object;
 			}
 			return false;
 		} else {
