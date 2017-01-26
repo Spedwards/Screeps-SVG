@@ -1,5 +1,6 @@
 module.exports = {
 	Container: require('./SVGContainer'),
+	Controller: require('./SVGController'),
 	Creep: require('./SVGCreep'),
 	Lab: require('./SVGLab'),
 	Link: require('./SVGLink'),
