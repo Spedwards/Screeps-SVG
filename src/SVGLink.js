@@ -51,4 +51,8 @@ class SVGLink extends SVG {
 
 }
 
+StructureLink.prototype.display = function(size = 50) {
+	console.log(new SVGLink(this, size));
+};
+
 module.exports = SVGLink;

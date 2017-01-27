@@ -46,4 +46,8 @@ class SVGObserver extends SVG {
 	
 }
 
+StructureObserver.prototype.display = function(size = 50) {
+	console.log(new SVGObserver(this, size));
+};
+
 module.exports = SVGObserver;

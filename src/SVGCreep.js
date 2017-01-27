@@ -128,4 +128,8 @@ class SVGCreep extends SVG {
 
 }
 
+Creep.prototype.display = function() {
+	console.log(new SVGCreep(this));
+};
+
 module.exports = SVGCreep;

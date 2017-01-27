@@ -102,4 +102,8 @@ class SVGResource extends SVG {
 	
 }
 
+Resource.prototype.display = function() {
+	console.log(new SVGResource(this.resourceType, this.amount));
+};
+
 module.exports = SVGResource;

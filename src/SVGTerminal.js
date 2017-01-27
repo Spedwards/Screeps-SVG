@@ -56,4 +56,8 @@ class SVGTerminal extends SVGStorageObject {
 
 }
 
+StructureTerminal.prototype.display = function(size = 50) {
+	console.log(new SVGTerminal(this, size));
+};
+
 module.exports = SVGTerminal;

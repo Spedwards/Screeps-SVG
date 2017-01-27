@@ -145,4 +145,8 @@ class SVGController extends SVG {
 	
 }
 
+StructureController.prototype.display = function(size = 60) {
+	console.log(new SVGController(this, size));
+};
+
 module.exports = SVGController;

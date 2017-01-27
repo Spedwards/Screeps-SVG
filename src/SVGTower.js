@@ -70,4 +70,8 @@ class SVGTower extends SVG {
 
 }
 
+StructureTower.prototype.display = function(size = 50) {
+	console.log(new SVGTower(this, 315, false, size));
+};
+
 module.exports = SVGTower;

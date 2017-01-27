@@ -79,4 +79,8 @@ class SVGLab extends SVG {
 
 }
 
+StructureLab.prototype.display = function(size = 50) {
+	console.log(new SVGLab(this, true, size));
+};
+
 module.exports = SVGLab;

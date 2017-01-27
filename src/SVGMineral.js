@@ -81,4 +81,8 @@ class SVGMineral extends SVG {
 
 }
 
+Mineral.prototype.display = function(size = 50) {
+	console.log(new SVGMineral(this, size));
+};
+
 module.exports = SVGMineral;

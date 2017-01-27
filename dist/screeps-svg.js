@@ -225,6 +225,10 @@ class SVGResource$1 extends SVG$2 {
 	
 }
 
+Resource.prototype.display = function() {
+	console.log(new SVGResource$1(this.resourceType, this.amount));
+};
+
 var SVGResource_1 = SVGResource$1;
 
 let SVG = SVG_1;
@@ -334,6 +338,10 @@ class SVGContainer extends SVGStorageObject {
 	}
 	
 }
+
+StructureContainer.prototype.display = function(size = 40) {
+	console.log(new SVGContainer(this, size));
+};
 
 var SVGContainer_1 = SVGContainer;
 
@@ -484,6 +492,10 @@ class SVGController extends SVG$3 {
 	
 }
 
+StructureController.prototype.display = function(size = 60) {
+	console.log(new SVGController(this, size));
+};
+
 var SVGController_1 = SVGController;
 
 let SVG$4 = SVG_1;
@@ -616,6 +628,10 @@ class SVGCreep extends SVG$4 {
 
 }
 
+Creep.prototype.display = function() {
+	console.log(new SVGCreep(this));
+};
+
 var SVGCreep_1 = SVGCreep;
 
 let SVG$5 = SVG_1;
@@ -684,6 +700,10 @@ class SVGExtension extends SVG$5 {
 	}
 	
 }
+
+StructureExtension.prototype.display = function(size = 50) {
+	console.log(new SVGExtension(this, size));
+};
 
 var SVGExtension_1 = SVGExtension;
 
@@ -770,6 +790,10 @@ class SVGMineral$1 extends SVG$7 {
 
 }
 
+Mineral.prototype.display = function(size = 50) {
+	console.log(new SVGMineral$1(this, size));
+};
+
 var SVGMineral_1 = SVGMineral$1;
 
 let SVG$6 = SVG_1;
@@ -827,6 +851,11 @@ class SVGExtractor extends SVG$6 {
 	}
 	
 }
+
+StructureExtractor.prototype.display = function(size = 50) {
+	let [mineral] = this.room.find(FIND_MINERALS);
+	console.log(new SVGExtractor(this, mineral, size));
+};
 
 var SVGExtractor_1 = SVGExtractor;
 
@@ -957,6 +986,10 @@ class SVGLab extends SVG$9 {
 
 }
 
+StructureLab.prototype.display = function(size = 50) {
+	console.log(new SVGLab(this, true, size));
+};
+
 var SVGLab_1 = SVGLab;
 
 let SVG$10 = SVG_1;
@@ -1011,6 +1044,10 @@ class SVGLink extends SVG$10 {
 	}
 
 }
+
+StructureLink.prototype.display = function(size = 50) {
+	console.log(new SVGLink(this, size));
+};
 
 var SVGLink_1 = SVGLink;
 
@@ -1073,6 +1110,10 @@ class SVGNuker extends SVG$11 {
 
 }
 
+StructureNuker.prototype.display = function(size = 60) {
+	console.log(new SVGNuker(this, size));
+};
+
 var SVGNuker_1 = SVGNuker;
 
 let SVG$12 = SVG_1;
@@ -1123,6 +1164,10 @@ class SVGObserver extends SVG$12 {
 	
 }
 
+StructureObserver.prototype.display = function(size = 50) {
+	console.log(new SVGObserver(this, size));
+};
+
 var SVGObserver_1 = SVGObserver;
 
 let SVG$13 = SVG_1;
@@ -1170,6 +1215,10 @@ class SVGPowerBank extends SVG$13 {
 	}
 	
 }
+
+StructurePowerBank.prototype.display = function(size = 50) {
+	console.log(new SVGPowerBank(this, size));
+};
 
 var SVGPowerBank_1 = SVGPowerBank;
 
@@ -1233,6 +1282,10 @@ class SVGPowerSpawn extends SVG$14 {
 	}
 	
 }
+
+StructurePowerSpawn.prototype.display = function(size = 50) {
+	console.log(new SVGPowerSpawn(this, size));
+};
 
 var SVGPowerSpawn_1 = SVGPowerSpawn;
 
@@ -1300,6 +1353,10 @@ class SVGStorage$1 extends SVGStorageObject$2 {
 
 }
 
+StructureStorage.prototype.display = function(size = 50) {
+	console.log(new SVGStorage$1(this, size));
+};
+
 var SVGStorage_1 = SVGStorage$1;
 
 let SVGStorageObject$3 = SVGStorageObject_1;
@@ -1360,6 +1417,10 @@ class SVGTerminal$1 extends SVGStorageObject$3 {
 
 }
 
+StructureTerminal.prototype.display = function(size = 50) {
+	console.log(new SVGTerminal$1(this, size));
+};
+
 var SVGTerminal_1 = SVGTerminal$1;
 
 let SVG$15 = SVG_1;
@@ -1377,13 +1438,15 @@ class SVGRoom extends SVG$15 {
 	/**
 	 * @author Spedwards
 	 * @param {Room | string} roomArg - Room object or valid room name.
+	 * @param {Number} [size = 60] - SVG size.
 	 */
-	constructor(roomArg) {
+	constructor(roomArg, size = 60) {
 		super();
 		let object = this.validateConstructor(roomArg, SVG$15.ROOM);
 		if (object === false) throw new Error('Not a Room object!');
 
 		this.room = object;
+		this.size = typeof size === 'number' ? size : 60;
 		this.string = this.toString();
 	}
 
@@ -1483,7 +1546,7 @@ class SVGRoom extends SVG$15 {
 				`<span style="background-color:#000" class="tip">`;
 
 			if (storage) {
-				storageSVG = new SVGStorage(storage);
+				storageSVG = new SVGStorage(storage, this.size);
 				outStr += storageSVG.getContents();
 			} else {
 				outStr += `No Storage Built`;
@@ -1504,7 +1567,7 @@ class SVGRoom extends SVG$15 {
 				`<span style="background-color:#000" class="tip">`;
 
 			if (terminal) {
-				terminalSVG = new SVGTerminal(terminal);
+				terminalSVG = new SVGTerminal(terminal, this.size);
 				outStr += terminalSVG.getContents();
 			} else {
 				outStr += `No Terminal Built`;
@@ -1530,6 +1593,10 @@ class SVGRoom extends SVG$15 {
 	}
 
 }
+
+Room.prototype.display = function(size = 60) {
+	console.log(new SVGRoom(this, size));
+};
 
 var SVGRoom_1 = SVGRoom;
 
@@ -1582,6 +1649,10 @@ class SVGSource extends SVG$16 {
 	}
 
 }
+
+Source.prototype.display = function(size = 40) {
+	console.log(new SVGSource(this, size));
+};
 
 var SVGSource_1 = SVGSource;
 
@@ -1651,6 +1722,10 @@ class SVGSpawn extends SVG$17 {
 	}
 	
 }
+
+StructureSpawn.prototype.display = function(size = 50) {
+	console.log(new SVGSpawn(this, size));
+};
 
 var SVGSpawn_1 = SVGSpawn;
 
@@ -1725,6 +1800,10 @@ class SVGTower extends SVG$18 {
 	}
 
 }
+
+StructureTower.prototype.display = function(size = 50) {
+	console.log(new SVGTower(this, 315, false, size));
+};
 
 var SVGTower_1 = SVGTower;
 

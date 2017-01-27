@@ -13,13 +13,15 @@ class SVGRoom extends SVG {
 	/**
 	 * @author Spedwards
 	 * @param {Room | string} roomArg - Room object or valid room name.
+	 * @param {Number} [size = 60] - SVG size.
 	 */
-	constructor(roomArg) {
+	constructor(roomArg, size = 60) {
 		super();
 		let object = this.validateConstructor(roomArg, SVG.ROOM);
 		if (object === false) throw new Error('Not a Room object!');
 
 		this.room = object;
+		this.size = typeof size === 'number' ? size : 60;
 		this.string = this.toString();
 	}
 
@@ -119,7 +121,7 @@ class SVGRoom extends SVG {
 				`<span style="background-color:#000" class="tip">`;
 
 			if (storage) {
-				storageSVG = new SVGStorage(storage);
+				storageSVG = new SVGStorage(storage, this.size);
 				outStr += storageSVG.getContents();
 			} else {
 				outStr += `No Storage Built`;
@@ -140,7 +142,7 @@ class SVGRoom extends SVG {
 				`<span style="background-color:#000" class="tip">`;
 
 			if (terminal) {
-				terminalSVG = new SVGTerminal(terminal);
+				terminalSVG = new SVGTerminal(terminal, this.size);
 				outStr += terminalSVG.getContents();
 			} else {
 				outStr += `No Terminal Built`;
@@ -166,5 +168,9 @@ class SVGRoom extends SVG {
 	}
 
 }
+
+Room.prototype.display = function(size = 60) {
+	console.log(new SVGRoom(this, size));
+};
 
 module.exports = SVGRoom;

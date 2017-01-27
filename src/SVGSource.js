@@ -48,4 +48,8 @@ class SVGSource extends SVG {
 
 }
 
+Source.prototype.display = function(size = 40) {
+	console.log(new SVGSource(this, size));
+};
+
 module.exports = SVGSource;

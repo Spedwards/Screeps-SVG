@@ -65,4 +65,8 @@ class SVGExtension extends SVG {
 	
 }
 
+StructureExtension.prototype.display = function(size = 50) {
+	console.log(new SVGExtension(this, size));
+};
+
 module.exports = SVGExtension;

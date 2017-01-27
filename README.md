@@ -37,6 +37,13 @@ let linkSVG = new global.svg.Link(LINK_ID);
 console.log(linkSVG);
 ```
 
+For basic displays, the following works as well.
+
+```
+let link = Game.getObjectById(LINK_ID);
+link.display();
+```
+
 ![Demo Outputs](demo.png)
 
 ## Contribute
