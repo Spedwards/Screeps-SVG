@@ -1,7 +1,15 @@
 let SVG = require('./SVG');
 
+/**
+ * Returns a html/svg string representation of the given power bank object.
+ * @author Spedwards
+ */
 class SVGPowerBank extends SVG {
 	
+	/**
+	 * @author Spedwards
+	 * @param {StructurePowerBank | string} powerBank - StructurePowerBank object or ID string corrosponding to a StructurePowerBank object.
+	 */
 	constructor(powerBank) {
 		super();
 		let object = this.validateConstructor(powerBank, STRUCTURE_POWER_BANK);
@@ -11,6 +19,10 @@ class SVGPowerBank extends SVG {
 		this.string = this.toString();
 	}
 	
+	/**
+	 * @author Spedwards
+	 * @returns {string}
+	 */
 	toString() {
 		if (!this.string) {
 			const SVG_SIZE = 50;
