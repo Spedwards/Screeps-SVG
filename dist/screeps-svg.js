@@ -659,11 +659,55 @@ var SVGExtension_1 = SVGExtension;
 let SVG$6 = SVG_1;
 
 /**
+ * Returns a html/svg string representation of a keeper lair.
+ */
+class SVGKeeperLair extends SVG$6 {
+	
+	/**
+	 * @author Spedwards
+	 */
+	constructor() {
+		super();
+		
+		this.string = this.toString();
+	}
+	
+	/**
+	 * @author Spedwards
+	 * @returns {string}
+	 */
+	toString() {
+		if (!this.string) {
+			const SVG_SIZE = 50;
+			
+			return `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 80 80">` +
+					`<g transform="translate(40,40)">` +
+					`<g>` +
+					`<ellipse rx="40" ry="40" cx="0" cy="0" fill="#000000" />` +
+					`<ellipse rx="33" ry="33" cx="0" cy="0" fill="#780207">` +
+					`<animateTransform attributeName="transform" attributeType="XML" dur="2s" repeatCount="indefinite" type="scale" values="0 0;1 1;1 1" calcMode="linear" />` +
+					`<animate attributeName="fill" dur="2s" repeatCount="indefinite" values="#780207; #000000" />` +
+					`</ellipse>` +
+					`<ellipse rx="33" ry="33" cx="0" cy="0" fill="#000000">` +
+					`<animateTransform attributeName="transform" attributeType="XML" dur="2s" repeatCount="indefinite" type="scale" values="0 0;0.3 0.3;1 1" calcMode="linear" />` +
+					`</ellipse>` +
+					`</g></g></svg>`;
+		}
+		return this.string;
+	}
+	
+}
+
+var SVGKeeperLair_1 = SVGKeeperLair;
+
+let SVG$7 = SVG_1;
+
+/**
  * Returns a html/svg string representation of the given lab object.
  * @author Enrico
  * @author Spedwards
  */
-class SVGLab extends SVG$6 {
+class SVGLab extends SVG$7 {
 
 	/**
 	 * @author Spedwards
@@ -737,13 +781,13 @@ class SVGLab extends SVG$6 {
 
 var SVGLab_1 = SVGLab;
 
-let SVG$7 = SVG_1;
+let SVG$8 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given link object.
  * @author Spedwards
  */
-class SVGLink extends SVG$7 {
+class SVGLink extends SVG$8 {
 
 	/**
 	 * @author Spedwards
@@ -790,14 +834,14 @@ class SVGLink extends SVG$7 {
 
 var SVGLink_1 = SVGLink;
 
-let SVG$8 = SVG_1;
+let SVG$9 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given nuker object.
  * @author Enrico
  * @author Spedwards
  */
-class SVGNuker extends SVG$8 {
+class SVGNuker extends SVG$9 {
 
 	/**
 	 * @author Spedwards
@@ -850,13 +894,13 @@ class SVGNuker extends SVG$8 {
 
 var SVGNuker_1 = SVGNuker;
 
-let SVG$9 = SVG_1;
+let SVG$10 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given observer object.
  * @author Spedwards
  */
-class SVGObserver extends SVG$9 {
+class SVGObserver extends SVG$10 {
 	
 	/**
 	 * @author Spedwards
@@ -898,13 +942,13 @@ class SVGObserver extends SVG$9 {
 
 var SVGObserver_1 = SVGObserver;
 
-let SVG$10 = SVG_1;
+let SVG$11 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given power bank object.
  * @author Spedwards
  */
-class SVGPowerBank extends SVG$10 {
+class SVGPowerBank extends SVG$11 {
 	
 	/**
 	 * @author Spedwards
@@ -944,13 +988,13 @@ class SVGPowerBank extends SVG$10 {
 
 var SVGPowerBank_1 = SVGPowerBank;
 
-let SVG$11 = SVG_1;
+let SVG$12 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given spawn object.
  * @author Spedwards
  */
-class SVGPowerSpawn extends SVG$11 {
+class SVGPowerSpawn extends SVG$12 {
 	
 	/**
 	 * @author Spedwards
@@ -1005,7 +1049,7 @@ class SVGPowerSpawn extends SVG$11 {
 
 var SVGPowerSpawn_1 = SVGPowerSpawn;
 
-let SVG$12 = SVG_1;
+let SVG$13 = SVG_1;
 
 /**
  * Takes a resource type constant as input and
@@ -1014,7 +1058,7 @@ let SVG$12 = SVG_1;
  * @author Helam
  * @author Spedwards
  */
-class SVGResource$1 extends SVG$12 {
+class SVGResource$1 extends SVG$13 {
 	
 	/**
 	 * @author Spedwards
@@ -1234,7 +1278,7 @@ class SVGTerminal$1 extends SVGStorageObject$3 {
 
 var SVGTerminal_1 = SVGTerminal$1;
 
-let SVG$13 = SVG_1;
+let SVG$14 = SVG_1;
 let SVGStorage = SVGStorage_1;
 let SVGTerminal = SVGTerminal_1;
 
@@ -1244,7 +1288,7 @@ let SVGTerminal = SVGTerminal_1;
  * @author Dragnar
  * @author Spedwards
  */
-class SVGRoom extends SVG$13 {
+class SVGRoom extends SVG$14 {
 
 	/**
 	 * @author Spedwards
@@ -1252,7 +1296,7 @@ class SVGRoom extends SVG$13 {
 	 */
 	constructor(roomArg) {
 		super();
-		let object = this.validateConstructor(roomArg, SVG$13.ROOM);
+		let object = this.validateConstructor(roomArg, SVG$14.ROOM);
 		if (object === false) throw new Error('Not a Room object!');
 
 		this.room = object;
@@ -1405,13 +1449,13 @@ class SVGRoom extends SVG$13 {
 
 var SVGRoom_1 = SVGRoom;
 
-let SVG$14 = SVG_1;
+let SVG$15 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given source object.
  * @author Spedwards
  */
-class SVGSource extends SVG$14 {
+class SVGSource extends SVG$15 {
 
 	/**
 	 * @author Spedwards
@@ -1419,7 +1463,7 @@ class SVGSource extends SVG$14 {
 	 */
 	constructor(source) {
 		super();
-		let object = this.validateConstructor(source, SVG$14.SOURCE);
+		let object = this.validateConstructor(source, SVG$15.SOURCE);
 		if (object === false) throw new Error('Not a Source object!');
 
 		this.source = object;
@@ -1455,13 +1499,13 @@ class SVGSource extends SVG$14 {
 
 var SVGSource_1 = SVGSource;
 
-let SVG$15 = SVG_1;
+let SVG$16 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given spawn object.
  * @author Spedwards
  */
-class SVGSpawn extends SVG$15 {
+class SVGSpawn extends SVG$16 {
 	
 	/**
 	 * @author Spedwards
@@ -1522,13 +1566,13 @@ class SVGSpawn extends SVG$15 {
 
 var SVGSpawn_1 = SVGSpawn;
 
-let SVG$16 = SVG_1;
+let SVG$17 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given tower object.
  * @author Spedwards
  */
-class SVGTower extends SVG$16 {
+class SVGTower extends SVG$17 {
 
 	/**
 	 * @author Spedwards
@@ -1599,6 +1643,7 @@ var index = {
 	Controller: SVGController_1,
 	Creep: SVGCreep_1,
 	Extension: SVGExtension_1,
+	KeeperLair: SVGKeeperLair_1,
 	Lab: SVGLab_1,
 	Link: SVGLink_1,
 	Mineral: SVGMineral_1,

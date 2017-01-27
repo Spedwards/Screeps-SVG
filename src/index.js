@@ -3,6 +3,7 @@ module.exports = {
 	Controller: require('./SVGController'),
 	Creep: require('./SVGCreep'),
 	Extension: require('./SVGExtension'),
+	KeeperLair: require('./SVGKeeperLair'),
 	Lab: require('./SVGLab'),
 	Link: require('./SVGLink'),
 	Mineral: require('./SVGMineral'),
