@@ -1,5 +1,5 @@
 let SVG = require('./SVG');
-let SVGMineral = require('./SVGMineral');
+let SVGResource = require('./SVGResource');
 
 /**
  * Acts as the parent to SVGStorage and SVGTerminal.

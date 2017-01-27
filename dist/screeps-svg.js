@@ -124,89 +124,112 @@ var SVG_1 = SVG$1;
 let SVG$2 = SVG_1;
 
 /**
- * Returns a html/svg string representation of the given mineral object.
+ * Takes a resource type constant as input and
+ * returns the html/svg string for the icon of
+ * that resource upon calling `.toString()`
+ * @author Helam
  * @author Spedwards
  */
-class SVGMineral$1 extends SVG$2 {
+class SVGResource$1 extends SVG$2 {
 	
 	/**
 	 * @author Spedwards
-	 * @param {Mineral | string} mineral - Mineral object, mineral type, or ID string corrosponding to a Mineral object.
-	 * @param {Number} [size = 50] - SVG size.
+	 * @param {string} resourceType
+	 * @param {Number | Boolean} [amount = 0] - 0 by default, pass false to hide it
 	 */
-	constructor(mineral, size = 50) {
+	constructor(resourceType, amount = 0) {
 		super();
-		let object = this.validateConstructor(mineral, SVG$2.MINERAL);
-		if (object === false) throw new Error('Not a Mineral object!');
+		if (typeof resourceType !== 'string') throw new Error('Resource is not a String!');
+		if (!Number.isInteger(amount)) throw new Error('Amount is not an Integer!');
 		
-		this.mineralType = object;
-		this.size = typeof size === 'number' ? size : 50;
+		this.resourceType = resourceType;
+		this.amount = amount;
 		this.string = this.toString();
 	}
 	
 	/**
-	 * @author Spedwards
+	 * @author Helam
 	 * @returns {string}
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = this.size;
+			let length = Math.max(1, Math.ceil(Math.log10(this.amount + 1)));
+			let amountWidth = length * 10 + 5;
 			
-			const COLOURS = this.getColours();
+			if (this.amount === false) {
+				amountWidth = 0;
+			}
 			
-			return `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 150 150">` +
-					`<g transform="translate(75,75)">` +
-					`<ellipse rx="60" ry="60" cx="0" cy="0" fill="${COLOURS.background}" stroke="${COLOURS.foreground}" stroke-width="10" />` +
-					`<text font-size="82" font-weight="bold" text-anchor="middle" style="font-family: Roboto, serif" x="0" y="28" fill="${COLOURS.foreground}">${this.mineralType}</text>` +
-					`</g></svg>`;
+			let textDisplacement = 14;
+			let finalWidth = 14 + amountWidth;
+			
+			let outStr = `<svg width="!!" height="14">`;
+			
+			if (this.resourceType === RESOURCE_ENERGY) {
+				outStr += `<circle cx="7" cy="7" r="5" style="fill:#FEE476"/>`;
+			} else if (this.resourceType === RESOURCE_POWER) {
+				outStr += `<circle cx="7" cy="7" r="5" style="fill:#F1243A"/>`;
+			} else {
+				const BASE_MINERALS = {
+					[undefined]: {back: `#fff`, front: `#000`},
+					[RESOURCE_HYDROGEN]: {back: `#4B4B4B`, front: `#989898`},
+					[RESOURCE_OXYGEN]: {back: `#4B4B4B`, front: `#989898`},
+					[RESOURCE_UTRIUM]: {back: `#0A5D7C`, front: `#48C5E5`},
+					[RESOURCE_LEMERGIUM]: {back: `#265C42`, front: `#24D490`},
+					[RESOURCE_KEANIUM]: {back: `#371A80`, front: `#9269EC`},
+					[RESOURCE_ZYNTHIUM]: {back: `#58482D`, front: `#D9B478`},
+					[RESOURCE_CATALYST]: {back: `#572122`, front: `#F26D6F`},
+				};
+				
+				const COMPOUNDS = {
+					U: {back: `#58D7F7`, front: `#157694`},
+					L: {back: `#29F4A5`, front: `#22815A`},
+					K: {back: `#9F76FC`, front: `#482794`},
+					Z: {back: `#FCD28D`, front: `#7F6944`},
+					G: {back: `#FFFFFF`, front: `#767676`},
+					O: {back: `#99ccff`, front: `#000066`},
+					H: {back: `#99ccff`, front: `#000066`},
+				};
+				
+				let colours = BASE_MINERALS[this.resourceType];
+				
+				if (colours) {
+					outStr += `<circle cx="7" cy="7" r="5" style="stroke-width:1;stroke:${colours.front};fill:${colours.back}"/>` +
+						`<text x="7" y="8" font-family="Verdana" font-size="8" alignment-baseline="middle" text-anchor="middle" style="fill:${colours.front};font-weight:bold;">${this.resourceType === undefined ? '?' : this.resourceType}</text>`;
+				} else {
+					let compoundType = ['U', 'L', 'K', 'Z', 'G', 'H', 'O'].find(type => resourceType.indexOf(type) !== -1);
+					colours = COMPOUNDS[compoundType];
+					if (colours) {
+						let width = this.resourceType.length * 9;
+						finalWidth += width;
+						textDisplacement += width;
+						outStr += `<rect x="0" y="0" width="${width}" height="14" style="fill:${colours.back}"/>` +
+							`<text x="${width / 2.0}" y="8" font-family="Verdana" font-size="8" alignment-baseline="middle" text-anchor="middle" style="fill:${colours.front};font-weight:bold;">${this.resourceType}</text>`;
+					} else {
+						throw new Error(`Invalid resource type ${this.resourceType} in SVGResource!`);
+					}
+				}
+			}
+			
+			if (this.amount !== false) {
+				outStr += `<text font-family="Verdana" font-size="10" x="${textDisplacement + amountWidth/2}" y="8" alignment-baseline="middle" text-anchor="middle" style="fill:white"> x ${this.amount.toLocaleString()}</text>`;
+			}
+			outStr += `</svg>`;
+			
+			outStr = outStr.split('!!').join(finalWidth);
+			
+			return outStr;
 		}
 		return this.string;
 	}
 	
-	/**
-	 * Get mineral colours.
-	 * @returns {Object}
-	 */
-	getColours() {
-		switch(this.mineralType) {
-			case RESOURCE_CATALYST:
-				return {
-					foreground: '#FF7A7A',
-					background: '#4F2626',
-				};
-			case RESOURCE_KEANIUM:
-				return {
-					foreground: '#9370FF',
-					background: '#331A80',
-				};
-			case RESOURCE_LEMERGIUM:
-				return {
-					foreground: '#89F4A5',
-					background: '#3F6147',
-				};
-			case RESOURCE_UTRIUM:
-				return {
-					foreground: '#88D6F7',
-					background: '#1B617F',
-				};
-			case RESOURCE_ZYNTHIUM:
-				return {
-					foreground: '#F2D28B',
-					background: '#594D33',
-				};
-			default:
-				return {
-					foreground: '#CCCCCC',
-					background: '#4D4D4D',
-				};
-		}
-	}
-
 }
 
-var SVGMineral_1 = SVGMineral$1;
+var SVGResource_1 = SVGResource$1;
 
 let SVG = SVG_1;
+let SVGResource = SVGResource_1;
+
 /**
  * Acts as the parent to SVGStorage and SVGTerminal.
  * @author Helam
@@ -664,8 +687,93 @@ class SVGExtension extends SVG$5 {
 
 var SVGExtension_1 = SVGExtension;
 
+let SVG$7 = SVG_1;
+
+/**
+ * Returns a html/svg string representation of the given mineral object.
+ * @author Spedwards
+ */
+class SVGMineral$1 extends SVG$7 {
+	
+	/**
+	 * @author Spedwards
+	 * @param {Mineral | string} mineral - Mineral object, mineral type, or ID string corrosponding to a Mineral object.
+	 * @param {Number} [size = 50] - SVG size.
+	 */
+	constructor(mineral, size = 50) {
+		super();
+		let object = this.validateConstructor(mineral, SVG$7.MINERAL);
+		if (object === false) throw new Error('Not a Mineral object!');
+		
+		this.mineralType = object;
+		this.size = typeof size === 'number' ? size : 50;
+		this.string = this.toString();
+	}
+	
+	/**
+	 * @author Spedwards
+	 * @returns {string}
+	 */
+	toString() {
+		if (!this.string) {
+			const SVG_SIZE = this.size;
+			
+			const COLOURS = this.getColours();
+			
+			return `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 150 150">` +
+					`<g transform="translate(75,75)">` +
+					`<ellipse rx="60" ry="60" cx="0" cy="0" fill="${COLOURS.background}" stroke="${COLOURS.foreground}" stroke-width="10" />` +
+					`<text font-size="82" font-weight="bold" text-anchor="middle" style="font-family: Roboto, serif" x="0" y="28" fill="${COLOURS.foreground}">${this.mineralType}</text>` +
+					`</g></svg>`;
+		}
+		return this.string;
+	}
+	
+	/**
+	 * Get mineral colours.
+	 * @returns {Object}
+	 */
+	getColours() {
+		switch(this.mineralType) {
+			case RESOURCE_CATALYST:
+				return {
+					foreground: '#FF7A7A',
+					background: '#4F2626',
+				};
+			case RESOURCE_KEANIUM:
+				return {
+					foreground: '#9370FF',
+					background: '#331A80',
+				};
+			case RESOURCE_LEMERGIUM:
+				return {
+					foreground: '#89F4A5',
+					background: '#3F6147',
+				};
+			case RESOURCE_UTRIUM:
+				return {
+					foreground: '#88D6F7',
+					background: '#1B617F',
+				};
+			case RESOURCE_ZYNTHIUM:
+				return {
+					foreground: '#F2D28B',
+					background: '#594D33',
+				};
+			default:
+				return {
+					foreground: '#CCCCCC',
+					background: '#4D4D4D',
+				};
+		}
+	}
+
+}
+
+var SVGMineral_1 = SVGMineral$1;
+
 let SVG$6 = SVG_1;
-let SVGMineral$2 = SVGMineral_1;
+let SVGMineral = SVGMineral_1;
 
 /**
  * Returns a html/svg string representation of the given extractor object.
@@ -686,7 +794,7 @@ class SVGExtractor extends SVG$6 {
 		
 		this.extractor = object;
 		if (mineral) {
-			this.mineral = new SVGMineral$2(mineral);
+			this.mineral = new SVGMineral(mineral);
 		}
 		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
@@ -722,12 +830,12 @@ class SVGExtractor extends SVG$6 {
 
 var SVGExtractor_1 = SVGExtractor;
 
-let SVG$7 = SVG_1;
+let SVG$8 = SVG_1;
 
 /**
  * Returns a html/svg string representation of a keeper lair.
  */
-class SVGKeeperLair extends SVG$7 {
+class SVGKeeperLair extends SVG$8 {
 	
 	/**
 	 * @author Spedwards
@@ -768,14 +876,14 @@ class SVGKeeperLair extends SVG$7 {
 
 var SVGKeeperLair_1 = SVGKeeperLair;
 
-let SVG$8 = SVG_1;
+let SVG$9 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given lab object.
  * @author Enrico
  * @author Spedwards
  */
-class SVGLab extends SVG$8 {
+class SVGLab extends SVG$9 {
 
 	/**
 	 * @author Spedwards
@@ -851,13 +959,13 @@ class SVGLab extends SVG$8 {
 
 var SVGLab_1 = SVGLab;
 
-let SVG$9 = SVG_1;
+let SVG$10 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given link object.
  * @author Spedwards
  */
-class SVGLink extends SVG$9 {
+class SVGLink extends SVG$10 {
 
 	/**
 	 * @author Spedwards
@@ -886,8 +994,8 @@ class SVGLink extends SVG$9 {
 			
 			const BORDER_COLOUR = this.player === this.link.owner.username ? `#8FBB93` : `#ED5557`;
 
-			let outStr = `<svg class="link owner" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 150 150">` +
-				`<g opacity="1" transform="translate(50,50)"><g>` +
+			let outStr = `<svg class="link owner" height="${SVG_SIZE}" width="${SVG_SIZE * 0.8}" viewBox="0 0 50 100">` +
+				`<g opacity="1" transform="translate(25,50)"><g>` +
 				`<path d="M 0 -50 L 40 0 L 0 50 L -40 0 Z" fill="#181818" stroke="${BORDER_COLOUR}" stroke-width="5" />` +
 				`<path d="M 0 -50 L 40 0 L 0 50 L -40 0 Z" fill="#555" transform="scale(0.6 0.6)" />`;
 
@@ -906,14 +1014,14 @@ class SVGLink extends SVG$9 {
 
 var SVGLink_1 = SVGLink;
 
-let SVG$10 = SVG_1;
+let SVG$11 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given nuker object.
  * @author Enrico
  * @author Spedwards
  */
-class SVGNuker extends SVG$10 {
+class SVGNuker extends SVG$11 {
 
 	/**
 	 * @author Spedwards
@@ -967,13 +1075,13 @@ class SVGNuker extends SVG$10 {
 
 var SVGNuker_1 = SVGNuker;
 
-let SVG$11 = SVG_1;
+let SVG$12 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given observer object.
  * @author Spedwards
  */
-class SVGObserver extends SVG$11 {
+class SVGObserver extends SVG$12 {
 	
 	/**
 	 * @author Spedwards
@@ -1017,13 +1125,13 @@ class SVGObserver extends SVG$11 {
 
 var SVGObserver_1 = SVGObserver;
 
-let SVG$12 = SVG_1;
+let SVG$13 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given power bank object.
  * @author Spedwards
  */
-class SVGPowerBank extends SVG$12 {
+class SVGPowerBank extends SVG$13 {
 	
 	/**
 	 * @author Spedwards
@@ -1065,13 +1173,13 @@ class SVGPowerBank extends SVG$12 {
 
 var SVGPowerBank_1 = SVGPowerBank;
 
-let SVG$13 = SVG_1;
+let SVG$14 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given spawn object.
  * @author Spedwards
  */
-class SVGPowerSpawn extends SVG$13 {
+class SVGPowerSpawn extends SVG$14 {
 	
 	/**
 	 * @author Spedwards
@@ -1127,112 +1235,6 @@ class SVGPowerSpawn extends SVG$13 {
 }
 
 var SVGPowerSpawn_1 = SVGPowerSpawn;
-
-let SVG$14 = SVG_1;
-
-/**
- * Takes a resource type constant as input and
- * returns the html/svg string for the icon of
- * that resource upon calling `.toString()`
- * @author Helam
- * @author Spedwards
- */
-class SVGResource$1 extends SVG$14 {
-	
-	/**
-	 * @author Spedwards
-	 * @param {string} resourceType
-	 * @param {Number | Boolean} [amount = 0] - 0 by default, pass false to hide it
-	 */
-	constructor(resourceType, amount = 0) {
-		super();
-		if (typeof resourceType !== 'string') throw new Error('Resource is not a String!');
-		if (!Number.isInteger(amount)) throw new Error('Amount is not an Integer!');
-		
-		this.resourceType = resourceType;
-		this.amount = amount;
-		this.string = this.toString();
-	}
-	
-	/**
-	 * @author Helam
-	 * @returns {string}
-	 */
-	toString() {
-		if (!this.string) {
-			let length = Math.max(1, Math.ceil(Math.log10(this.amount + 1)));
-			let amountWidth = length * 10 + 5;
-			
-			if (this.amount === false) {
-				amountWidth = 0;
-			}
-			
-			let textDisplacement = 14;
-			let finalWidth = 14 + amountWidth;
-			
-			let outStr = `<svg width="!!" height="14">`;
-			
-			if (this.resourceType === RESOURCE_ENERGY) {
-				outStr += `<circle cx="7" cy="7" r="5" style="fill:#FEE476"/>`;
-			} else if (this.resourceType === RESOURCE_POWER) {
-				outStr += `<circle cx="7" cy="7" r="5" style="fill:#F1243A"/>`;
-			} else {
-				const BASE_MINERALS = {
-					[undefined]: {back: `#fff`, front: `#000`},
-					[RESOURCE_HYDROGEN]: {back: `#4B4B4B`, front: `#989898`},
-					[RESOURCE_OXYGEN]: {back: `#4B4B4B`, front: `#989898`},
-					[RESOURCE_UTRIUM]: {back: `#0A5D7C`, front: `#48C5E5`},
-					[RESOURCE_LEMERGIUM]: {back: `#265C42`, front: `#24D490`},
-					[RESOURCE_KEANIUM]: {back: `#371A80`, front: `#9269EC`},
-					[RESOURCE_ZYNTHIUM]: {back: `#58482D`, front: `#D9B478`},
-					[RESOURCE_CATALYST]: {back: `#572122`, front: `#F26D6F`},
-				};
-				
-				const COMPOUNDS = {
-					U: {back: `#58D7F7`, front: `#157694`},
-					L: {back: `#29F4A5`, front: `#22815A`},
-					K: {back: `#9F76FC`, front: `#482794`},
-					Z: {back: `#FCD28D`, front: `#7F6944`},
-					G: {back: `#FFFFFF`, front: `#767676`},
-					O: {back: `#99ccff`, front: `#000066`},
-					H: {back: `#99ccff`, front: `#000066`},
-				};
-				
-				let colours = BASE_MINERALS[this.resourceType];
-				
-				if (colours) {
-					outStr += `<circle cx="7" cy="7" r="5" style="stroke-width:1;stroke:${colours.front};fill:${colours.back}"/>` +
-						`<text x="7" y="8" font-family="Verdana" font-size="8" alignment-baseline="middle" text-anchor="middle" style="fill:${colours.front};font-weight:bold;">${this.resourceType === undefined ? '?' : this.resourceType}</text>`;
-				} else {
-					let compoundType = ['U', 'L', 'K', 'Z', 'G', 'H', 'O'].find(type => resourceType.indexOf(type) !== -1);
-					colours = COMPOUNDS[compoundType];
-					if (colours) {
-						let width = this.resourceType.length * 9;
-						finalWidth += width;
-						textDisplacement += width;
-						outStr += `<rect x="0" y="0" width="${width}" height="14" style="fill:${colours.back}"/>` +
-							`<text x="${width / 2.0}" y="8" font-family="Verdana" font-size="8" alignment-baseline="middle" text-anchor="middle" style="fill:${colours.front};font-weight:bold;">${this.resourceType}</text>`;
-					} else {
-						throw new Error(`Invalid resource type ${this.resourceType} in SVGResource!`);
-					}
-				}
-			}
-			
-			if (this.amount !== false) {
-				outStr += `<text font-family="Verdana" font-size="10" x="${textDisplacement + amountWidth/2}" y="8" alignment-baseline="middle" text-anchor="middle" style="fill:white"> x ${this.amount.toLocaleString()}</text>`;
-			}
-			outStr += `</svg>`;
-			
-			outStr = outStr.split('!!').join(finalWidth);
-			
-			return outStr;
-		}
-		return this.string;
-	}
-	
-}
-
-var SVGResource_1 = SVGResource$1;
 
 let SVGStorageObject$2 = SVGStorageObject_1;
 

@@ -33,8 +33,8 @@ class SVGLink extends SVG {
 			
 			const BORDER_COLOUR = this.player === this.link.owner.username ? `#8FBB93` : `#ED5557`;
 
-			let outStr = `<svg class="link owner" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 150 150">` +
-				`<g opacity="1" transform="translate(50,50)"><g>` +
+			let outStr = `<svg class="link owner" height="${SVG_SIZE}" width="${SVG_SIZE * 0.8}" viewBox="0 0 50 100">` +
+				`<g opacity="1" transform="translate(25,50)"><g>` +
 				`<path d="M 0 -50 L 40 0 L 0 50 L -40 0 Z" fill="#181818" stroke="${BORDER_COLOUR}" stroke-width="5" />` +
 				`<path d="M 0 -50 L 40 0 L 0 50 L -40 0 Z" fill="#555" transform="scale(0.6 0.6)" />`;
 
