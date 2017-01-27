@@ -172,13 +172,13 @@ class SVGResource$1 extends SVG$2 {
 			} else {
 				const BASE_MINERALS = {
 					[undefined]: {back: `#fff`, front: `#000`},
-					[RESOURCE_HYDROGEN]: {back: `#4B4B4B`, front: `#989898`},
-					[RESOURCE_OXYGEN]: {back: `#4B4B4B`, front: `#989898`},
-					[RESOURCE_UTRIUM]: {back: `#0A5D7C`, front: `#48C5E5`},
-					[RESOURCE_LEMERGIUM]: {back: `#265C42`, front: `#24D490`},
-					[RESOURCE_KEANIUM]: {back: `#371A80`, front: `#9269EC`},
-					[RESOURCE_ZYNTHIUM]: {back: `#58482D`, front: `#D9B478`},
-					[RESOURCE_CATALYST]: {back: `#572122`, front: `#F26D6F`},
+					[RESOURCE_HYDROGEN]: {back: `#4D4D4D`, front: `#CCCCCC`},
+					[RESOURCE_OXYGEN]: {back: `#4D4D4D`, front: `#CCCCCC`},
+					[RESOURCE_UTRIUM]: {back: `#1B617F`, front: `#88D6F7`},
+					[RESOURCE_LEMERGIUM]: {back: `#3F6147`, front: `#89F4A5`},
+					[RESOURCE_KEANIUM]: {back: `#331A80`, front: `#9370FF`},
+					[RESOURCE_ZYNTHIUM]: {back: `#594D33`, front: `#F2D28B`},
+					[RESOURCE_CATALYST]: {back: `#4F2626`, front: `#FF7A7A`},
 				};
 				
 				const COMPOUNDS = {
@@ -1616,8 +1616,8 @@ class SVGSpawn extends SVG$17 {
 		if (!this.string) {
 			const SVG_SIZE = this.size;
 			
-			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 150 150">` +
-					`<g transform="translate(75,75)">` +
+			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 180 180">` +
+					`<g transform="translate(90,90)">` +
 					`<g>` +
 					`<ellipse rx="70" ry="70" cx="0" cy="0" fill="#CCCCCC" />` +
 					`<ellipse rx="59" ry="59" cx="0" cy="0" fill="#181818" />` +

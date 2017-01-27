@@ -29,8 +29,8 @@ class SVGSpawn extends SVG {
 		if (!this.string) {
 			const SVG_SIZE = this.size;
 			
-			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 150 150">` +
-					`<g transform="translate(75,75)">` +
+			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 180 180">` +
+					`<g transform="translate(90,90)">` +
 					`<g>` +
 					`<ellipse rx="70" ry="70" cx="0" cy="0" fill="#CCCCCC" />` +
 					`<ellipse rx="59" ry="59" cx="0" cy="0" fill="#181818" />` +
