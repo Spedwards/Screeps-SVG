@@ -49,5 +49,4 @@ For testing purposes you can bundle the project by executing `npm run build`.
 
  - Potentially Add Extractor (May be included with Mineral)
  - Keeper Lair
- - Power Bank
  - Get Player Badges for Creeps/Spawns/Controllers
