@@ -9,13 +9,15 @@ class SVGObserver extends SVG {
 	/**
 	 * @author Spedwards
 	 * @param {StructureObserver | string} observer - StructureObserver object or ID string corrosponding to a StructureObserver object.
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor(observer) {
+	constructor(observer, size = 50) {
 		super();
 		let object = this.validateConstructor(observer, STRUCTURE_OBSERVER);
 		if (object === false) throw new Error('Not an Observer object!');
 		
 		this.observer = object;
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 	
@@ -25,7 +27,7 @@ class SVGObserver extends SVG {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 			
 			const COLOUR = this.player === this.observer.owner.username ? `#8FBB93` : `#ED5557`;
 			

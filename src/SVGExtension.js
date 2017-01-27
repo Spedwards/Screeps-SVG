@@ -9,13 +9,15 @@ class SVGExtension extends SVG {
 	/**
 	 * @author Spedwards
 	 * @param {StructureExtension | string} extension - StructureExtension object or ID string corrosponding to a StructureExtension object.
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor(extension) {
+	constructor(extension, size = 50) {
 		super();
 		let object = this.validateConstructor(extension, STRUCTURE_EXTENSION);
 		if (object === false) throw new Error('Not an Extension object!');
 		
 		this.extension = object;
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 	
@@ -25,7 +27,7 @@ class SVGExtension extends SVG {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 			
 			const BORDER_COLOUR = this.player === this.extension.owner.username ? `#8FBB93` : `#ED5557`;
 			

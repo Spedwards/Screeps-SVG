@@ -9,13 +9,15 @@ class SVGLink extends SVG {
 	/**
 	 * @author Spedwards
 	 * @param {StructureLink | string} link - StructureLink object or ID string corrosponding to a StructureLink object.
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor(link) {
+	constructor(link, size = 50) {
 		super();
 		let object = this.validateConstructor(link, STRUCTURE_LINK);
 		if (object === false) throw new Error('Not a Link object!');
 
 		this.link = object;
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 
@@ -25,7 +27,7 @@ class SVGLink extends SVG {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 
 			const ENERGY_SCALE = 0.6 * this.link.energy / this.link.energyCapacity;
 			

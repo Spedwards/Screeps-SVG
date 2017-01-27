@@ -44,8 +44,3 @@ console.log(linkSVG);
 Clone the project and execute `npm install`.
 
 For testing purposes you can bundle the project by executing `npm run build`.
-
-## Todo
-
- - Potentially Add Extractor (May be included with Mineral)
- - Get Player Badges for Creeps/Spawns/Controllers

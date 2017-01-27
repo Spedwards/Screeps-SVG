@@ -9,13 +9,15 @@ class SVGSpawn extends SVG {
 	/**
 	 * @author Spedwards
 	 * @param {StructureSpawn | string} spawn - StructureSpawn object or ID string corrosponding to a StructureSpawn object.
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor(spawn) {
+	constructor(spawn, size = 50) {
 		super();
 		let object = this.validateConstructor(spawn, STRUCTURE_SPAWN);
 		if (object === false) throw new Error('Not a Spawn object!');
 		
 		this.spawn = object;
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 	
@@ -25,7 +27,7 @@ class SVGSpawn extends SVG {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 			
 			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 150 150">` +
 					`<g transform="translate(75,75)">` +

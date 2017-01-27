@@ -11,15 +11,17 @@ class SVGTower extends SVG {
 	 * @param {StructureTower | string} tower - StructureTower object or ID string corrosponding to a StructureTower object.
 	 * @param {Number} [angle = 315] - The angle at which the tower will point.
 	 * @param {Boolean} [animated = false] - Whether or not you want the tower to be animated.
+	 * @param {Number} [size = 60] - SVG size.
 	 */
-	constructor(tower, angle = 315, animated = false) {
+	constructor(tower, angle = 315, animated = false, size = 60) {
 		super();
 		let object = this.validateConstructor(tower, STRUCTURE_TOWER);
 		if (object === false) throw new Error('Not a Tower object!');
 
 		this.tower = object;
 		this.radians = angle * (Math.PI / 180);
-		this.animated = animated;
+		this.animated = typeof animated === 'boolean' ? animated : false;
+		this.size = typeof size === 'number' ? size : 60;
 		this.string = this.toString();
 	}
 
@@ -29,7 +31,7 @@ class SVGTower extends SVG {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 60;
+			const SVG_SIZE = this.size;
 
 			const RADIANS = this.radians;
 
@@ -43,8 +45,8 @@ class SVGTower extends SVG {
 			
 			const BORDER_COLOUR = this.player === this.tower.owner.username ? `#8FBB93` : `#ED5557`;
 
-			let outStr = `<svg class="tower owner" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 300 300">` +
-				`<g transform="translate(75,75)" opacity="1">` +
+			let outStr = `<svg class="tower owner" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 200 200">` +
+				`<g transform="translate(100,100)" opacity="1">` +
 				`<ellipse cx="0" cy="0" fill="#222" rx="65" ry="65" stroke="${BORDER_COLOUR}" stroke-width="5" />` +
 				`<g class="rotatable" transform="rotate(${RADIANS}rad)" style="transition: transform 2s;">` +
 				`<rect fill="#aaa" height="50" stroke-width="7" stroke="#181818" width="40" x="${BARREL_X}" y="${BARREL_Y}" />` +

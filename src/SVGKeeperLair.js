@@ -7,10 +7,12 @@ class SVGKeeperLair extends SVG {
 	
 	/**
 	 * @author Spedwards
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor() {
+	constructor(size = 50) {
 		super();
 		
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 	
@@ -20,7 +22,7 @@ class SVGKeeperLair extends SVG {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 			
 			return `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 80 80">` +
 					`<g transform="translate(40,40)">` +

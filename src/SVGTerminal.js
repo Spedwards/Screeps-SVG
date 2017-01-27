@@ -9,52 +9,47 @@ class SVGTerminal extends SVGStorageObject {
 	/**
 	 * @author Spedwards
 	 * @param {StructureTerminal} terminal - StructureTerminal object or ID string corrosponding to a StructureTerminal object.
+	 * @param {Number} [size = 60] - SVG size.
 	 */
-	constructor(terminal) {
+	constructor(terminal, size = 60) {
 		super(terminal, STRUCTURE_TERMINAL);
+		this.size = typeof size === 'number' ? size : 60;
 		this.string = this.toString();
 	}
 	
 	/**
-	 * @author Helam
+	 * @author Spedwards
 	 * @returns {string}
 	 */
 	toString() {
 		if (!this.string) {
+			const SVG_SIZE = this.size;
+			
+			const COLOUR = this.player === this.object.owner.username ? `#8FBB93` : `#ED5557`;
+			
 			const TERMINAL = this.object;
 			const CAPACITY = TERMINAL.storeCapacity;
 			const ENERGY = TERMINAL.store[RESOURCE_ENERGY];
 			const POWER = TERMINAL.store[RESOURCE_POWER] || 0;
-			const OTHER = _.sum(TERMINAL.store) - ENERGY - POWER;
+			const TOTAL = _.sum(TERMINAL.store);
 			
-			const RADIUS = 6;
+			const OTHER_SCALE = Math.min(1, TOTAL / CAPACITY);
+			const POWER_SCALE = Math.min(1, (POWER + ENERGY) / CAPACITY);
+			const ENERGY_SCALE = Math.min(1, ENERGY / CAPACITY);
 			
-			const START_X = 22;
-			const START_Y = 26;
-			
-			const ENERGY_RADIUS = RADIUS * (ENERGY / CAPACITY);
-			const OTHER_RADIUS = RADIUS * (OTHER / CAPACITY) + ENERGY_RADIUS;
-			const POWER_RADIUS = RADIUS * (POWER / CAPACITY) + OTHER_RADIUS;
-			
-			const POWER_X = START_X + (RADIUS - POWER_RADIUS);
-			const OTHER_X = START_X + (RADIUS - OTHER_RADIUS);
-			const ENERGY_X = START_X + (RADIUS - ENERGY_RADIUS);
-			
-			const POWER_Y = START_Y + (RADIUS - POWER_RADIUS);
-			const OTHER_Y = START_Y + (RADIUS - OTHER_RADIUS);
-			const ENERGY_Y = START_Y + (RADIUS - ENERGY_RADIUS);
-			
-			return `<svg width="50" height="60" style="transform:scale(1.2,1.2)">` +
-					`<path vector-effect="non-scaling-stroke" style="stroke:#90BA94" d='M36 40 L42 32 L36 24 L28 18 L20 24 L14 32 L20 40 L28 46 Z' />` +
-					`<path vector-effect="non-scaling-stroke" style="fill:#AAAAAA" d='M34 38 L38 32 L34 26 L28 22 L22 26 L18 32 L22 38 L28 42 Z' />` +
-					`<path vector-effect="non-scaling-stroke" style="stroke-width:2;stroke:black;fill:#555555" d='M34 38 L34 32 L34 26 L28 26 L22 26 L22 32 L22 38 L28 38 Z' />` +
+			return `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 175 175">` +
+					`<g transform="translate(87.5,87.5)">` +
+					`<path d="M 85 0 L 55 -55 L 0 -85 L -55 -55 L -85 0 L -55 55 L 0 85 L 55 55 Z" fill="#181818" stroke="${COLOUR}" stroke-width="5" />` +
+					`<path d="M 67 0 L 48 -35 V 35 L 67 0 Z M 0 -67 L -35 -48 H 35 Z M -67 0 L -48 -35 V 35 Z M 0 67 L -35 48 H 35 Z" fill="#AAA" />` +
+					`<rect fill="#181818" height="90" width="90" x="-45" y="-45" />` +
+					`<rect fill="#555555" height="76" width="76" x="-38" y="-38" />` +
+					`<!-- minerals -->` +
+					`<rect fill="#FFF" height="76" width="76" x="-38" y="-38" transform="scale(${OTHER_SCALE} ${OTHER_SCALE})" />` +
 					`<!-- power -->` +
-					`<rect x="${POWER_X}" y="${POWER_Y}" width="${POWER_RADIUS * 2}" height="${POWER_RADIUS * 2}" style="fill:#F1243A" />` +
-					`<!-- mineral -->` +
-					`<rect x="${OTHER_X}" y="${OTHER_Y}" width="${OTHER_RADIUS * 2}" height="${OTHER_RADIUS * 2}" style="fill:#FFFFFF" />` +
+					`<rect fill="#F41F33" height="76" width="76" x="-38" y="-38" transform="scale(${POWER_SCALE} ${POWER_SCALE})" />` +
 					`<!-- energy -->` +
-					`<rect x="${ENERGY_X}" y="${ENERGY_Y}" width="${ENERGY_RADIUS * 2}" height="${ENERGY_RADIUS * 2}" style="fill:#FEE476" />` +
-					`</svg>`;
+					`<rect fill="#FFE56D" height="76" width="76" x="-38" y="-38" transform="scale(${ENERGY_SCALE} ${ENERGY_SCALE})" />` +
+					`</g></svg>`;
 		}
 		return this.string;
 	}

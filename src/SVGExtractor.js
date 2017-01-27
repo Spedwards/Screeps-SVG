@@ -36,8 +36,8 @@ class SVGExtractor extends SVG {
 			
 			const COLOUR = this.player === this.extractor.owner.username ? `#8FBB93` : `#ED5557`;
 			
-			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 300 300">` +
-					`<g transform="translate(150,150)">`;
+			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 200 200">` +
+					`<g transform="translate(100,100)">`;
 			
 			if (this.mineral) {
 				outStr += this.mineral.string;

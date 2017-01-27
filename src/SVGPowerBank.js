@@ -9,13 +9,15 @@ class SVGPowerBank extends SVG {
 	/**
 	 * @author Spedwards
 	 * @param {StructurePowerBank | string} powerBank - StructurePowerBank object or ID string corrosponding to a StructurePowerBank object.
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor(powerBank) {
+	constructor(powerBank, size = 50) {
 		super();
 		let object = this.validateConstructor(powerBank, STRUCTURE_POWER_BANK);
 		if (object === false) throw new Error('Not a PowerBank object!');
 		
 		this.powerBank = object;
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 	
@@ -25,7 +27,7 @@ class SVGPowerBank extends SVG {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 			
 			const RADIUS = 1.013e-10*Math.pow(this.powerBank.power, 3) - 1.336e-6*Math.pow(this.powerBank.power, 2) + 9.197e-3*this.powerBank.power + 5.695;
 			

@@ -263,9 +263,11 @@ class SVGContainer extends SVGStorageObject {
 	/**
 	 * @author Spedwards
 	 * @param {StructureContainer | string} container - StructureContainer object or ID string corrosponding to a StructureContainer object.
+	 * @param {Number} [size = 35] - SVG size.
 	 */
-	constructor(container) {
+	constructor(container, size = 35) {
 		super(container, STRUCTURE_CONTAINER);
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 	
@@ -275,34 +277,34 @@ class SVGContainer extends SVGStorageObject {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 35;
+			const SVG_SIZE = this.size;
 			
 			const CONTAINER = this.object;
 			const CAPACITY = CONTAINER.storeCapacity;
 			const ENERGY = CONTAINER.store[RESOURCE_ENERGY];
 			const POWER = CONTAINER.store[RESOURCE_POWER] || 0;
-			const OTHER = _.sum(CONTAINER.store) - ENERGY - POWER;
+			const TOTAL = _.sum(CONTAINER.store);
 			
 			const HEIGHT = 50;
 			const START_Y = 25;
 			
 			const ENERGY_HEIGHT = ENERGY * HEIGHT / CAPACITY;
-			const OTHER_HEIGHT = OTHER * HEIGHT / CAPACITY + ENERGY_HEIGHT;
-			const POWER_HEIGHT = POWER * HEIGHT / CAPACITY + OTHER_HEIGHT;
+			const OTHER_HEIGHT = TOTAL * HEIGHT / CAPACITY;
+			const POWER_HEIGHT = (POWER + ENERGY) * HEIGHT / CAPACITY;
 			
-			const ENERGY_Y = Math.abs(START_Y - (HEIGHT - ENERGY_HEIGHT));
+			const ENERGY_Y = START_Y - ENERGY_HEIGHT;
 			const OTHER_Y = START_Y - OTHER_HEIGHT;
 			const POWER_Y = START_Y - POWER_HEIGHT;
 			
-			return `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 100 100">` +
-					`<g transform="translate(50,50)" opacity="1">` +
+			return `<svg height="${SVG_SIZE}" width="${SVG_SIZE * (5/6)}" viewBox="0 0 50 80">` +
+					`<g transform="translate(25,40)" opacity="1">` +
 					`<rect fill="#555555" height="60" stroke-width="10" stroke="#181818" width="50" x="-25" y="-30" />` +
-					`<!-- power -->` +
-					`<rect fill="#F1243A" height="${POWER_HEIGHT}" y="${POWER_Y}" width="40" x="-20" />` +
 					`<!-- minerals -->` +
 					`<rect fill="#FFFFFF" height="${OTHER_HEIGHT}" y="${OTHER_Y}" width="40" x="-20" />` +
+					`<!-- power -->` +
+					`<rect fill="#F41F33" height="${POWER_HEIGHT}" y="${POWER_Y}" width="40" x="-20" />` +
 					`<!-- energy -->` +
-					`<rect fill="#FEE476" height="${ENERGY_HEIGHT}" y="${ENERGY_Y}" width="40" x="-20" />` +
+					`<rect fill="#FFE56D" height="${ENERGY_HEIGHT}" y="${ENERGY_Y}" width="40" x="-20" />` +
 					`</g></svg>`;
 		}
 		return this.string;
@@ -323,13 +325,15 @@ class SVGController extends SVG$3 {
 	/**
 	 * @author Spedwards
 	 * @param {StructureController | string} controller - StructureController object or ID string corrosponding to a StructureController object.
+	 * @param {Number} [size = 60] - SVG size.
 	 */
-	constructor(controller) {
+	constructor(controller, size = 60) {
 		super();
 		let object = this.validateConstructor(controller, STRUCTURE_CONTROLLER);
 		if (object === false) throw new Error('Not a Controller object!');
 		
 		this.controller = object;
+		this.size = typeof size === 'number' ? size : 60;
 		this.string = this.toString();
 	}
 	
@@ -339,7 +343,7 @@ class SVGController extends SVG$3 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 60;
+			const SVG_SIZE = this.size;
 			
 			const START_X = 80 * Math.cos(Math.PI / 8);
 			const START_Y = 80 * Math.sin(Math.PI / 8);
@@ -602,13 +606,15 @@ class SVGExtension extends SVG$5 {
 	/**
 	 * @author Spedwards
 	 * @param {StructureExtension | string} extension - StructureExtension object or ID string corrosponding to a StructureExtension object.
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor(extension) {
+	constructor(extension, size = 50) {
 		super();
 		let object = this.validateConstructor(extension, STRUCTURE_EXTENSION);
 		if (object === false) throw new Error('Not an Extension object!');
 		
 		this.extension = object;
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 	
@@ -618,7 +624,7 @@ class SVGExtension extends SVG$5 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 			
 			const BORDER_COLOUR = this.player === this.extension.owner.username ? `#8FBB93` : `#ED5557`;
 			
@@ -696,8 +702,8 @@ class SVGExtractor extends SVG$6 {
 			
 			const COLOUR = this.player === this.extractor.owner.username ? `#8FBB93` : `#ED5557`;
 			
-			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 300 300">` +
-					`<g transform="translate(150,150)">`;
+			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 200 200">` +
+					`<g transform="translate(100,100)">`;
 			
 			if (this.mineral) {
 				outStr += this.mineral.string;
@@ -725,10 +731,12 @@ class SVGKeeperLair extends SVG$7 {
 	
 	/**
 	 * @author Spedwards
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor() {
+	constructor(size = 50) {
 		super();
 		
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 	
@@ -738,7 +746,7 @@ class SVGKeeperLair extends SVG$7 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 			
 			return `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 80 80">` +
 					`<g transform="translate(40,40)">` +
@@ -772,15 +780,17 @@ class SVGLab extends SVG$8 {
 	/**
 	 * @author Spedwards
 	 * @param {StructureLab | string} lab - StructureLab object or ID string corrosponding to StructureLab object.
-	 * @param {Boolean} coloured
+	 * @param {Boolean} [coloured = true] - Colour the mineral in lab.
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor(lab, coloured = true) {
+	constructor(lab, coloured = true, size = 50) {
 		super();
 		let object = this.validateConstructor(lab, STRUCTURE_LAB);
 		if (object === false) throw new Error('Not a Lab object!');
 
 		this.lab = object;
-		this.coloured = coloured;
+		this.coloured = typeof coloured === 'boolean' ? coloured : true;
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 
@@ -790,7 +800,7 @@ class SVGLab extends SVG$8 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 			
 			const BORDER_COLOUR = this.player === this.lab.owner.username ? `#8FBB93` : `#ED5557`;
 
@@ -852,13 +862,15 @@ class SVGLink extends SVG$9 {
 	/**
 	 * @author Spedwards
 	 * @param {StructureLink | string} link - StructureLink object or ID string corrosponding to a StructureLink object.
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor(link) {
+	constructor(link, size = 50) {
 		super();
 		let object = this.validateConstructor(link, STRUCTURE_LINK);
 		if (object === false) throw new Error('Not a Link object!');
 
 		this.link = object;
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 
@@ -868,7 +880,7 @@ class SVGLink extends SVG$9 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 
 			const ENERGY_SCALE = 0.6 * this.link.energy / this.link.energyCapacity;
 			
@@ -906,13 +918,15 @@ class SVGNuker extends SVG$10 {
 	/**
 	 * @author Spedwards
 	 * @param {StructureNuker | string} nuker - StructureNuker object or ID string corrosponding to a StructureNuker object.
+	 * @param {Number} [size = 60] - SVG size.
 	 */
-	constructor(nuker) {
+	constructor(nuker, size = 60) {
 		super();
 		let object = this.validateConstructor(nuker, STRUCTURE_NUKER);
 		if (object === false) throw new Error('Not a Nuker object!');
 
 		this.nuker = object;
+		this.size = typeof size === 'number' ? size : 60;
 		this.string = this.toString();
 	}
 
@@ -922,12 +936,11 @@ class SVGNuker extends SVG$10 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_HEIGHT = 60;
-			const SVG_WIDTH = 40;
+			const SVG_SIZE = this.size;
 			
 			const BORDER_COLOUR = this.player === this.nuker.owner.username ? `#8FBB93` : `#ED5557`;
 
-			let outStr = `<svg viewBox="0 0 120 180" height="${SVG_HEIGHT}" width="${SVG_WIDTH}">` +
+			let outStr = `<svg viewBox="0 0 120 180" height="${SVG_SIZE}" width="${SVG_SIZE * (2/3)}">` +
 				`<g transform="translate(60,130)">` +
 				`<path d="M -60 50 L -53 0 L 0 -130 L 53 0 L 60 50 Z" fill="#181818" stroke="${BORDER_COLOUR}" stroke-width="5"/>` +
 				`<path d="M -40 0 L 0 -100 L 40 0 Z" fill="#555"/>` +
@@ -965,13 +978,15 @@ class SVGObserver extends SVG$11 {
 	/**
 	 * @author Spedwards
 	 * @param {StructureObserver | string} observer - StructureObserver object or ID string corrosponding to a StructureObserver object.
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor(observer) {
+	constructor(observer, size = 50) {
 		super();
 		let object = this.validateConstructor(observer, STRUCTURE_OBSERVER);
 		if (object === false) throw new Error('Not an Observer object!');
 		
 		this.observer = object;
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 	
@@ -981,7 +996,7 @@ class SVGObserver extends SVG$11 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 			
 			const COLOUR = this.player === this.observer.owner.username ? `#8FBB93` : `#ED5557`;
 			
@@ -1013,13 +1028,15 @@ class SVGPowerBank extends SVG$12 {
 	/**
 	 * @author Spedwards
 	 * @param {StructurePowerBank | string} powerBank - StructurePowerBank object or ID string corrosponding to a StructurePowerBank object.
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor(powerBank) {
+	constructor(powerBank, size = 50) {
 		super();
 		let object = this.validateConstructor(powerBank, STRUCTURE_POWER_BANK);
 		if (object === false) throw new Error('Not a PowerBank object!');
 		
 		this.powerBank = object;
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 	
@@ -1029,7 +1046,7 @@ class SVGPowerBank extends SVG$12 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 			
 			const RADIUS = 1.013e-10*Math.pow(this.powerBank.power, 3) - 1.336e-6*Math.pow(this.powerBank.power, 2) + 9.197e-3*this.powerBank.power + 5.695;
 			
@@ -1059,13 +1076,15 @@ class SVGPowerSpawn extends SVG$13 {
 	/**
 	 * @author Spedwards
 	 * @param {StructurePowerSpawn | string} powerSpawn - StructurePowerSpawn object or ID string corrosponding to a StructurePowerSpawn object.
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor(powerSpawn) {
+	constructor(powerSpawn, size = 50) {
 		super();
 		let object = this.validateConstructor(powerSpawn, STRUCTURE_POWER_SPAWN);
 		if (object === false) throw new Error('Not a Power Spawn object!');
 		
 		this.powerSpawn = object;
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 	
@@ -1075,7 +1094,7 @@ class SVGPowerSpawn extends SVG$13 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 			
 			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 160 160">` +
 					`<g transform="translate(80,80)">` +
@@ -1226,9 +1245,11 @@ class SVGStorage$1 extends SVGStorageObject$2 {
 	/**
 	 * @author Spedwards
 	 * @param {StructureStorage} storage - StructureStorage object or ID string corrosponding to a StructureStorage object.
+	 * @param {Number} [size = 60] - SVG size.
 	 */
-	constructor(storage) {
+	constructor(storage, size = 60) {
 		super(storage, STRUCTURE_STORAGE);
+		this.size = typeof size === 'number' ? size : 60;
 		this.string = this.toString();
 	}
 	
@@ -1238,33 +1259,39 @@ class SVGStorage$1 extends SVGStorageObject$2 {
 	 */
 	toString() {
 		if (!this.string) {
+			const SVG_SIZE = this.size;
+			
+			const COLOUR = this.player === this.object.owner.username ? `#8FBB93` : `#ED5557`;
+			
 			const STORAGE = this.object;
 			const CAPACITY = STORAGE.storeCapacity;
 			const ENERGY = STORAGE.store[RESOURCE_ENERGY];
 			const POWER = STORAGE.store[RESOURCE_POWER] || 0;
-			const OTHER = _.sum(STORAGE.store) - ENERGY - POWER;
+			const TOTAL = _.sum(STORAGE.store);
 			
-			const HEIGHT = 28;
-			const START_Y = 18;
+			const HEIGHT = 120;
+			const START_Y = 60;
 			
-			const ENERGY_HEIGHT = HEIGHT * (ENERGY / CAPACITY);
-			const OTHER_HEIGHT = HEIGHT * (OTHER / CAPACITY) + ENERGY_HEIGHT;
-			const POWER_HEIGHT = HEIGHT * (POWER / CAPACITY) + OTHER_HEIGHT;
+			const ENERGY_HEIGHT = ENERGY * HEIGHT / CAPACITY;
+			const POWER_HEIGHT = (POWER + ENERGY) * HEIGHT / CAPACITY;
+			const OTHER_HEIGHT = TOTAL * HEIGHT / CAPACITY;
 			
-			const POWER_Y = START_Y + (HEIGHT - POWER_HEIGHT);
-			const MINERAL_Y = START_Y + (HEIGHT - OTHER_HEIGHT);
-			const ENERGY_Y = START_Y + (HEIGHT - ENERGY_HEIGHT);
+			const POWER_Y = START_Y - POWER_HEIGHT;
+			const ENERGY_Y = START_Y - ENERGY_HEIGHT;
+			const MINERAL_Y = START_Y - OTHER_HEIGHT;
 			
-			return `<svg width="50" height="60">` +
-					`<path style="stroke-width: 1;stroke:#90BA94" d='M16 48 C18 52 38 52 40 48 C42 46 42 18 40 16 C38 12 18 12 16 16 C14 18 14 46 16 48' />` +
-					`<path style="fill:#555555" d='M18 46 L38 46 L38 18 L18 18' />` +
-					`<!-- power -->` +
-					`<rect x="18" y="${POWER_Y}" width="20" height="${POWER_HEIGHT}" style="fill:#F1243A" />` +
-					`<!-- minerals -->` +
-					`<rect x="18" y="${MINERAL_Y}" width="20" height="${OTHER_HEIGHT}" style="fill:#FFFFFF" />` +
-					`<!-- energy -->` +
-					`<rect x="18" y="${ENERGY_Y}" width="20" height="${ENERGY_HEIGHT}" style="fill:#FEE476" />` +
-					`</svg>`;
+			return `<svg height="${SVG_SIZE}" width="${SVG_SIZE * (5/6)}" viewBox="0 0 40 180">` +
+				`<g transform="translate(20,90)">` +
+				`<path d="M -60 -70 A 120 120 0 0 1 60 -70 A 300 300 0 0 1 60 70 A 120 120 0 0 1 -60 70 A 300 300 0 0 1 -60 -70 Z" fill="#181818" stroke="${COLOUR}" stroke-width="5" />` +
+				`<rect fill="#555" height="120" width="100" x="-50" y="-60" />` +
+				`<!-- minerals -->` +
+				`<rect x="-50" y="${MINERAL_Y}" width="100" height="${OTHER_HEIGHT}" fill="#FFFFFF" />` +
+				`<!-- power -->` +
+				`<rect x="-50" y="${POWER_Y}" width="100" height="${POWER_HEIGHT}" fill="#F41F33" />` +
+				`<!-- energy -->` +
+				`<rect x="-50" y="${ENERGY_Y}" width="100" height="${ENERGY_HEIGHT}" fill="#FFE56D" />` +
+				`</g>` +
+				`</svg>`;
 		}
 		return this.string;
 	}
@@ -1284,52 +1311,47 @@ class SVGTerminal$1 extends SVGStorageObject$3 {
 	/**
 	 * @author Spedwards
 	 * @param {StructureTerminal} terminal - StructureTerminal object or ID string corrosponding to a StructureTerminal object.
+	 * @param {Number} [size = 60] - SVG size.
 	 */
-	constructor(terminal) {
+	constructor(terminal, size = 60) {
 		super(terminal, STRUCTURE_TERMINAL);
+		this.size = typeof size === 'number' ? size : 60;
 		this.string = this.toString();
 	}
 	
 	/**
-	 * @author Helam
+	 * @author Spedwards
 	 * @returns {string}
 	 */
 	toString() {
 		if (!this.string) {
+			const SVG_SIZE = this.size;
+			
+			const COLOUR = this.player === this.object.owner.username ? `#8FBB93` : `#ED5557`;
+			
 			const TERMINAL = this.object;
 			const CAPACITY = TERMINAL.storeCapacity;
 			const ENERGY = TERMINAL.store[RESOURCE_ENERGY];
 			const POWER = TERMINAL.store[RESOURCE_POWER] || 0;
-			const OTHER = _.sum(TERMINAL.store) - ENERGY - POWER;
+			const TOTAL = _.sum(TERMINAL.store);
 			
-			const RADIUS = 6;
+			const OTHER_SCALE = Math.min(1, TOTAL / CAPACITY);
+			const POWER_SCALE = Math.min(1, (POWER + ENERGY) / CAPACITY);
+			const ENERGY_SCALE = Math.min(1, ENERGY / CAPACITY);
 			
-			const START_X = 22;
-			const START_Y = 26;
-			
-			const ENERGY_RADIUS = RADIUS * (ENERGY / CAPACITY);
-			const OTHER_RADIUS = RADIUS * (OTHER / CAPACITY) + ENERGY_RADIUS;
-			const POWER_RADIUS = RADIUS * (POWER / CAPACITY) + OTHER_RADIUS;
-			
-			const POWER_X = START_X + (RADIUS - POWER_RADIUS);
-			const OTHER_X = START_X + (RADIUS - OTHER_RADIUS);
-			const ENERGY_X = START_X + (RADIUS - ENERGY_RADIUS);
-			
-			const POWER_Y = START_Y + (RADIUS - POWER_RADIUS);
-			const OTHER_Y = START_Y + (RADIUS - OTHER_RADIUS);
-			const ENERGY_Y = START_Y + (RADIUS - ENERGY_RADIUS);
-			
-			return `<svg width="50" height="60" style="transform:scale(1.2,1.2)">` +
-					`<path vector-effect="non-scaling-stroke" style="stroke:#90BA94" d='M36 40 L42 32 L36 24 L28 18 L20 24 L14 32 L20 40 L28 46 Z' />` +
-					`<path vector-effect="non-scaling-stroke" style="fill:#AAAAAA" d='M34 38 L38 32 L34 26 L28 22 L22 26 L18 32 L22 38 L28 42 Z' />` +
-					`<path vector-effect="non-scaling-stroke" style="stroke-width:2;stroke:black;fill:#555555" d='M34 38 L34 32 L34 26 L28 26 L22 26 L22 32 L22 38 L28 38 Z' />` +
+			return `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 175 175">` +
+					`<g transform="translate(87.5,87.5)">` +
+					`<path d="M 85 0 L 55 -55 L 0 -85 L -55 -55 L -85 0 L -55 55 L 0 85 L 55 55 Z" fill="#181818" stroke="${COLOUR}" stroke-width="5" />` +
+					`<path d="M 67 0 L 48 -35 V 35 L 67 0 Z M 0 -67 L -35 -48 H 35 Z M -67 0 L -48 -35 V 35 Z M 0 67 L -35 48 H 35 Z" fill="#AAA" />` +
+					`<rect fill="#181818" height="90" width="90" x="-45" y="-45" />` +
+					`<rect fill="#555555" height="76" width="76" x="-38" y="-38" />` +
+					`<!-- minerals -->` +
+					`<rect fill="#FFF" height="76" width="76" x="-38" y="-38" transform="scale(${OTHER_SCALE} ${OTHER_SCALE})" />` +
 					`<!-- power -->` +
-					`<rect x="${POWER_X}" y="${POWER_Y}" width="${POWER_RADIUS * 2}" height="${POWER_RADIUS * 2}" style="fill:#F1243A" />` +
-					`<!-- mineral -->` +
-					`<rect x="${OTHER_X}" y="${OTHER_Y}" width="${OTHER_RADIUS * 2}" height="${OTHER_RADIUS * 2}" style="fill:#FFFFFF" />` +
+					`<rect fill="#F41F33" height="76" width="76" x="-38" y="-38" transform="scale(${POWER_SCALE} ${POWER_SCALE})" />` +
 					`<!-- energy -->` +
-					`<rect x="${ENERGY_X}" y="${ENERGY_Y}" width="${ENERGY_RADIUS * 2}" height="${ENERGY_RADIUS * 2}" style="fill:#FEE476" />` +
-					`</svg>`;
+					`<rect fill="#FFE56D" height="76" width="76" x="-38" y="-38" transform="scale(${ENERGY_SCALE} ${ENERGY_SCALE})" />` +
+					`</g></svg>`;
 		}
 		return this.string;
 	}
@@ -1520,13 +1542,15 @@ class SVGSource extends SVG$16 {
 	/**
 	 * @author Spedwards
 	 * @param {Source | string} source - Source object or ID string corrosponding to a Source object.
+	 * @param {Number} [size = 40] - SVG size.
 	 */
-	constructor(source) {
+	constructor(source, size = 40) {
 		super();
 		let object = this.validateConstructor(source, SVG$16.SOURCE);
 		if (object === false) throw new Error('Not a Source object!');
 
 		this.source = object;
+		this.size = typeof size === 'number' ? size : 40;
 		this.string = this.toString();
 	}
 
@@ -1536,7 +1560,7 @@ class SVGSource extends SVG$16 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 40;
+			const SVG_SIZE = this.size;
 
 			const SOURCE_HEIGHT = this.source.energy / this.source.energyCapacity * 60;
 			const SOURCE_POS = (SVG_SIZE / 2) - (SOURCE_HEIGHT / 2);
@@ -1570,13 +1594,15 @@ class SVGSpawn extends SVG$17 {
 	/**
 	 * @author Spedwards
 	 * @param {StructureSpawn | string} spawn - StructureSpawn object or ID string corrosponding to a StructureSpawn object.
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor(spawn) {
+	constructor(spawn, size = 50) {
 		super();
 		let object = this.validateConstructor(spawn, STRUCTURE_SPAWN);
 		if (object === false) throw new Error('Not a Spawn object!');
 		
 		this.spawn = object;
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 	
@@ -1586,7 +1612,7 @@ class SVGSpawn extends SVG$17 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 			
 			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 150 150">` +
 					`<g transform="translate(75,75)">` +
@@ -1639,15 +1665,17 @@ class SVGTower extends SVG$18 {
 	 * @param {StructureTower | string} tower - StructureTower object or ID string corrosponding to a StructureTower object.
 	 * @param {Number} [angle = 315] - The angle at which the tower will point.
 	 * @param {Boolean} [animated = false] - Whether or not you want the tower to be animated.
+	 * @param {Number} [size = 60] - SVG size.
 	 */
-	constructor(tower, angle = 315, animated = false) {
+	constructor(tower, angle = 315, animated = false, size = 60) {
 		super();
 		let object = this.validateConstructor(tower, STRUCTURE_TOWER);
 		if (object === false) throw new Error('Not a Tower object!');
 
 		this.tower = object;
 		this.radians = angle * (Math.PI / 180);
-		this.animated = animated;
+		this.animated = typeof animated === 'boolean' ? animated : false;
+		this.size = typeof size === 'number' ? size : 60;
 		this.string = this.toString();
 	}
 
@@ -1657,7 +1685,7 @@ class SVGTower extends SVG$18 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 60;
+			const SVG_SIZE = this.size;
 
 			const RADIANS = this.radians;
 
@@ -1671,8 +1699,8 @@ class SVGTower extends SVG$18 {
 			
 			const BORDER_COLOUR = this.player === this.tower.owner.username ? `#8FBB93` : `#ED5557`;
 
-			let outStr = `<svg class="tower owner" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 300 300">` +
-				`<g transform="translate(75,75)" opacity="1">` +
+			let outStr = `<svg class="tower owner" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 200 200">` +
+				`<g transform="translate(100,100)" opacity="1">` +
 				`<ellipse cx="0" cy="0" fill="#222" rx="65" ry="65" stroke="${BORDER_COLOUR}" stroke-width="5" />` +
 				`<g class="rotatable" transform="rotate(${RADIANS}rad)" style="transition: transform 2s;">` +
 				`<rect fill="#aaa" height="50" stroke-width="7" stroke="#181818" width="40" x="${BARREL_X}" y="${BARREL_Y}" />` +

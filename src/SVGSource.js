@@ -9,13 +9,15 @@ class SVGSource extends SVG {
 	/**
 	 * @author Spedwards
 	 * @param {Source | string} source - Source object or ID string corrosponding to a Source object.
+	 * @param {Number} [size = 40] - SVG size.
 	 */
-	constructor(source) {
+	constructor(source, size = 40) {
 		super();
 		let object = this.validateConstructor(source, SVG.SOURCE);
 		if (object === false) throw new Error('Not a Source object!');
 
 		this.source = object;
+		this.size = typeof size === 'number' ? size : 40;
 		this.string = this.toString();
 	}
 
@@ -25,7 +27,7 @@ class SVGSource extends SVG {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 40;
+			const SVG_SIZE = this.size;
 
 			const SOURCE_HEIGHT = this.source.energy / this.source.energyCapacity * 60;
 			const SOURCE_POS = (SVG_SIZE / 2) - (SOURCE_HEIGHT / 2);

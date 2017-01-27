@@ -9,13 +9,15 @@ class SVGController extends SVG {
 	/**
 	 * @author Spedwards
 	 * @param {StructureController | string} controller - StructureController object or ID string corrosponding to a StructureController object.
+	 * @param {Number} [size = 60] - SVG size.
 	 */
-	constructor(controller) {
+	constructor(controller, size = 60) {
 		super();
 		let object = this.validateConstructor(controller, STRUCTURE_CONTROLLER);
 		if (object === false) throw new Error('Not a Controller object!');
 		
 		this.controller = object;
+		this.size = typeof size === 'number' ? size : 60;
 		this.string = this.toString();
 	}
 	
@@ -25,7 +27,7 @@ class SVGController extends SVG {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 60;
+			const SVG_SIZE = this.size;
 			
 			const START_X = 80 * Math.cos(Math.PI / 8);
 			const START_Y = 80 * Math.sin(Math.PI / 8);

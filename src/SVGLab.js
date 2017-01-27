@@ -10,15 +10,17 @@ class SVGLab extends SVG {
 	/**
 	 * @author Spedwards
 	 * @param {StructureLab | string} lab - StructureLab object or ID string corrosponding to StructureLab object.
-	 * @param {Boolean} coloured
+	 * @param {Boolean} [coloured = true] - Colour the mineral in lab.
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor(lab, coloured = true) {
+	constructor(lab, coloured = true, size = 50) {
 		super();
 		let object = this.validateConstructor(lab, STRUCTURE_LAB);
 		if (object === false) throw new Error('Not a Lab object!');
 
 		this.lab = object;
-		this.coloured = coloured;
+		this.coloured = typeof coloured === 'boolean' ? coloured : true;
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 
@@ -28,7 +30,7 @@ class SVGLab extends SVG {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 			
 			const BORDER_COLOUR = this.player === this.lab.owner.username ? `#8FBB93` : `#ED5557`;
 
