@@ -58,8 +58,12 @@ class SVGContainer extends SVGStorageObject {
 	
 }
 
+StructureContainer.prototype.getSVG = function(size = 40) {
+	return new SVGContainer(this, size);
+};
+
 StructureContainer.prototype.display = function(size = 40) {
-	console.log(new SVGContainer(this, size));
+	console.log(this.getSVG(size));
 };
 
 module.exports = SVGContainer;

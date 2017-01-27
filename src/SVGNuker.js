@@ -57,8 +57,12 @@ class SVGNuker extends SVG {
 
 }
 
+StructureNuker.prototype.getSVG = function(size = 60) {
+	return new SVGNuker(this, size);
+};
+
 StructureNuker.prototype.display = function(size = 60) {
-	console.log(new SVGNuker(this, size));
+	console.log(this.getSVG(size));
 };
 
 module.exports = SVGNuker;

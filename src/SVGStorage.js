@@ -62,8 +62,12 @@ class SVGStorage extends SVGStorageObject {
 
 }
 
+StructureStorage.prototype.getSVG = function(size = 50) {
+	return new SVGStorage(this, size);
+};
+
 StructureStorage.prototype.display = function(size = 50) {
-	console.log(new SVGStorage(this, size));
+	console.log(this.getSVG(size));
 };
 
 module.exports = SVGStorage;

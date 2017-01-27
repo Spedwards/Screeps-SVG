@@ -169,8 +169,12 @@ class SVGRoom extends SVG {
 
 }
 
+Room.prototype.getSVG = function(size = 60) {
+	return new SVGRoom(this, size);
+};
+
 Room.prototype.display = function(size = 60) {
-	console.log(new SVGRoom(this, size));
+	console.log(this.getSVG(size));
 };
 
 module.exports = SVGRoom;

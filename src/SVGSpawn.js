@@ -65,8 +65,12 @@ class SVGSpawn extends SVG {
 	
 }
 
+StructureSpawn.prototype.getSVG = function(size = 50) {
+	return new SVGSpawn(this, size);
+};
+
 StructureSpawn.prototype.display = function(size = 50) {
-	console.log(new SVGSpawn(this, size));
+	console.log(this.getSVG(size));
 };
 
 module.exports = SVGSpawn;

@@ -59,8 +59,12 @@ class SVGPowerSpawn extends SVG {
 	
 }
 
+StructurePowerSpawn.prototype.getSVG = function(size = 50) {
+	return new SVGPowerSpawn(this, size);
+};
+
 StructurePowerSpawn.prototype.display = function(size = 50) {
-	console.log(new SVGPowerSpawn(this, size));
+	console.log(this.getSVG(size));
 };
 
 module.exports = SVGPowerSpawn;

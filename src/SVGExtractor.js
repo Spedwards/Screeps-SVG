@@ -54,9 +54,13 @@ class SVGExtractor extends SVG {
 	
 }
 
-StructureExtractor.prototype.display = function(size = 50) {
+StructureExtractor.prototype.getSVG = function(size = 50) {
 	let [mineral] = this.room.find(FIND_MINERALS);
-	console.log(new SVGExtractor(this, mineral, size));
+	return new SVGExtractor(this, mineral, size);
+};
+	
+StructureExtractor.prototype.display = function(size = 50) {
+	console.log(this.getSVG(size));
 };
 
 module.exports = SVGExtractor;

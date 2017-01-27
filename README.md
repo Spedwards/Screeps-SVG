@@ -14,7 +14,7 @@ let svg = require('./screeps-svg.js');
 
 // Usage
 let link = Game.getObjectById(LINK_ID);
-let linkSVG = new svg.Link(link);
+let linkSVG = link.getSVG();
 // or
 let linkSVG = new svg.Link(LINK_ID);
 
@@ -30,7 +30,7 @@ _.assign(global, {
 
 // Usage
 let link = Game.getObjectById(LINK_ID);
-let linkSVG = new global.svg.Link(link);
+let linkSVG = link.getSVG();
 // or
 let linkSVG = new global.svg.Link(LINK_ID);
 

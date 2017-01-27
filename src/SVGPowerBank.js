@@ -44,8 +44,12 @@ class SVGPowerBank extends SVG {
 	
 }
 
+StructurePowerBank.prototype.getSVG = function(size = 50) {
+	return new SVGPowerBank(this, size);
+};
+
 StructurePowerBank.prototype.display = function(size = 50) {
-	console.log(new SVGPowerBank(this, size));
+	console.log(this.getSVG(size));
 };
 
 module.exports = SVGPowerBank;
