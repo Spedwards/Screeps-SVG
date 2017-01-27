@@ -131,14 +131,16 @@ class SVGMineral$1 extends SVG$2 {
 	
 	/**
 	 * @author Spedwards
-	 * @param {Mineral | string} mineral - Mineral object or ID string corrosponding to a Mineral object.
+	 * @param {Mineral | string} mineral - Mineral object, mineral type, or ID string corrosponding to a Mineral object.
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor(mineral) {
+	constructor(mineral, size = 50) {
 		super();
 		let object = this.validateConstructor(mineral, SVG$2.MINERAL);
 		if (object === false) throw new Error('Not a Mineral object!');
 		
 		this.mineralType = object;
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 	
@@ -148,7 +150,7 @@ class SVGMineral$1 extends SVG$2 {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 			
 			const COLOURS = this.getColours();
 			
@@ -657,11 +659,69 @@ class SVGExtension extends SVG$5 {
 var SVGExtension_1 = SVGExtension;
 
 let SVG$6 = SVG_1;
+let SVGMineral$2 = SVGMineral_1;
+
+/**
+ * Returns a html/svg string representation of the given extractor object.
+ * @author Spedwards
+ */
+class SVGExtractor extends SVG$6 {
+	
+	/**
+	 * @author Spedwards
+	 * @param {StructureExtractor | string} extractor - StructureExtractor object or ID string corrosponding to a StructureExtractor object.
+	 * @param {Mineral | string} [mineral] - Mineral object, mineral type, or ID string corrosponding to a Mineral object. Optional, will display none if undefined.
+	 * @param {Number} [size = 50] - SVG size.
+	 */
+	constructor(extractor, mineral, size = 50) {
+		super();
+		let object = this.validateConstructor(extractor, STRUCTURE_EXTRACTOR);
+		if (object === false) throw new Error('Not an Extractor object!');
+		
+		this.extractor = object;
+		if (mineral) {
+			this.mineral = new SVGMineral$2(mineral);
+		}
+		this.size = typeof size === 'number' ? size : 50;
+		this.string = this.toString();
+	}
+	
+	/**
+	 * @author Spedwards
+	 * @returns {string}
+	 */
+	toString() {
+		if (!this.string) {
+			const SVG_SIZE = this.size;
+			
+			const COLOUR = this.player === this.extractor.owner.username ? `#8FBB93` : `#ED5557`;
+			
+			let outStr = `<svg height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 300 300">` +
+					`<g transform="translate(150,150)">`;
+			
+			if (this.mineral) {
+				outStr += this.mineral.string;
+			}
+			
+			outStr += `<path d="M 80 0 A 80 80 0 0 1 40 69.28 M  -40 69.28 A 80 80 0 0 1 -80 0 M -40 -69.28 A 80 80 0 0 1 40 -69.28" fill-opacity="0" stroke="${COLOUR}" stroke-width="20">` +
+					`<animateTransform attributeName="transform" attributeType="XML" dur="4s" from="0 0 0" to="360 0 0" repeatCount="indefinite" type="rotate" calcMode="linear" />` +
+					`</path></g></svg>`;
+			
+			return outStr;
+		}
+		return this.string;
+	}
+	
+}
+
+var SVGExtractor_1 = SVGExtractor;
+
+let SVG$7 = SVG_1;
 
 /**
  * Returns a html/svg string representation of a keeper lair.
  */
-class SVGKeeperLair extends SVG$6 {
+class SVGKeeperLair extends SVG$7 {
 	
 	/**
 	 * @author Spedwards
@@ -700,14 +760,14 @@ class SVGKeeperLair extends SVG$6 {
 
 var SVGKeeperLair_1 = SVGKeeperLair;
 
-let SVG$7 = SVG_1;
+let SVG$8 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given lab object.
  * @author Enrico
  * @author Spedwards
  */
-class SVGLab extends SVG$7 {
+class SVGLab extends SVG$8 {
 
 	/**
 	 * @author Spedwards
@@ -781,13 +841,13 @@ class SVGLab extends SVG$7 {
 
 var SVGLab_1 = SVGLab;
 
-let SVG$8 = SVG_1;
+let SVG$9 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given link object.
  * @author Spedwards
  */
-class SVGLink extends SVG$8 {
+class SVGLink extends SVG$9 {
 
 	/**
 	 * @author Spedwards
@@ -834,14 +894,14 @@ class SVGLink extends SVG$8 {
 
 var SVGLink_1 = SVGLink;
 
-let SVG$9 = SVG_1;
+let SVG$10 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given nuker object.
  * @author Enrico
  * @author Spedwards
  */
-class SVGNuker extends SVG$9 {
+class SVGNuker extends SVG$10 {
 
 	/**
 	 * @author Spedwards
@@ -894,13 +954,13 @@ class SVGNuker extends SVG$9 {
 
 var SVGNuker_1 = SVGNuker;
 
-let SVG$10 = SVG_1;
+let SVG$11 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given observer object.
  * @author Spedwards
  */
-class SVGObserver extends SVG$10 {
+class SVGObserver extends SVG$11 {
 	
 	/**
 	 * @author Spedwards
@@ -942,13 +1002,13 @@ class SVGObserver extends SVG$10 {
 
 var SVGObserver_1 = SVGObserver;
 
-let SVG$11 = SVG_1;
+let SVG$12 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given power bank object.
  * @author Spedwards
  */
-class SVGPowerBank extends SVG$11 {
+class SVGPowerBank extends SVG$12 {
 	
 	/**
 	 * @author Spedwards
@@ -988,13 +1048,13 @@ class SVGPowerBank extends SVG$11 {
 
 var SVGPowerBank_1 = SVGPowerBank;
 
-let SVG$12 = SVG_1;
+let SVG$13 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given spawn object.
  * @author Spedwards
  */
-class SVGPowerSpawn extends SVG$12 {
+class SVGPowerSpawn extends SVG$13 {
 	
 	/**
 	 * @author Spedwards
@@ -1049,7 +1109,7 @@ class SVGPowerSpawn extends SVG$12 {
 
 var SVGPowerSpawn_1 = SVGPowerSpawn;
 
-let SVG$13 = SVG_1;
+let SVG$14 = SVG_1;
 
 /**
  * Takes a resource type constant as input and
@@ -1058,7 +1118,7 @@ let SVG$13 = SVG_1;
  * @author Helam
  * @author Spedwards
  */
-class SVGResource$1 extends SVG$13 {
+class SVGResource$1 extends SVG$14 {
 	
 	/**
 	 * @author Spedwards
@@ -1278,7 +1338,7 @@ class SVGTerminal$1 extends SVGStorageObject$3 {
 
 var SVGTerminal_1 = SVGTerminal$1;
 
-let SVG$14 = SVG_1;
+let SVG$15 = SVG_1;
 let SVGStorage = SVGStorage_1;
 let SVGTerminal = SVGTerminal_1;
 
@@ -1288,7 +1348,7 @@ let SVGTerminal = SVGTerminal_1;
  * @author Dragnar
  * @author Spedwards
  */
-class SVGRoom extends SVG$14 {
+class SVGRoom extends SVG$15 {
 
 	/**
 	 * @author Spedwards
@@ -1296,7 +1356,7 @@ class SVGRoom extends SVG$14 {
 	 */
 	constructor(roomArg) {
 		super();
-		let object = this.validateConstructor(roomArg, SVG$14.ROOM);
+		let object = this.validateConstructor(roomArg, SVG$15.ROOM);
 		if (object === false) throw new Error('Not a Room object!');
 
 		this.room = object;
@@ -1449,13 +1509,13 @@ class SVGRoom extends SVG$14 {
 
 var SVGRoom_1 = SVGRoom;
 
-let SVG$15 = SVG_1;
+let SVG$16 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given source object.
  * @author Spedwards
  */
-class SVGSource extends SVG$15 {
+class SVGSource extends SVG$16 {
 
 	/**
 	 * @author Spedwards
@@ -1463,7 +1523,7 @@ class SVGSource extends SVG$15 {
 	 */
 	constructor(source) {
 		super();
-		let object = this.validateConstructor(source, SVG$15.SOURCE);
+		let object = this.validateConstructor(source, SVG$16.SOURCE);
 		if (object === false) throw new Error('Not a Source object!');
 
 		this.source = object;
@@ -1499,13 +1559,13 @@ class SVGSource extends SVG$15 {
 
 var SVGSource_1 = SVGSource;
 
-let SVG$16 = SVG_1;
+let SVG$17 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given spawn object.
  * @author Spedwards
  */
-class SVGSpawn extends SVG$16 {
+class SVGSpawn extends SVG$17 {
 	
 	/**
 	 * @author Spedwards
@@ -1566,13 +1626,13 @@ class SVGSpawn extends SVG$16 {
 
 var SVGSpawn_1 = SVGSpawn;
 
-let SVG$17 = SVG_1;
+let SVG$18 = SVG_1;
 
 /**
  * Returns a html/svg string representation of the given tower object.
  * @author Spedwards
  */
-class SVGTower extends SVG$17 {
+class SVGTower extends SVG$18 {
 
 	/**
 	 * @author Spedwards
@@ -1643,6 +1703,7 @@ var index = {
 	Controller: SVGController_1,
 	Creep: SVGCreep_1,
 	Extension: SVGExtension_1,
+	Extractor: SVGExtractor_1,
 	KeeperLair: SVGKeeperLair_1,
 	Lab: SVGLab_1,
 	Link: SVGLink_1,

@@ -8,14 +8,16 @@ class SVGMineral extends SVG {
 	
 	/**
 	 * @author Spedwards
-	 * @param {Mineral | string} mineral - Mineral object or ID string corrosponding to a Mineral object.
+	 * @param {Mineral | string} mineral - Mineral object, mineral type, or ID string corrosponding to a Mineral object.
+	 * @param {Number} [size = 50] - SVG size.
 	 */
-	constructor(mineral) {
+	constructor(mineral, size = 50) {
 		super();
 		let object = this.validateConstructor(mineral, SVG.MINERAL);
 		if (object === false) throw new Error('Not a Mineral object!');
 		
 		this.mineralType = object;
+		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
 	}
 	
@@ -25,7 +27,7 @@ class SVGMineral extends SVG {
 	 */
 	toString() {
 		if (!this.string) {
-			const SVG_SIZE = 50;
+			const SVG_SIZE = this.size;
 			
 			const COLOURS = this.getColours();
 			
