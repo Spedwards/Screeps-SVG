@@ -74,7 +74,7 @@ class SVGResource extends SVG {
 					outStr += `<circle cx="7" cy="7" r="5" style="stroke-width:1;stroke:${colours.front};fill:${colours.back}"/>` +
 						`<text x="7" y="8" font-family="Verdana" font-size="8" alignment-baseline="middle" text-anchor="middle" style="fill:${colours.front};font-weight:bold;">${this.resourceType === undefined ? '?' : this.resourceType}</text>`;
 				} else {
-					let compoundType = ['U', 'L', 'K', 'Z', 'G', 'H', 'O'].find(type => resourceType.indexOf(type) !== -1);
+					let compoundType = ['U', 'L', 'K', 'Z', 'G', 'H', 'O'].find(type => this.resourceType.indexOf(type) !== -1);
 					colours = COMPOUNDS[compoundType];
 					if (colours) {
 						let width = this.resourceType.length * 9;
@@ -93,7 +93,7 @@ class SVGResource extends SVG {
 			}
 			outStr += `</svg>`;
 			
-			outStr = outStr.split('!!').join(finalWidth);
+			outStr = outStr.split('!!').join(finalWidth.toString());
 			
 			return outStr;
 		}

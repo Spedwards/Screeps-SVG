@@ -10,7 +10,7 @@ The use is identical for each of the classes. For game objects (all but room), t
 
 ```
 // Import screeps-svg
-let svg = require('./screeps-svg.js');
+let svg = require('./screeps-svg');
 
 // Usage
 let link = Game.getObjectById(LINK_ID);

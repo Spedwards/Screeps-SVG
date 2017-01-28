@@ -136,9 +136,9 @@ class SVGController extends SVG {
 			'M 0 0 L -69.2909649383465 28.70125742738174 L -69.29096493834652 -28.701257427381726 Z',
 			'M 0 0 L -69.29096493834652 -28.701257427381726 L -28.701257427381776 -69.29096493834649 Z'
 		];
-		let path = initial + '\n';
+		let path = initial + ' ';
 		for (let i = 0; i < this.controller.level; i++) {
-			path += segments[i] + '\n';
+			path += segments[i] + ' ';
 		}
 		return path;
 	}
