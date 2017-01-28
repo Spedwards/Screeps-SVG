@@ -2,7 +2,7 @@
   "name": "screeps-svg",
   "version": "0.1.0",
   "description": "Creates SVG Elements for game objects that can be logged to console.",
-  "main": "src/SVGGlobal.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c",

@@ -1696,15 +1696,15 @@ class SVGSource extends SVG$16 {
 			const SVG_SIZE = this.size;
 
 			const SOURCE_HEIGHT = this.source.energy / this.source.energyCapacity * 60;
-			const SOURCE_POS = (SVG_SIZE / 2) - (SOURCE_HEIGHT / 2);
+			const SOURCE_POS = 20 - (SOURCE_HEIGHT / 2);
 
-			return `<svg  class="source" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 100 100">` +
-				`<g transform="translate(25, 25)">` +
+			return `<svg class="source" height="${SVG_SIZE}" width="${SVG_SIZE}" viewBox="0 0 65 65">` +
+				`<g transform="translate(12,12)">` +
 				`<rect fill="#111111" height="40" rx="15" ry="15" stroke-width="15" stroke="#595026" width="40">` +
-				`<animate app-attr="calcMode#Source.displayOptions.animations ? 'linear' : 'discrete'" attributeName="stroke" dur="4s" repeatCount="indefinite" values="#595026; #0e0c04; #595026" calcMode="linear"></animate>` +
+				`<animate attributeName="stroke" dur="4s" repeatCount="indefinite" values="#595026; #0e0c04; #595026" calcMode="linear" />` +
 				`</rect>` +
 				`<rect fill="#FFE56D" height="${SOURCE_HEIGHT}" width="${SOURCE_HEIGHT}" rx="15" ry="15" x="${SOURCE_POS}" y="${SOURCE_POS}">` +
-				`<animate app-attr="calcMode#Source.displayOptions.animations ? 'linear' : 'discrete'" attributeName="fill" dur="2s" repeatCount="indefinite" values="#ffe56d; #fff; #ffcd6d; #ffde84; #ffe56d" calcMode="linear"></animate>` +
+				`<animate attributeName="fill" dur="2s" repeatCount="indefinite" values="#ffe56d; #fff; #ffcd6d; #ffde84; #ffe56d" calcMode="linear" />` +
 				`</rect>` +
 				`</g>` +
 				`</svg>`;
