@@ -20,7 +20,7 @@ class SVGExtractor extends SVG {
 		
 		this.extractor = object;
 		if (mineral) {
-			this.mineral = new SVGMineral(mineral);
+			this.mineral = new SVGMineral(mineral, 160);
 		}
 		this.size = typeof size === 'number' ? size : 50;
 		this.string = this.toString();
@@ -40,7 +40,9 @@ class SVGExtractor extends SVG {
 					`<g transform="translate(100,100)">`;
 			
 			if (this.mineral) {
-				outStr += this.mineral.string;
+				outStr += `<g transform="translate(-80,-80)">` +
+						this.mineral.string +
+						`</g>`;
 			}
 			
 			outStr += `<path d="M 80 0 A 80 80 0 0 1 40 69.28 M  -40 69.28 A 80 80 0 0 1 -80 0 M -40 -69.28 A 80 80 0 0 1 40 -69.28" fill-opacity="0" stroke="${COLOUR}" stroke-width="20">` +
